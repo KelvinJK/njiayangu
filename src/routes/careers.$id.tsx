@@ -12,15 +12,32 @@ export const Route = createFileRoute("/careers/$id")({
     if (!career) throw notFound();
     return { career };
   },
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     if (!loaderData) return { meta: [{ title: "Career not found — NjiaYangu" }, { name: "robots", content: "noindex" }] };
     const { career } = loaderData;
+    const url = `https://njiayangu.lovable.app/careers/${params.id}`;
     return {
       meta: [
-        { title: `${career.title.en} — NjiaYangu` },
+        { title: `${career.title.en} — Career pathway — NjiaYangu` },
         { name: "description", content: career.description.en.slice(0, 160) },
         { property: "og:title", content: `${career.title.en} — NjiaYangu` },
         { property: "og:description", content: career.description.en.slice(0, 200) },
+        { property: "og:type", content: "article" },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Occupation",
+            name: career.title.en,
+            description: career.description.en,
+            occupationalCategory: career.category,
+            url,
+          }),
+        },
       ],
     };
   },
