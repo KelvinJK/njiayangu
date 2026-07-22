@@ -14,7 +14,138 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      heslb_progress: {
+        Row: {
+          id: string
+          item_id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          item_id: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          item_id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          kind: string
+          link: string | null
+          read_at: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          link?: string | null
+          read_at?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          link?: string | null
+          read_at?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          combination_code: string | null
+          created_at: string
+          email_notifications: boolean
+          full_name: string | null
+          id: string
+          language: string
+          last_synced_at: string | null
+          o_level_grades: Json
+          phone: string | null
+          preferred_campuses: string[]
+          preferred_careers: string[]
+          region: string | null
+          subject_grades: Json
+          updated_at: string
+        }
+        Insert: {
+          combination_code?: string | null
+          created_at?: string
+          email_notifications?: boolean
+          full_name?: string | null
+          id: string
+          language?: string
+          last_synced_at?: string | null
+          o_level_grades?: Json
+          phone?: string | null
+          preferred_campuses?: string[]
+          preferred_careers?: string[]
+          region?: string | null
+          subject_grades?: Json
+          updated_at?: string
+        }
+        Update: {
+          combination_code?: string | null
+          created_at?: string
+          email_notifications?: boolean
+          full_name?: string | null
+          id?: string
+          language?: string
+          last_synced_at?: string | null
+          o_level_grades?: Json
+          phone?: string | null
+          preferred_campuses?: string[]
+          preferred_careers?: string[]
+          region?: string | null
+          subject_grades?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      saved_programmes: {
+        Row: {
+          created_at: string
+          id: string
+          note: string | null
+          programme_slug: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          programme_slug: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          programme_slug?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
