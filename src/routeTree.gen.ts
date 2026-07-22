@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SecurityRouteImport } from './routes/security'
 import { Route as ScholarshipsRouteImport } from './routes/scholarships'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -28,6 +29,11 @@ import { Route as CareersIndexRouteImport } from './routes/careers.index'
 import { Route as ProgrammesSlugRouteImport } from './routes/programmes.$slug'
 import { Route as CareersIdRouteImport } from './routes/careers.$id'
 
+const SecurityRoute = SecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ScholarshipsRoute = ScholarshipsRouteImport.update({
   id: '/scholarships',
   path: '/scholarships',
@@ -134,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRoute
   '/scholarships': typeof ScholarshipsRoute
+  '/security': typeof SecurityRoute
   '/careers/$id': typeof CareersIdRoute
   '/programmes/$slug': typeof ProgrammesSlugRoute
   '/careers/': typeof CareersIndexRoute
@@ -154,6 +161,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRoute
   '/scholarships': typeof ScholarshipsRoute
+  '/security': typeof SecurityRoute
   '/careers/$id': typeof CareersIdRoute
   '/programmes/$slug': typeof ProgrammesSlugRoute
   '/careers': typeof CareersIndexRoute
@@ -175,6 +183,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRoute
   '/scholarships': typeof ScholarshipsRoute
+  '/security': typeof SecurityRoute
   '/careers/$id': typeof CareersIdRoute
   '/programmes/$slug': typeof ProgrammesSlugRoute
   '/careers/': typeof CareersIndexRoute
@@ -197,6 +206,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/resources'
     | '/scholarships'
+    | '/security'
     | '/careers/$id'
     | '/programmes/$slug'
     | '/careers/'
@@ -217,6 +227,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/resources'
     | '/scholarships'
+    | '/security'
     | '/careers/$id'
     | '/programmes/$slug'
     | '/careers'
@@ -237,6 +248,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/resources'
     | '/scholarships'
+    | '/security'
     | '/careers/$id'
     | '/programmes/$slug'
     | '/careers/'
@@ -258,6 +270,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   ResourcesRoute: typeof ResourcesRoute
   ScholarshipsRoute: typeof ScholarshipsRoute
+  SecurityRoute: typeof SecurityRoute
   CareersIdRoute: typeof CareersIdRoute
   ProgrammesSlugRoute: typeof ProgrammesSlugRoute
   CareersIndexRoute: typeof CareersIndexRoute
@@ -266,6 +279,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/security': {
+      id: '/security'
+      path: '/security'
+      fullPath: '/security'
+      preLoaderRoute: typeof SecurityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/scholarships': {
       id: '/scholarships'
       path: '/scholarships'
@@ -410,6 +430,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   ResourcesRoute: ResourcesRoute,
   ScholarshipsRoute: ScholarshipsRoute,
+  SecurityRoute: SecurityRoute,
   CareersIdRoute: CareersIdRoute,
   ProgrammesSlugRoute: ProgrammesSlugRoute,
   CareersIndexRoute: CareersIndexRoute,
