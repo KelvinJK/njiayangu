@@ -146,21 +146,22 @@ function HomePage() {
           </h2>
         </div>
 
-        <ol className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <ol className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { n: "01", title: t("home.how.1"), body: t("home.how.1d") },
-            { n: "02", title: t("home.how.2"), body: t("home.how.2d") },
-            { n: "03", title: t("home.how.3"), body: t("home.how.3d") },
-            { n: "04", title: t("home.how.4"), body: t("home.how.4d") },
+            { n: "01", title: t("home.how.1"), body: t("home.how.1d"), tint: "from-brand/12 to-brand/0 text-brand ring-brand/25" },
+            { n: "02", title: t("home.how.2"), body: t("home.how.2d"), tint: "from-success/15 to-success/0 text-success ring-success/25" },
+            { n: "03", title: t("home.how.3"), body: t("home.how.3d"), tint: "from-info/15 to-info/0 text-info ring-info/25" },
+            { n: "04", title: t("home.how.4"), body: t("home.how.4d"), tint: "from-gold/20 to-gold/0 text-gold-foreground ring-gold/30" },
           ].map((s) => (
-            <li key={s.n} className="relative">
-              <div className="text-sm font-mono text-brand">{s.n}</div>
-              <div className="mt-3 text-base font-semibold">{s.title}</div>
+            <li key={s.n} className={`relative rounded-2xl border bg-gradient-to-br ${s.tint} bg-surface p-5 ring-1`}>
+              <div className={`inline-flex h-9 w-9 items-center justify-center rounded-xl bg-surface border font-mono text-sm font-semibold`}>{s.n}</div>
+              <div className="mt-3 text-base font-semibold text-foreground">{s.title}</div>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.body}</p>
             </li>
           ))}
         </ol>
       </section>
+
 
       {/* ───────── Popular combinations ───────── */}
       <section className="border-t border-border/60 bg-muted/30">
