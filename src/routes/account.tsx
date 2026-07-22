@@ -10,6 +10,22 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Bell, Cloud, CloudOff, Loader2, LogOut, RefreshCw, Save, ShieldCheck } from "lucide-react";
 import { REGIONS } from "@/data/institutions";
+import { useIsAdmin } from "@/lib/useIsAdmin";
+
+function AdminSection() {
+  const { isAdmin } = useIsAdmin();
+  if (!isAdmin) return null;
+  return (
+    <section className="mt-6 rounded-2xl border border-brand/40 bg-gradient-to-br from-brand/10 to-surface p-6">
+      <h2 className="text-lg font-semibold flex items-center gap-2"><ShieldCheck className="h-5 w-5 text-brand"/>Admin tools</h2>
+      <p className="text-sm text-muted-foreground">You have admin access. View feedback submitted through the Contact page.</p>
+      <div className="mt-4 flex flex-wrap gap-2">
+        <Button asChild><Link to="/admin/feedback">Open feedback inbox</Link></Button>
+      </div>
+    </section>
+  );
+}
+
 
 export const Route = createFileRoute("/account")({
   head: () => ({
@@ -130,9 +146,12 @@ function AccountPage() {
           </div>
         </section>
 
+        <AdminSection />
+
         <div className="mt-10 flex justify-end">
           <Button variant="outline" onClick={handleSignOut}><LogOut className="h-4 w-4 mr-2"/>{t("account.signOut")}</Button>
         </div>
+
       </div>
     </AppShell>
   );
