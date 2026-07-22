@@ -30,6 +30,7 @@ import { Route as ProgrammesIndexRouteImport } from './routes/programmes.index'
 import { Route as CareersIndexRouteImport } from './routes/careers.index'
 import { Route as ProgrammesSlugRouteImport } from './routes/programmes.$slug'
 import { Route as CareersIdRouteImport } from './routes/careers.$id'
+import { Route as AdminFeedbackRouteImport } from './routes/admin.feedback'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -136,6 +137,11 @@ const CareersIdRoute = CareersIdRouteImport.update({
   path: '/careers/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminFeedbackRoute = AdminFeedbackRouteImport.update({
+  id: '/admin/feedback',
+  path: '/admin/feedback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -155,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/scholarships': typeof ScholarshipsRoute
   '/security': typeof SecurityRoute
   '/terms': typeof TermsRoute
+  '/admin/feedback': typeof AdminFeedbackRoute
   '/careers/$id': typeof CareersIdRoute
   '/programmes/$slug': typeof ProgrammesSlugRoute
   '/careers/': typeof CareersIndexRoute
@@ -178,6 +185,7 @@ export interface FileRoutesByTo {
   '/scholarships': typeof ScholarshipsRoute
   '/security': typeof SecurityRoute
   '/terms': typeof TermsRoute
+  '/admin/feedback': typeof AdminFeedbackRoute
   '/careers/$id': typeof CareersIdRoute
   '/programmes/$slug': typeof ProgrammesSlugRoute
   '/careers': typeof CareersIndexRoute
@@ -202,6 +210,7 @@ export interface FileRoutesById {
   '/scholarships': typeof ScholarshipsRoute
   '/security': typeof SecurityRoute
   '/terms': typeof TermsRoute
+  '/admin/feedback': typeof AdminFeedbackRoute
   '/careers/$id': typeof CareersIdRoute
   '/programmes/$slug': typeof ProgrammesSlugRoute
   '/careers/': typeof CareersIndexRoute
@@ -227,6 +236,7 @@ export interface FileRouteTypes {
     | '/scholarships'
     | '/security'
     | '/terms'
+    | '/admin/feedback'
     | '/careers/$id'
     | '/programmes/$slug'
     | '/careers/'
@@ -250,6 +260,7 @@ export interface FileRouteTypes {
     | '/scholarships'
     | '/security'
     | '/terms'
+    | '/admin/feedback'
     | '/careers/$id'
     | '/programmes/$slug'
     | '/careers'
@@ -273,6 +284,7 @@ export interface FileRouteTypes {
     | '/scholarships'
     | '/security'
     | '/terms'
+    | '/admin/feedback'
     | '/careers/$id'
     | '/programmes/$slug'
     | '/careers/'
@@ -297,6 +309,7 @@ export interface RootRouteChildren {
   ScholarshipsRoute: typeof ScholarshipsRoute
   SecurityRoute: typeof SecurityRoute
   TermsRoute: typeof TermsRoute
+  AdminFeedbackRoute: typeof AdminFeedbackRoute
   CareersIdRoute: typeof CareersIdRoute
   ProgrammesSlugRoute: typeof ProgrammesSlugRoute
   CareersIndexRoute: typeof CareersIndexRoute
@@ -452,6 +465,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareersIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/feedback': {
+      id: '/admin/feedback'
+      path: '/admin/feedback'
+      fullPath: '/admin/feedback'
+      preLoaderRoute: typeof AdminFeedbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -473,6 +493,7 @@ const rootRouteChildren: RootRouteChildren = {
   ScholarshipsRoute: ScholarshipsRoute,
   SecurityRoute: SecurityRoute,
   TermsRoute: TermsRoute,
+  AdminFeedbackRoute: AdminFeedbackRoute,
   CareersIdRoute: CareersIdRoute,
   ProgrammesSlugRoute: ProgrammesSlugRoute,
   CareersIndexRoute: CareersIndexRoute,
