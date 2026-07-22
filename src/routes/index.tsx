@@ -22,8 +22,8 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: "NjiaYangu — Discover what to study after Form Six in Tanzania" },
       { name: "description", content: "Enter your Form Six combination and grades to find eligible university programmes, institutions, HESLB guidance and Tanzanian career pathways." },
-      { property: "og:title", content: "NjiaYangu — Your path after Form Six" },
-      { property: "og:description", content: "Match your combination and grades to verified Tanzanian university programmes and careers." },
+      { property: "og:title", content: "NjiaYangu — Discover what to study after Form Six in Tanzania" },
+      { property: "og:description", content: "Enter your Form Six combination and grades to find eligible university programmes, institutions, HESLB guidance and Tanzanian career pathways." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

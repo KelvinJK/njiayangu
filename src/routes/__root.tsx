@@ -82,21 +82,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { title: "NjiaYangu — Your path after Form Six" },
+      { title: "NjiaYangu — Discover what to study after Form Six in Tanzania" },
       {
         name: "description",
         content:
-          "Discover Tanzanian university programmes, institutions, HESLB guidance and career pathways that match your Form Six combination and grades.",
+          "Enter your Form Six combination and grades to find eligible university programmes, institutions, HESLB guidance and Tanzanian career pathways.",
       },
       { name: "theme-color", content: "#1e3a8a" },
-      { property: "og:title", content: "NjiaYangu — Your path after Form Six" },
+      { property: "og:title", content: "NjiaYangu — Discover what to study after Form Six in Tanzania" },
       {
         property: "og:description",
         content:
-          "Enter your combination and grades to find eligible programmes, institutions, financing guidance and career pathways.",
+          "Enter your Form Six combination and grades to find eligible university programmes, institutions, HESLB guidance and Tanzanian career pathways.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "NjiaYangu — Discover what to study after Form Six in Tanzania" },
+      { name: "twitter:description", content: "Enter your Form Six combination and grades to find eligible university programmes, institutions, HESLB guidance and Tanzanian career pathways." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b0ab7147-1771-42e6-8a08-569d31546895" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b0ab7147-1771-42e6-8a08-569d31546895" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
