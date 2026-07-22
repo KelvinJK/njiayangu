@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ScholarshipsRouteImport } from './routes/scholarships'
 import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as InstitutionsRouteImport } from './routes/institutions'
 import { Route as HeslbRouteImport } from './routes/heslb'
@@ -35,6 +36,11 @@ const ScholarshipsRoute = ScholarshipsRouteImport.update({
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NotificationsRoute = NotificationsRouteImport.update({
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/heslb': typeof HeslbRoute
   '/institutions': typeof InstitutionsRoute
   '/notifications': typeof NotificationsRoute
+  '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRoute
   '/scholarships': typeof ScholarshipsRoute
   '/careers/$id': typeof CareersIdRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByTo {
   '/heslb': typeof HeslbRoute
   '/institutions': typeof InstitutionsRoute
   '/notifications': typeof NotificationsRoute
+  '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRoute
   '/scholarships': typeof ScholarshipsRoute
   '/careers/$id': typeof CareersIdRoute
@@ -164,6 +172,7 @@ export interface FileRoutesById {
   '/heslb': typeof HeslbRoute
   '/institutions': typeof InstitutionsRoute
   '/notifications': typeof NotificationsRoute
+  '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRoute
   '/scholarships': typeof ScholarshipsRoute
   '/careers/$id': typeof CareersIdRoute
@@ -185,6 +194,7 @@ export interface FileRouteTypes {
     | '/heslb'
     | '/institutions'
     | '/notifications'
+    | '/privacy'
     | '/resources'
     | '/scholarships'
     | '/careers/$id'
@@ -204,6 +214,7 @@ export interface FileRouteTypes {
     | '/heslb'
     | '/institutions'
     | '/notifications'
+    | '/privacy'
     | '/resources'
     | '/scholarships'
     | '/careers/$id'
@@ -223,6 +234,7 @@ export interface FileRouteTypes {
     | '/heslb'
     | '/institutions'
     | '/notifications'
+    | '/privacy'
     | '/resources'
     | '/scholarships'
     | '/careers/$id'
@@ -243,6 +255,7 @@ export interface RootRouteChildren {
   HeslbRoute: typeof HeslbRoute
   InstitutionsRoute: typeof InstitutionsRoute
   NotificationsRoute: typeof NotificationsRoute
+  PrivacyRoute: typeof PrivacyRoute
   ResourcesRoute: typeof ResourcesRoute
   ScholarshipsRoute: typeof ScholarshipsRoute
   CareersIdRoute: typeof CareersIdRoute
@@ -265,6 +278,13 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/notifications': {
@@ -387,6 +407,7 @@ const rootRouteChildren: RootRouteChildren = {
   HeslbRoute: HeslbRoute,
   InstitutionsRoute: InstitutionsRoute,
   NotificationsRoute: NotificationsRoute,
+  PrivacyRoute: PrivacyRoute,
   ResourcesRoute: ResourcesRoute,
   ScholarshipsRoute: ScholarshipsRoute,
   CareersIdRoute: CareersIdRoute,
