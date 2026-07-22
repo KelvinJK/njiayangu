@@ -176,12 +176,15 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
             ? {
                 combinationCode: p.combination_code as string,
                 grades: (p.subject_grades ?? {}) as StudentAcademics["grades"],
-                oLevelGrades: (p.o_level_grades ?? {}) as StudentAcademics["oLevelGrades"],
+                oLevel: (p.o_level_grades ?? {}) as StudentAcademics["oLevel"],
               }
             : localP.academics,
           preferences: {
-            campuses: (p.preferred_campuses ?? []) as string[],
-            careers: (p.preferred_careers ?? []) as string[],
+            careerInterests: (p.preferred_careers ?? []) as string[],
+            preferredRegions: (p.preferred_campuses ?? []) as string[],
+            institutionType: "any",
+            willingToRelocate: true,
+            needsFinancing: false,
           },
         };
         setProfileState(serverProfile);
