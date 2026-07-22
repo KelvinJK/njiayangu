@@ -107,8 +107,12 @@ function HomePage() {
                     : "Mchoro wa mhitimu wa Tanzania akisoma kitabu na alama za masomo"}
                   width={1024}
                   height={1024}
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
                   className="relative z-10 h-full w-full object-contain drop-shadow-[0_20px_40px_rgba(15,23,42,0.15)]"
                 />
+
                 {/* Floating card — HESLB */}
                 <div className="absolute bottom-2 left-0 md:-left-6 z-20 hidden sm:block">
                   <div className="rounded-2xl border border-border/70 bg-surface/95 px-4 py-3 shadow-[0_10px_30px_-10px_rgba(15,23,42,0.25)] backdrop-blur">
