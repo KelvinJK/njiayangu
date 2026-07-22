@@ -13,6 +13,22 @@ export const Route = createFileRoute("/heslb")({
       { name: "description", content: "Personalised HESLB preparation for Tanzanian Form Six leavers: document checklist, application steps, common mistakes and FAQs." },
       { property: "og:title", content: "HESLB Guide — NjiaYangu" },
       { property: "og:description", content: "Prepare your HESLB application step by step." },
+      { property: "og:url", content: "https://njiayangu.lovable.app/heslb" },
+    ],
+    links: [{ rel: "canonical", href: "https://njiayangu.lovable.app/heslb" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: HESLB_FAQ.map((f) => ({
+            "@type": "Question",
+            name: f.q.en,
+            acceptedAnswer: { "@type": "Answer", text: f.a.en },
+          })),
+        }),
+      },
     ],
   }),
   component: HeslbPage,
