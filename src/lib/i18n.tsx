@@ -182,7 +182,32 @@ const dict: Dict = {
   "saved.compareAll": { en: "Compare selected", sw: "Linganisha zilizochaguliwa" },
   "saved.count": { en: "saved", sw: "zimehifadhiwa" },
   "saved.viewSaved": { en: "View saved programmes", sw: "Ona kozi zilizohifadhiwa" },
+
+  "source.button": { en: "See official source", sw: "Angalia chanzo rasmi" },
+  "source.title": { en: "Official source", sw: "Chanzo rasmi" },
+  "source.intro": { en: "Always verify eligibility details on the official source before applying. NjiaYangu presents illustrative data.", sw: "Hakikisha maelezo ya sifa kwenye chanzo rasmi kabla ya kutuma maombi. NjiaYangu inaonyesha data ya mfano." },
+  "source.lastVerified": { en: "Last verified", sw: "Ilithibitishwa" },
+  "source.open": { en: "Open source", sw: "Fungua chanzo" },
+  "source.close": { en: "Close", sw: "Funga" },
+  "source.disclaimer": { en: "Rules can change each admission cycle. Do not rely solely on this app.", sw: "Kanuni zinaweza kubadilika kila mwaka. Usitegemee tu programu hii." },
+
+  "compare.inline.title": { en: "Side-by-side comparison", sw: "Ulinganisho wa upande kwa upande" },
+  "compare.inline.hint": { en: "Add at least 2 saved programmes to compare.", sw: "Ongeza angalau kozi 2 zilizohifadhiwa ili kulinganisha." },
+  "compare.clear": { en: "Clear compare", sw: "Futa ulinganisho" },
+  "compare.field.programme": { en: "Programme", sw: "Kozi" },
+  "compare.field.eligibility": { en: "Your eligibility", sw: "Sifa zako" },
+  "compare.field.duration": { en: "Duration (years)", sw: "Muda (miaka)" },
+  "compare.field.location": { en: "Location", sw: "Mahali" },
+  "compare.field.requirements": { en: "Key requirements", sw: "Mahitaji makuu" },
+  "compare.field.points": { en: "Min. points", sw: "Alama za chini" },
+  "compare.field.subjects": { en: "Required subjects", sw: "Masomo yanayotakiwa" },
+  "compare.field.heslb": { en: "HESLB eligible", sw: "Inafaa HESLB" },
+  "compare.field.deadline": { en: "Deadline", sw: "Tarehe ya mwisho" },
+  "compare.yes": { en: "Yes", sw: "Ndiyo" },
+  "compare.no": { en: "No", sw: "Hapana" },
+  "compare.unknown": { en: "Complete profile", sw: "Kamilisha wasifu" },
 };
+
 
 interface Ctx {
   lang: Lang;
