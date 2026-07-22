@@ -82,25 +82,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { title: "NjiaYangu — Discover what to study after Form Six in Tanzania" },
+      { title: "NjiaYangu — Study paths for Form Six leavers in Tanzania" },
       {
         name: "description",
         content:
-          "Enter your Form Six combination and grades to find eligible university programmes, institutions, HESLB guidance and Tanzanian career pathways.",
+          "Match your Form Six combination and grades to eligible Tanzanian university programmes, institutions, HESLB guidance and careers.",
       },
       { name: "theme-color", content: "#1e3a8a" },
-      { property: "og:title", content: "NjiaYangu — Discover what to study after Form Six in Tanzania" },
-      {
-        property: "og:description",
-        content:
-          "Enter your Form Six combination and grades to find eligible university programmes, institutions, HESLB guidance and Tanzanian career pathways.",
-      },
+      { property: "og:site_name", content: "NjiaYangu" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "NjiaYangu — Discover what to study after Form Six in Tanzania" },
-      { name: "twitter:description", content: "Enter your Form Six combination and grades to find eligible university programmes, institutions, HESLB guidance and Tanzanian career pathways." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b0ab7147-1771-42e6-8a08-569d31546895" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b0ab7147-1771-42e6-8a08-569d31546895" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -111,6 +102,36 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "NjiaYangu",
+          url: "https://njiayangu.lovable.app",
+          inLanguage: ["en", "sw"],
+          potentialAction: {
+            "@type": "SearchAction",
+            target: "https://njiayangu.lovable.app/programmes?q={search_term_string}",
+            "query-input": "required name=search_term_string",
+          },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "NjiaYangu",
+          url: "https://njiayangu.lovable.app",
+          logo: "https://njiayangu.lovable.app/favicon.ico",
+          description:
+            "Independent guidance platform helping Tanzanian Form Six leavers find eligible university programmes, HESLB support and careers.",
+          areaServed: "TZ",
+        }),
       },
     ],
   }),
