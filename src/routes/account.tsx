@@ -130,9 +130,12 @@ function AccountPage() {
           </div>
         </section>
 
+        <AdminSection />
+
         <div className="mt-10 flex justify-end">
           <Button variant="outline" onClick={handleSignOut}><LogOut className="h-4 w-4 mr-2"/>{t("account.signOut")}</Button>
         </div>
+
       </div>
     </AppShell>
   );
