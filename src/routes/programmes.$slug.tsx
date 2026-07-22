@@ -143,11 +143,11 @@ function DetailPage() {
               <li>• {lang === "en" ? "Minimum principal passes" : "Idadi ya chini ya principal passes"}: {programme.rule.minPrincipalPasses}</li>
               <li>• {lang === "en" ? "Minimum points (top 2)" : "Alama za chini (mbili bora)"}: {programme.rule.minPoints}</li>
               {programme.rule.requiredSubjects.length > 0 && <li>• {lang === "en" ? "Required subjects" : "Masomo yanayohitajika"}: {programme.rule.requiredSubjects.join(", ")}</li>}
-              {programme.rule.alternativeSubjects?.map((g, i) => <li key={i}>• {lang === "en" ? "At least one of" : "Angalau moja kati ya"}: {g.join(" / ")}</li>)}
+              {programme.rule.alternativeSubjects?.map((g: string[], i: number) => <li key={i}>• {lang === "en" ? "At least one of" : "Angalau moja kati ya"}: {g.join(" / ")}</li>)}
               {programme.rule.minSubjectGrade && Object.entries(programme.rule.minSubjectGrade).map(([s, g]) => (
-                <li key={s}>• {lang === "en" ? "Minimum grade in" : "Alama ya chini katika"} {s}: {g}</li>
+                <li key={s}>• {lang === "en" ? "Minimum grade in" : "Alama ya chini katika"} {s}: {String(g)}</li>
               ))}
-              {programme.rule.oLevel?.map((o, i) => <li key={i}>• O-Level {o.subject}: {o.minGrade}</li>)}
+              {programme.rule.oLevel?.map((o: { subject: string; minGrade: string }, i: number) => <li key={i}>• O-Level {o.subject}: {o.minGrade}</li>)}
             </ul>
           </div>
           <div className="rounded-xl border bg-card p-4">
@@ -159,7 +159,7 @@ function DetailPage() {
             </ul>
             <div className="mt-3">
               <div className="text-xs text-muted-foreground mb-1">{lang === "en" ? "Required documents" : "Nyaraka zinazohitajika"}</div>
-              <ul className="text-sm text-muted-foreground space-y-1">{programme.requiredDocuments.map((d) => <li key={d}>• {d}</li>)}</ul>
+              <ul className="text-sm text-muted-foreground space-y-1">{programme.requiredDocuments.map((d: string) => <li key={d}>• {d}</li>)}</ul>
             </div>
             <a href={programme.applicationUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-1 h-11 px-4 rounded-md bg-brand text-brand-foreground text-sm font-medium">
               {t("common.apply")} <ExternalLink className="h-4 w-4" />
@@ -171,7 +171,7 @@ function DetailPage() {
         <div className="mt-6 grid gap-6 md:grid-cols-2">
           <div className="rounded-xl border bg-card p-4">
             <h2 className="font-semibold">{lang === "en" ? "What you will study" : "Utakachosoma"}</h2>
-            <ul className="mt-2 text-sm text-muted-foreground space-y-1">{programme.modules.map((m, i) => <li key={i}>• {m[lang]}</li>)}</ul>
+            <ul className="mt-2 text-sm text-muted-foreground space-y-1">{programme.modules.map((m: { en: string; sw: string }, i: number) => <li key={i}>• {m[lang]}</li>)}</ul>
           </div>
           <div className="rounded-xl border bg-card p-4">
             <h2 className="font-semibold">{lang === "en" ? "Career pathways" : "Njia za kikazi"}</h2>
