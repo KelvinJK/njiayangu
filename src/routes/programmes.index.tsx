@@ -12,7 +12,7 @@ import { Search } from "lucide-react";
 
 const searchSchema = z.object({ q: z.string().optional(), category: z.string().optional() });
 
-export const Route = createFileRoute("/programmes")({
+export const Route = createFileRoute("/programmes/")({
   validateSearch: (s) => searchSchema.parse(s),
   head: () => ({
     meta: [

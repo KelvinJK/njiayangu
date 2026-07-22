@@ -47,25 +47,25 @@ function CareerDetail() {
           {career.activities.length > 0 && (
             <div className="rounded-xl border bg-card p-4">
               <h2 className="font-semibold">{lang === "en" ? "Typical activities" : "Shughuli za kawaida"}</h2>
-              <ul className="mt-2 text-sm text-muted-foreground space-y-1">{career.activities.map((a, i) => <li key={i}>• {a[lang]}</li>)}</ul>
+              <ul className="mt-2 text-sm text-muted-foreground space-y-1">{career.activities.map((a: { en: string; sw: string }, i: number) => <li key={i}>• {a[lang]}</li>)}</ul>
             </div>
           )}
           {career.industries.length > 0 && (
             <div className="rounded-xl border bg-card p-4">
               <h2 className="font-semibold">{lang === "en" ? "Industries in Tanzania" : "Sekta Tanzania"}</h2>
-              <ul className="mt-2 text-sm text-muted-foreground space-y-1">{career.industries.map((a, i) => <li key={i}>• {a[lang]}</li>)}</ul>
+              <ul className="mt-2 text-sm text-muted-foreground space-y-1">{career.industries.map((a: { en: string; sw: string }, i: number) => <li key={i}>• {a[lang]}</li>)}</ul>
             </div>
           )}
           {career.technicalSkills.length > 0 && (
             <div className="rounded-xl border bg-card p-4">
               <h2 className="font-semibold">{lang === "en" ? "Technical skills" : "Ujuzi wa kitaalamu"}</h2>
-              <ul className="mt-2 text-sm text-muted-foreground space-y-1">{career.technicalSkills.map((a, i) => <li key={i}>• {a}</li>)}</ul>
+              <ul className="mt-2 text-sm text-muted-foreground space-y-1">{career.technicalSkills.map((a: string, i: number) => <li key={i}>• {a}</li>)}</ul>
             </div>
           )}
           {career.transferableSkills.length > 0 && (
             <div className="rounded-xl border bg-card p-4">
               <h2 className="font-semibold">{lang === "en" ? "Transferable skills" : "Ujuzi wa jumla"}</h2>
-              <ul className="mt-2 text-sm text-muted-foreground space-y-1">{career.transferableSkills.map((a, i) => <li key={i}>• {a[lang]}</li>)}</ul>
+              <ul className="mt-2 text-sm text-muted-foreground space-y-1">{career.transferableSkills.map((a: { en: string; sw: string }, i: number) => <li key={i}>• {a[lang]}</li>)}</ul>
             </div>
           )}
           {career.registration && (

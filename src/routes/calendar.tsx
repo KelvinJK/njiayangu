@@ -35,8 +35,8 @@ function Page() {
       { date: s.opens, label: `${lang === "en" ? "Scholarship opens" : "Ufadhili wafunguliwa"}: ${s.name[lang]}`, kind: "scholarship" as const },
       { date: s.deadline, label: `${lang === "en" ? "Scholarship deadline" : "Tarehe ya ufadhili"}: ${s.name[lang]}`, kind: "scholarship" as const },
     ]),
-    { date: `${HESLB_ACADEMIC_YEAR.split("/")[0]}-07-01`, label: "HESLB OLAMS application window opens (expected)", kind: "heslb" },
-    { date: `${HESLB_ACADEMIC_YEAR.split("/")[0]}-09-30`, label: "HESLB application deadline (expected)", kind: "heslb" },
+    { date: `${HESLB_ACADEMIC_YEAR.split("/")[0]}-07-01`, label: "HESLB OLAMS application window opens (expected)", kind: "heslb" as const },
+    { date: `${HESLB_ACADEMIC_YEAR.split("/")[0]}-09-30`, label: "HESLB application deadline (expected)", kind: "heslb" as const },
   ]
     .filter((e) => new Date(e.date) >= new Date("2026-01-01"))
     .sort((a, b) => a.date.localeCompare(b.date));
