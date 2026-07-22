@@ -6,13 +6,14 @@ export const Route = createFileRoute("/privacy")({
   component: PrivacyPage,
   head: () => ({
     meta: [
-      { title: "Privacy Policy · NjiaYangu" },
-      { name: "description", content: "How NjiaYangu collects, uses, stores and protects your personal data as a Form Six leaver in Tanzania." },
-      { property: "og:title", content: "Privacy Policy · NjiaYangu" },
-      { property: "og:description", content: "How NjiaYangu handles your personal data." },
-      { property: "og:type", content: "website" },
+      { title: "Privacy Policy — NjiaYangu" },
+      { name: "description", content: "What data NjiaYangu collects from Form Six leavers (email, grades, saved programmes) and how we store, use and delete it." },
+      { property: "og:title", content: "Privacy Policy — NjiaYangu" },
+      { property: "og:description", content: "How NjiaYangu handles Form Six leavers' personal data, saved programmes and HESLB progress." },
+      { property: "og:url", content: "https://njiayangu.lovable.app/privacy" },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "https://njiayangu.lovable.app/privacy" }],
   }),
 });
 
