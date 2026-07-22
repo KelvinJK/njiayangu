@@ -6,7 +6,7 @@ import { useStore } from "@/lib/store";
 import { useI18n } from "@/lib/i18n";
 import { PROGRAMMES } from "@/data/programmes";
 import { INSTITUTIONS } from "@/data/institutions";
-import { evaluateEligibility } from "@/lib/eligibility";
+import { evaluate as evaluateEligibility } from "@/lib/eligibility";
 import {
   Bookmark,
   BookmarkX,
