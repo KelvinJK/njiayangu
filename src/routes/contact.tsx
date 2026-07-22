@@ -94,9 +94,10 @@ function Page() {
             <select name="category" defaultValue="general" className="w-full h-11 px-3 rounded-md border bg-surface">
               <option value="general">{lang === "en" ? "General feedback" : "Maoni ya jumla"}</option>
               <option value="bug">{lang === "en" ? "Report a bug" : "Ripoti tatizo"}</option>
-              <option value="programme">{lang === "en" ? "Programme data issue" : "Tatizo la data ya kozi"}</option>
-              <option value="heslb">HESLB</option>
+              <option value="feature">{lang === "en" ? "Feature request" : "Ombi la kipengele"}</option>
+              <option value="data">{lang === "en" ? "Programme / HESLB data issue" : "Tatizo la data ya kozi / HESLB"}</option>
               <option value="account">{lang === "en" ? "Account help" : "Msaada wa akaunti"}</option>
+              <option value="other">{lang === "en" ? "Other" : "Nyingine"}</option>
             </select>
           </label>
           <label className="text-sm">
