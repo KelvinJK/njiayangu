@@ -6,13 +6,14 @@ export const Route = createFileRoute("/terms")({
   component: TermsPage,
   head: () => ({
     meta: [
-      { title: "Terms of Use · NjiaYangu" },
-      { name: "description", content: "Terms and conditions for using the NjiaYangu guidance platform for Tanzanian Form Six leavers." },
-      { property: "og:title", content: "Terms of Use · NjiaYangu" },
-      { property: "og:description", content: "Terms and conditions for NjiaYangu." },
-      { property: "og:type", content: "website" },
+      { title: "Terms of Use — NjiaYangu" },
+      { name: "description", content: "Rules for using NjiaYangu: acceptable use, disclaimers about admissions and HESLB decisions, account responsibilities and liability limits." },
+      { property: "og:title", content: "Terms of Use — NjiaYangu" },
+      { property: "og:description", content: "Terms governing use of NjiaYangu's guidance platform for Tanzanian Form Six leavers." },
+      { property: "og:url", content: "https://njiayangu.lovable.app/terms" },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "https://njiayangu.lovable.app/terms" }],
   }),
 });
 
