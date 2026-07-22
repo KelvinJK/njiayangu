@@ -8,11 +8,13 @@ import { MapPin, Globe, Landmark } from "lucide-react";
 export const Route = createFileRoute("/institutions")({
   head: () => ({
     meta: [
-      { title: "Institutions — NjiaYangu" },
-      { name: "description", content: "Tanzanian universities and colleges offering undergraduate programmes, including UDSM, SUA, MUHAS, Mzumbe, Ardhi and more." },
-      { property: "og:title", content: "Tanzanian institutions — NjiaYangu" },
-      { property: "og:description", content: "Universities and colleges offering undergraduate programmes in Tanzania." },
+      { title: "University Institutions in Tanzania — NjiaYangu" },
+      { name: "description", content: "Browse Tanzanian universities and colleges including UDSM, SUA, MUHAS, Mzumbe and Ardhi, with programme counts, regions and official links." },
+      { property: "og:title", content: "Tanzanian Universities & Colleges — NjiaYangu" },
+      { property: "og:description", content: "Directory of Tanzanian universities and colleges offering undergraduate programmes." },
+      { property: "og:url", content: "https://njiayangu.lovable.app/institutions" },
     ],
+    links: [{ rel: "canonical", href: "https://njiayangu.lovable.app/institutions" }],
   }),
   component: InstitutionsPage,
 });
