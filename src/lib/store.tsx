@@ -103,9 +103,9 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
         region: p.region ?? null,
         combination_code: p.academics?.combinationCode ?? null,
         subject_grades: p.academics?.grades ?? {},
-        o_level_grades: p.academics?.oLevelGrades ?? {},
-        preferred_campuses: p.preferences?.campuses ?? [],
-        preferred_careers: p.preferences?.careers ?? [],
+        o_level_grades: p.academics?.oLevel ?? {},
+        preferred_campuses: p.preferences?.preferredRegions ?? [],
+        preferred_careers: p.preferences?.careerInterests ?? [],
         last_synced_at: new Date().toISOString(),
       };
       const { error: pe } = await supabase.from("profiles").upsert(profileRow, { onConflict: "id" });
