@@ -123,6 +123,13 @@ export function Header() {
                 {t(l.key)}
               </Link>
             ))}
+            <Link
+              to={user ? "/account" : "/auth"}
+              onClick={() => setOpen(false)}
+              className="col-span-2 mt-1 inline-flex items-center justify-center gap-2 rounded-md bg-brand text-brand-foreground px-3 py-2.5 text-sm font-medium"
+            >
+              {user ? (<><User className="h-4 w-4"/>{t("account.title")}</>) : (<><LogIn className="h-4 w-4"/>{t("auth.signIn")}</>)}
+            </Link>
             <div className="col-span-2 mt-2 flex items-center gap-2 border-t pt-2">
               <span className="text-xs text-muted-foreground">{t("common.language")}:</span>
               <button
