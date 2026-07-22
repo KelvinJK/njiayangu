@@ -6,11 +6,13 @@ import { ShieldCheck } from "lucide-react";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About NjiaYangu" },
-      { name: "description", content: "NjiaYangu is an independent guidance platform helping Tanzanian Form Six leavers find eligible university programmes, financing and careers." },
-      { property: "og:title", content: "About NjiaYangu" },
-      { property: "og:description", content: "Independent guidance for Tanzanian Form Six leavers." },
+      { title: "About NjiaYangu — Higher education guide for Tanzania" },
+      { name: "description", content: "How NjiaYangu helps Tanzanian Form Six leavers find eligible programmes, financing and careers using transparent, deterministic rules." },
+      { property: "og:title", content: "About NjiaYangu — Guidance for students" },
+      { property: "og:description", content: "Independent guidance for Tanzanian Form Six leavers — transparent eligibility rules, not AI decisions." },
+      { property: "og:url", content: "https://njiayangu.lovable.app/about" },
     ],
+    links: [{ rel: "canonical", href: "https://njiayangu.lovable.app/about" }],
   }),
   component: Page,
 });

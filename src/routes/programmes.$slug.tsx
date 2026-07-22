@@ -15,18 +15,42 @@ export const Route = createFileRoute("/programmes/$slug")({
     if (!programme) throw notFound();
     return { programme };
   },
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     if (!loaderData) {
       return { meta: [{ title: "Programme not found — NjiaYangu" }, { name: "robots", content: "noindex" }] };
     }
     const { programme } = loaderData;
     const inst = INSTITUTIONS.find((i) => i.id === programme.institutionId);
+    const url = `https://njiayangu.lovable.app/programmes/${params.slug}`;
     return {
       meta: [
         { title: `${programme.name.en} — ${inst?.name} — NjiaYangu` },
         { name: "description", content: `${programme.name.en} at ${inst?.name}. ${programme.overview.en.slice(0, 140)}` },
         { property: "og:title", content: `${programme.name.en} — ${inst?.name}` },
         { property: "og:description", content: programme.overview.en.slice(0, 200) },
+        { property: "og:type", content: "article" },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Course",
+            name: programme.name.en,
+            description: programme.overview.en,
+            url,
+            inLanguage: ["en", "sw"],
+            provider: inst
+              ? {
+                  "@type": "CollegeOrUniversity",
+                  name: inst.name,
+                  url: inst.website,
+                }
+              : undefined,
+          }),
+        },
       ],
     };
   },

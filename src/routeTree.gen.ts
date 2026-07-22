@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SecurityRouteImport } from './routes/security'
 import { Route as ScholarshipsRouteImport } from './routes/scholarships'
 import { Route as SavedRouteImport } from './routes/saved'
@@ -28,6 +29,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProgrammesIndexRouteImport } from './routes/programmes.index'
 import { Route as CareersIndexRouteImport } from './routes/careers.index'
+import { Route as ResourcesHeslbPortalGuideRouteImport } from './routes/resources.heslb-portal-guide'
 import { Route as ProgrammesSlugRouteImport } from './routes/programmes.$slug'
 import { Route as CareersIdRouteImport } from './routes/careers.$id'
 import { Route as AdminFeedbackRouteImport } from './routes/admin.feedback'
@@ -35,6 +37,11 @@ import { Route as AdminFeedbackRouteImport } from './routes/admin.feedback'
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SecurityRoute = SecurityRouteImport.update({
@@ -127,6 +134,12 @@ const CareersIndexRoute = CareersIndexRouteImport.update({
   path: '/careers/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesHeslbPortalGuideRoute =
+  ResourcesHeslbPortalGuideRouteImport.update({
+    id: '/heslb-portal-guide',
+    path: '/heslb-portal-guide',
+    getParentRoute: () => ResourcesRoute,
+  } as any)
 const ProgrammesSlugRoute = ProgrammesSlugRouteImport.update({
   id: '/programmes/$slug',
   path: '/programmes/$slug',
@@ -156,14 +169,16 @@ export interface FileRoutesByFullPath {
   '/institutions': typeof InstitutionsRoute
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
-  '/resources': typeof ResourcesRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/saved': typeof SavedRoute
   '/scholarships': typeof ScholarshipsRoute
   '/security': typeof SecurityRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin/feedback': typeof AdminFeedbackRoute
   '/careers/$id': typeof CareersIdRoute
   '/programmes/$slug': typeof ProgrammesSlugRoute
+  '/resources/heslb-portal-guide': typeof ResourcesHeslbPortalGuideRoute
   '/careers/': typeof CareersIndexRoute
   '/programmes/': typeof ProgrammesIndexRoute
 }
@@ -180,14 +195,16 @@ export interface FileRoutesByTo {
   '/institutions': typeof InstitutionsRoute
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
-  '/resources': typeof ResourcesRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/saved': typeof SavedRoute
   '/scholarships': typeof ScholarshipsRoute
   '/security': typeof SecurityRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin/feedback': typeof AdminFeedbackRoute
   '/careers/$id': typeof CareersIdRoute
   '/programmes/$slug': typeof ProgrammesSlugRoute
+  '/resources/heslb-portal-guide': typeof ResourcesHeslbPortalGuideRoute
   '/careers': typeof CareersIndexRoute
   '/programmes': typeof ProgrammesIndexRoute
 }
@@ -205,14 +222,16 @@ export interface FileRoutesById {
   '/institutions': typeof InstitutionsRoute
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
-  '/resources': typeof ResourcesRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/saved': typeof SavedRoute
   '/scholarships': typeof ScholarshipsRoute
   '/security': typeof SecurityRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin/feedback': typeof AdminFeedbackRoute
   '/careers/$id': typeof CareersIdRoute
   '/programmes/$slug': typeof ProgrammesSlugRoute
+  '/resources/heslb-portal-guide': typeof ResourcesHeslbPortalGuideRoute
   '/careers/': typeof CareersIndexRoute
   '/programmes/': typeof ProgrammesIndexRoute
 }
@@ -235,10 +254,12 @@ export interface FileRouteTypes {
     | '/saved'
     | '/scholarships'
     | '/security'
+    | '/sitemap.xml'
     | '/terms'
     | '/admin/feedback'
     | '/careers/$id'
     | '/programmes/$slug'
+    | '/resources/heslb-portal-guide'
     | '/careers/'
     | '/programmes/'
   fileRoutesByTo: FileRoutesByTo
@@ -259,10 +280,12 @@ export interface FileRouteTypes {
     | '/saved'
     | '/scholarships'
     | '/security'
+    | '/sitemap.xml'
     | '/terms'
     | '/admin/feedback'
     | '/careers/$id'
     | '/programmes/$slug'
+    | '/resources/heslb-portal-guide'
     | '/careers'
     | '/programmes'
   id:
@@ -283,10 +306,12 @@ export interface FileRouteTypes {
     | '/saved'
     | '/scholarships'
     | '/security'
+    | '/sitemap.xml'
     | '/terms'
     | '/admin/feedback'
     | '/careers/$id'
     | '/programmes/$slug'
+    | '/resources/heslb-portal-guide'
     | '/careers/'
     | '/programmes/'
   fileRoutesById: FileRoutesById
@@ -304,10 +329,11 @@ export interface RootRouteChildren {
   InstitutionsRoute: typeof InstitutionsRoute
   NotificationsRoute: typeof NotificationsRoute
   PrivacyRoute: typeof PrivacyRoute
-  ResourcesRoute: typeof ResourcesRoute
+  ResourcesRoute: typeof ResourcesRouteWithChildren
   SavedRoute: typeof SavedRoute
   ScholarshipsRoute: typeof ScholarshipsRoute
   SecurityRoute: typeof SecurityRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   AdminFeedbackRoute: typeof AdminFeedbackRoute
   CareersIdRoute: typeof CareersIdRoute
@@ -323,6 +349,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/security': {
@@ -451,6 +484,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareersIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources/heslb-portal-guide': {
+      id: '/resources/heslb-portal-guide'
+      path: '/heslb-portal-guide'
+      fullPath: '/resources/heslb-portal-guide'
+      preLoaderRoute: typeof ResourcesHeslbPortalGuideRouteImport
+      parentRoute: typeof ResourcesRoute
+    }
     '/programmes/$slug': {
       id: '/programmes/$slug'
       path: '/programmes/$slug'
@@ -475,6 +515,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface ResourcesRouteChildren {
+  ResourcesHeslbPortalGuideRoute: typeof ResourcesHeslbPortalGuideRoute
+}
+
+const ResourcesRouteChildren: ResourcesRouteChildren = {
+  ResourcesHeslbPortalGuideRoute: ResourcesHeslbPortalGuideRoute,
+}
+
+const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
+  ResourcesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -488,10 +540,11 @@ const rootRouteChildren: RootRouteChildren = {
   InstitutionsRoute: InstitutionsRoute,
   NotificationsRoute: NotificationsRoute,
   PrivacyRoute: PrivacyRoute,
-  ResourcesRoute: ResourcesRoute,
+  ResourcesRoute: ResourcesRouteWithChildren,
   SavedRoute: SavedRoute,
   ScholarshipsRoute: ScholarshipsRoute,
   SecurityRoute: SecurityRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   AdminFeedbackRoute: AdminFeedbackRoute,
   CareersIdRoute: CareersIdRoute,

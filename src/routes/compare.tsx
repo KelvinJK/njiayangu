@@ -63,8 +63,12 @@ function Page() {
                           <Link to="/programmes/$slug" params={{ slug: p.slug }} className="text-brand hover:underline">
                             {p.name[lang]}
                           </Link>
-                          <button onClick={() => toggleCompare(p.id)} className="text-muted-foreground hover:text-destructive">
-                            <X className="h-4 w-4" />
+                          <button
+                            onClick={() => toggleCompare(p.id)}
+                            className="text-muted-foreground hover:text-destructive"
+                            aria-label={lang === "en" ? `Remove ${p.name.en} from comparison` : `Ondoa ${p.name.sw} kwenye ulinganishaji`}
+                          >
+                            <X className="h-4 w-4" aria-hidden="true" />
                           </button>
                         </div>
                         <div className="text-xs text-muted-foreground font-normal">{inst?.name}</div>

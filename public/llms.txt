@@ -1,0 +1,31 @@
+# NjiaYangu
+
+> Independent guidance platform helping Tanzanian Form Six leavers match their combination and grades to eligible university programmes, HESLB support and career pathways.
+
+NjiaYangu (Kiswahili for "my path") is a bilingual (English/Kiswahili) Progressive Web App built for Tanzanian Form Six leavers. Eligibility is computed deterministically from published admission rules — not by an AI making decisions. The platform covers programme discovery, institutions, HESLB preparation, career explorer, and side-by-side comparison.
+
+## Pages
+
+- [Home](/): Match your Form Six combination and grades to eligible Tanzanian university programmes.
+- [Find my courses](/find-my-courses): Multi-step onboarding form that runs the deterministic eligibility engine.
+- [Programmes](/programmes): Browse and filter undergraduate programmes across Tanzanian institutions.
+- [Institutions](/institutions): Directory of Tanzanian universities and colleges (UDSM, SUA, MUHAS, Mzumbe, Ardhi and more).
+- [HESLB Guide](/heslb): Document checklist, application steps, common mistakes and FAQ for the Higher Education Students' Loans Board.
+- [Careers](/careers): Career pathways with typical activities, required qualifications and matching programmes.
+- [Compare](/compare): Side-by-side comparison of up to five programmes.
+- [Scholarships](/scholarships): Scholarship and financing opportunities beyond HESLB.
+- [Resources](/resources): Guides and reference material for applicants.
+- [HESLB Portal Guide](/resources/heslb-portal-guide): OLAMS account creation, NECTA verification and common login issues.
+- [About](/about): How NjiaYangu works and its independence from government bodies.
+- [Contact](/contact): Send feedback or report a data issue.
+
+## Legal
+
+- [Privacy Policy](/privacy): What data is collected and how it's used.
+- [Terms of Use](/terms): Rules and disclaimers.
+- [Security](/security): Security practices and disclosure policy.
+
+## Optional
+
+- [Saved](/saved): Signed-in user bookmarks (requires account).
+- [Calendar](/calendar): Application deadlines and reminders.
