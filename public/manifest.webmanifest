@@ -1,0 +1,15 @@
+{
+  "name": "NjiaYangu — Your path after Form Six",
+  "short_name": "NjiaYangu",
+  "description": "Discover university programmes, institutions, HESLB guidance and careers for Tanzanian Form Six leavers.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f6fb",
+  "theme_color": "#1e3a8a",
+  "lang": "en",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "64x64 32x32 24x24 16x16", "type": "image/x-icon" }
+  ]
+}

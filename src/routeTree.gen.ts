@@ -9,38 +9,274 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ScholarshipsRouteImport } from './routes/scholarships'
+import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as InstitutionsRouteImport } from './routes/institutions'
+import { Route as HeslbRouteImport } from './routes/heslb'
+import { Route as FindMyCoursesRouteImport } from './routes/find-my-courses'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CompareRouteImport } from './routes/compare'
+import { Route as CalendarRouteImport } from './routes/calendar'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProgrammesIndexRouteImport } from './routes/programmes.index'
+import { Route as CareersIndexRouteImport } from './routes/careers.index'
+import { Route as ProgrammesSlugRouteImport } from './routes/programmes.$slug'
+import { Route as CareersIdRouteImport } from './routes/careers.$id'
 
+const ScholarshipsRoute = ScholarshipsRouteImport.update({
+  id: '/scholarships',
+  path: '/scholarships',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesRoute = ResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstitutionsRoute = InstitutionsRouteImport.update({
+  id: '/institutions',
+  path: '/institutions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HeslbRoute = HeslbRouteImport.update({
+  id: '/heslb',
+  path: '/heslb',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FindMyCoursesRoute = FindMyCoursesRouteImport.update({
+  id: '/find-my-courses',
+  path: '/find-my-courses',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareRoute = CompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalendarRoute = CalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProgrammesIndexRoute = ProgrammesIndexRouteImport.update({
+  id: '/programmes/',
+  path: '/programmes/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersIndexRoute = CareersIndexRouteImport.update({
+  id: '/careers/',
+  path: '/careers/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgrammesSlugRoute = ProgrammesSlugRouteImport.update({
+  id: '/programmes/$slug',
+  path: '/programmes/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersIdRoute = CareersIdRouteImport.update({
+  id: '/careers/$id',
+  path: '/careers/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/calendar': typeof CalendarRoute
+  '/compare': typeof CompareRoute
+  '/contact': typeof ContactRoute
+  '/find-my-courses': typeof FindMyCoursesRoute
+  '/heslb': typeof HeslbRoute
+  '/institutions': typeof InstitutionsRoute
+  '/resources': typeof ResourcesRoute
+  '/scholarships': typeof ScholarshipsRoute
+  '/careers/$id': typeof CareersIdRoute
+  '/programmes/$slug': typeof ProgrammesSlugRoute
+  '/careers/': typeof CareersIndexRoute
+  '/programmes/': typeof ProgrammesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/calendar': typeof CalendarRoute
+  '/compare': typeof CompareRoute
+  '/contact': typeof ContactRoute
+  '/find-my-courses': typeof FindMyCoursesRoute
+  '/heslb': typeof HeslbRoute
+  '/institutions': typeof InstitutionsRoute
+  '/resources': typeof ResourcesRoute
+  '/scholarships': typeof ScholarshipsRoute
+  '/careers/$id': typeof CareersIdRoute
+  '/programmes/$slug': typeof ProgrammesSlugRoute
+  '/careers': typeof CareersIndexRoute
+  '/programmes': typeof ProgrammesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/calendar': typeof CalendarRoute
+  '/compare': typeof CompareRoute
+  '/contact': typeof ContactRoute
+  '/find-my-courses': typeof FindMyCoursesRoute
+  '/heslb': typeof HeslbRoute
+  '/institutions': typeof InstitutionsRoute
+  '/resources': typeof ResourcesRoute
+  '/scholarships': typeof ScholarshipsRoute
+  '/careers/$id': typeof CareersIdRoute
+  '/programmes/$slug': typeof ProgrammesSlugRoute
+  '/careers/': typeof CareersIndexRoute
+  '/programmes/': typeof ProgrammesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/calendar'
+    | '/compare'
+    | '/contact'
+    | '/find-my-courses'
+    | '/heslb'
+    | '/institutions'
+    | '/resources'
+    | '/scholarships'
+    | '/careers/$id'
+    | '/programmes/$slug'
+    | '/careers/'
+    | '/programmes/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/calendar'
+    | '/compare'
+    | '/contact'
+    | '/find-my-courses'
+    | '/heslb'
+    | '/institutions'
+    | '/resources'
+    | '/scholarships'
+    | '/careers/$id'
+    | '/programmes/$slug'
+    | '/careers'
+    | '/programmes'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/calendar'
+    | '/compare'
+    | '/contact'
+    | '/find-my-courses'
+    | '/heslb'
+    | '/institutions'
+    | '/resources'
+    | '/scholarships'
+    | '/careers/$id'
+    | '/programmes/$slug'
+    | '/careers/'
+    | '/programmes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  CalendarRoute: typeof CalendarRoute
+  CompareRoute: typeof CompareRoute
+  ContactRoute: typeof ContactRoute
+  FindMyCoursesRoute: typeof FindMyCoursesRoute
+  HeslbRoute: typeof HeslbRoute
+  InstitutionsRoute: typeof InstitutionsRoute
+  ResourcesRoute: typeof ResourcesRoute
+  ScholarshipsRoute: typeof ScholarshipsRoute
+  CareersIdRoute: typeof CareersIdRoute
+  ProgrammesSlugRoute: typeof ProgrammesSlugRoute
+  CareersIndexRoute: typeof CareersIndexRoute
+  ProgrammesIndexRoute: typeof ProgrammesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/scholarships': {
+      id: '/scholarships'
+      path: '/scholarships'
+      fullPath: '/scholarships'
+      preLoaderRoute: typeof ScholarshipsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/institutions': {
+      id: '/institutions'
+      path: '/institutions'
+      fullPath: '/institutions'
+      preLoaderRoute: typeof InstitutionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/heslb': {
+      id: '/heslb'
+      path: '/heslb'
+      fullPath: '/heslb'
+      preLoaderRoute: typeof HeslbRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/find-my-courses': {
+      id: '/find-my-courses'
+      path: '/find-my-courses'
+      fullPath: '/find-my-courses'
+      preLoaderRoute: typeof FindMyCoursesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare': {
+      id: '/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof CompareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calendar': {
+      id: '/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof CalendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +284,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/programmes/': {
+      id: '/programmes/'
+      path: '/programmes'
+      fullPath: '/programmes/'
+      preLoaderRoute: typeof ProgrammesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers/': {
+      id: '/careers/'
+      path: '/careers'
+      fullPath: '/careers/'
+      preLoaderRoute: typeof CareersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/programmes/$slug': {
+      id: '/programmes/$slug'
+      path: '/programmes/$slug'
+      fullPath: '/programmes/$slug'
+      preLoaderRoute: typeof ProgrammesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers/$id': {
+      id: '/careers/$id'
+      path: '/careers/$id'
+      fullPath: '/careers/$id'
+      preLoaderRoute: typeof CareersIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  CalendarRoute: CalendarRoute,
+  CompareRoute: CompareRoute,
+  ContactRoute: ContactRoute,
+  FindMyCoursesRoute: FindMyCoursesRoute,
+  HeslbRoute: HeslbRoute,
+  InstitutionsRoute: InstitutionsRoute,
+  ResourcesRoute: ResourcesRoute,
+  ScholarshipsRoute: ScholarshipsRoute,
+  CareersIdRoute: CareersIdRoute,
+  ProgrammesSlugRoute: ProgrammesSlugRoute,
+  CareersIndexRoute: CareersIndexRoute,
+  ProgrammesIndexRoute: ProgrammesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
