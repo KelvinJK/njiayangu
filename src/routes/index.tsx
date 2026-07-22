@@ -75,17 +75,20 @@ function HomePage() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   to="/find-my-courses"
-                  className="inline-flex items-center gap-2 h-12 px-5 rounded-full bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity"
+                  preload="viewport"
+                  className="inline-flex items-center gap-2 h-12 px-5 rounded-full bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  <Search className="h-4 w-4" /> {t("home.cta.find")}
-                  <ArrowRight className="h-4 w-4" />
+                  <Search className="h-4 w-4" aria-hidden /> {t("home.cta.find")}
+                  <ArrowRight className="h-4 w-4" aria-hidden />
                 </Link>
                 <Link
                   to="/heslb"
-                  className="inline-flex items-center gap-2 h-12 px-5 rounded-full border border-border/70 text-sm font-medium hover:border-foreground/40 transition-colors"
+                  preload="viewport"
+                  className="inline-flex items-center gap-2 h-12 px-5 rounded-full border border-border/70 text-sm font-medium hover:border-foreground/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  <ClipboardCheck className="h-4 w-4" /> {t("home.cta.heslb")}
+                  <ClipboardCheck className="h-4 w-4" aria-hidden /> {t("home.cta.heslb")}
                 </Link>
+
               </div>
 
               {/* Trust markers */}
