@@ -20,13 +20,9 @@ import heroStudent from "@/assets/hero-student.png";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NjiaYangu — Discover what to study after Form Six in Tanzania" },
-      { name: "description", content: "Enter your Form Six combination and grades to find eligible university programmes, institutions, HESLB guidance and Tanzanian career pathways." },
-      { property: "og:title", content: "NjiaYangu — Discover what to study after Form Six in Tanzania" },
-      { property: "og:description", content: "Enter your Form Six combination and grades to find eligible university programmes, institutions, HESLB guidance and Tanzanian career pathways." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://njiayangu.lovable.app/" },
     ],
+    links: [{ rel: "canonical", href: "https://njiayangu.lovable.app/" }],
   }),
   component: HomePage,
 });
