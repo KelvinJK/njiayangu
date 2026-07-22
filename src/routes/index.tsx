@@ -164,7 +164,8 @@ function HomePage() {
 
 
       {/* ───────── Popular combinations ───────── */}
-      <section className="border-t border-border/60 bg-muted/30">
+      <section className="border-t border-border/60 bg-gradient-to-b from-brand/8 via-muted/30 to-background">
+
         <div className="container-page py-16 md:py-24">
           <div className="flex items-end justify-between gap-4 flex-wrap">
             <div>
