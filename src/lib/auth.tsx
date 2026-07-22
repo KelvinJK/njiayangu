@@ -1,0 +1,85 @@
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import type { Session, User } from "@supabase/supabase-js";
+import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable/index";
+
+interface AuthCtx {
+  user: User | null;
+  session: Session | null;
+  loading: boolean;
+  signInEmail: (email: string, password: string) => Promise<{ error?: string }>;
+  signUpEmail: (email: string, password: string, fullName?: string) => Promise<{ error?: string; needsVerification?: boolean }>;
+  signInGoogle: () => Promise<{ error?: string }>;
+  signOut: () => Promise<void>;
+  resetPassword: (email: string) => Promise<{ error?: string }>;
+}
+
+const Ctx = createContext<AuthCtx | null>(null);
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Bootstrap + subscribe. Register listener BEFORE getSession to avoid race.
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
+      setSession(s);
+      setLoading(false);
+    });
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+      setLoading(false);
+    });
+    return () => sub.subscription.unsubscribe();
+  }, []);
+
+  const value = useMemo<AuthCtx>(() => ({
+    user: session?.user ?? null,
+    session,
+    loading,
+    async signInEmail(email, password) {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      return { error: error?.message };
+    },
+    async signUpEmail(email, password, fullName) {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: typeof window !== "undefined" ? window.location.origin : undefined,
+          data: fullName ? { full_name: fullName } : undefined,
+        },
+      });
+      if (error) return { error: error.message };
+      return { needsVerification: !data.session };
+    },
+    async signInGoogle() {
+      try {
+        const result = await lovable.auth.signInWithOAuth("google", {
+          redirect_uri: typeof window !== "undefined" ? window.location.origin : undefined,
+        });
+        if (result.error) return { error: (result.error as Error).message ?? "Sign-in failed" };
+        return {};
+      } catch (e) {
+        return { error: e instanceof Error ? e.message : "Sign-in failed" };
+      }
+    },
+    async signOut() {
+      await supabase.auth.signOut();
+    },
+    async resetPassword(email) {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: typeof window !== "undefined" ? `${window.location.origin}/auth?mode=reset` : undefined,
+      });
+      return { error: error?.message };
+    },
+  }), [session, loading]);
+
+  return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
+}
+
+export function useAuth() {
+  const c = useContext(Ctx);
+  if (!c) throw new Error("useAuth must be used inside AuthProvider");
+  return c;
+}
