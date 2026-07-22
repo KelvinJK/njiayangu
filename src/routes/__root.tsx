@@ -13,6 +13,9 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { I18nProvider } from "../lib/i18n";
 import { AppStoreProvider } from "../lib/store";
+import { AuthProvider } from "../lib/auth";
+import { Toaster } from "../components/ui/sonner";
+import { registerServiceWorker } from "../lib/register-sw";
 
 function NotFoundComponent() {
   return (
@@ -129,13 +132,17 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useEffect(() => { registerServiceWorker(); }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
-        <AppStoreProvider>
-          <Outlet />
-        </AppStoreProvider>
+        <AuthProvider>
+          <AppStoreProvider>
+            <Outlet />
+            <Toaster />
+          </AppStoreProvider>
+        </AuthProvider>
       </I18nProvider>
     </QueryClientProvider>
   );
