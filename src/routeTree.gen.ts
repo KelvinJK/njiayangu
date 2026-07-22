@@ -11,12 +11,15 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ScholarshipsRouteImport } from './routes/scholarships'
 import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as InstitutionsRouteImport } from './routes/institutions'
 import { Route as HeslbRouteImport } from './routes/heslb'
 import { Route as FindMyCoursesRouteImport } from './routes/find-my-courses'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as CalendarRouteImport } from './routes/calendar'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AccountRouteImport } from './routes/account'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProgrammesIndexRouteImport } from './routes/programmes.index'
@@ -32,6 +35,11 @@ const ScholarshipsRoute = ScholarshipsRouteImport.update({
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InstitutionsRoute = InstitutionsRouteImport.update({
@@ -62,6 +70,16 @@ const CompareRoute = CompareRouteImport.update({
 const CalendarRoute = CalendarRouteImport.update({
   id: '/calendar',
   path: '/calendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountRoute = AccountRouteImport.update({
+  id: '/account',
+  path: '/account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -98,12 +116,15 @@ const CareersIdRoute = CareersIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/account': typeof AccountRoute
+  '/auth': typeof AuthRoute
   '/calendar': typeof CalendarRoute
   '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/find-my-courses': typeof FindMyCoursesRoute
   '/heslb': typeof HeslbRoute
   '/institutions': typeof InstitutionsRoute
+  '/notifications': typeof NotificationsRoute
   '/resources': typeof ResourcesRoute
   '/scholarships': typeof ScholarshipsRoute
   '/careers/$id': typeof CareersIdRoute
@@ -114,12 +135,15 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/account': typeof AccountRoute
+  '/auth': typeof AuthRoute
   '/calendar': typeof CalendarRoute
   '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/find-my-courses': typeof FindMyCoursesRoute
   '/heslb': typeof HeslbRoute
   '/institutions': typeof InstitutionsRoute
+  '/notifications': typeof NotificationsRoute
   '/resources': typeof ResourcesRoute
   '/scholarships': typeof ScholarshipsRoute
   '/careers/$id': typeof CareersIdRoute
@@ -131,12 +155,15 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/account': typeof AccountRoute
+  '/auth': typeof AuthRoute
   '/calendar': typeof CalendarRoute
   '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/find-my-courses': typeof FindMyCoursesRoute
   '/heslb': typeof HeslbRoute
   '/institutions': typeof InstitutionsRoute
+  '/notifications': typeof NotificationsRoute
   '/resources': typeof ResourcesRoute
   '/scholarships': typeof ScholarshipsRoute
   '/careers/$id': typeof CareersIdRoute
@@ -149,12 +176,15 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/account'
+    | '/auth'
     | '/calendar'
     | '/compare'
     | '/contact'
     | '/find-my-courses'
     | '/heslb'
     | '/institutions'
+    | '/notifications'
     | '/resources'
     | '/scholarships'
     | '/careers/$id'
@@ -165,12 +195,15 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/account'
+    | '/auth'
     | '/calendar'
     | '/compare'
     | '/contact'
     | '/find-my-courses'
     | '/heslb'
     | '/institutions'
+    | '/notifications'
     | '/resources'
     | '/scholarships'
     | '/careers/$id'
@@ -181,12 +214,15 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/account'
+    | '/auth'
     | '/calendar'
     | '/compare'
     | '/contact'
     | '/find-my-courses'
     | '/heslb'
     | '/institutions'
+    | '/notifications'
     | '/resources'
     | '/scholarships'
     | '/careers/$id'
@@ -198,12 +234,15 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AccountRoute: typeof AccountRoute
+  AuthRoute: typeof AuthRoute
   CalendarRoute: typeof CalendarRoute
   CompareRoute: typeof CompareRoute
   ContactRoute: typeof ContactRoute
   FindMyCoursesRoute: typeof FindMyCoursesRoute
   HeslbRoute: typeof HeslbRoute
   InstitutionsRoute: typeof InstitutionsRoute
+  NotificationsRoute: typeof NotificationsRoute
   ResourcesRoute: typeof ResourcesRoute
   ScholarshipsRoute: typeof ScholarshipsRoute
   CareersIdRoute: typeof CareersIdRoute
@@ -226,6 +265,13 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/institutions': {
@@ -268,6 +314,20 @@ declare module '@tanstack/react-router' {
       path: '/calendar'
       fullPath: '/calendar'
       preLoaderRoute: typeof CalendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -318,12 +378,15 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AccountRoute: AccountRoute,
+  AuthRoute: AuthRoute,
   CalendarRoute: CalendarRoute,
   CompareRoute: CompareRoute,
   ContactRoute: ContactRoute,
   FindMyCoursesRoute: FindMyCoursesRoute,
   HeslbRoute: HeslbRoute,
   InstitutionsRoute: InstitutionsRoute,
+  NotificationsRoute: NotificationsRoute,
   ResourcesRoute: ResourcesRoute,
   ScholarshipsRoute: ScholarshipsRoute,
   CareersIdRoute: CareersIdRoute,
