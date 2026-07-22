@@ -40,13 +40,14 @@ function HomePage() {
   return (
     <AppShell>
       {/* ───────── Hero ───────── */}
-      <section className="relative overflow-hidden">
-        {/* Ambient background — restrained, brand-tinted */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-brand/10 via-background to-gold/10">
+        {/* Ambient background — brand-tinted, more colorful */}
         <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-brand/5 to-transparent" />
-          <div className="absolute -top-32 -right-24 h-72 w-72 rounded-full bg-brand/10 blur-3xl" />
-          <div className="absolute top-40 -left-24 h-64 w-64 rounded-full bg-gold/15 blur-3xl" />
+          <div className="absolute -top-32 -right-24 h-96 w-96 rounded-full bg-brand/25 blur-3xl" />
+          <div className="absolute top-40 -left-24 h-80 w-80 rounded-full bg-gold/25 blur-3xl" />
+          <div className="absolute bottom-0 left-1/3 h-64 w-64 rounded-full bg-success/15 blur-3xl" />
         </div>
+
 
         <div className="container-page pt-10 pb-14 md:pt-16 md:pb-24">
           <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-center">
@@ -145,24 +146,26 @@ function HomePage() {
           </h2>
         </div>
 
-        <ol className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <ol className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { n: "01", title: t("home.how.1"), body: t("home.how.1d") },
-            { n: "02", title: t("home.how.2"), body: t("home.how.2d") },
-            { n: "03", title: t("home.how.3"), body: t("home.how.3d") },
-            { n: "04", title: t("home.how.4"), body: t("home.how.4d") },
+            { n: "01", title: t("home.how.1"), body: t("home.how.1d"), tint: "from-brand/12 to-brand/0 text-brand ring-brand/25" },
+            { n: "02", title: t("home.how.2"), body: t("home.how.2d"), tint: "from-success/15 to-success/0 text-success ring-success/25" },
+            { n: "03", title: t("home.how.3"), body: t("home.how.3d"), tint: "from-info/15 to-info/0 text-info ring-info/25" },
+            { n: "04", title: t("home.how.4"), body: t("home.how.4d"), tint: "from-gold/20 to-gold/0 text-gold-foreground ring-gold/30" },
           ].map((s) => (
-            <li key={s.n} className="relative">
-              <div className="text-sm font-mono text-brand">{s.n}</div>
-              <div className="mt-3 text-base font-semibold">{s.title}</div>
+            <li key={s.n} className={`relative rounded-2xl border bg-gradient-to-br ${s.tint} bg-surface p-5 ring-1`}>
+              <div className={`inline-flex h-9 w-9 items-center justify-center rounded-xl bg-surface border font-mono text-sm font-semibold`}>{s.n}</div>
+              <div className="mt-3 text-base font-semibold text-foreground">{s.title}</div>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.body}</p>
             </li>
           ))}
         </ol>
       </section>
 
+
       {/* ───────── Popular combinations ───────── */}
-      <section className="border-t border-border/60 bg-muted/30">
+      <section className="border-t border-border/60 bg-gradient-to-b from-brand/8 via-muted/30 to-background">
+
         <div className="container-page py-16 md:py-24">
           <div className="flex items-end justify-between gap-4 flex-wrap">
             <div>
@@ -179,23 +182,33 @@ function HomePage() {
           </div>
 
           <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
-            {popular.map((c) => (
-              <Link
-                key={c.code}
-                to="/find-my-courses"
-                search={{ combination: c.code }}
-                className="group rounded-2xl border border-border/70 bg-surface p-4 hover:border-brand/60 hover:shadow-sm transition-all"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-sm font-semibold text-brand">{c.code}</span>
-                  <Sparkles className="h-3.5 w-3.5 text-gold opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
-                <div className="mt-2 text-sm text-muted-foreground line-clamp-2">
-                  {c[lang]}
-                </div>
-              </Link>
-            ))}
+            {popular.map((c, i) => {
+              const tints = [
+                "from-brand/10 to-transparent border-brand/30 hover:border-brand text-brand",
+                "from-success/12 to-transparent border-success/30 hover:border-success text-success",
+                "from-gold/15 to-transparent border-gold/40 hover:border-gold text-gold-foreground",
+                "from-info/12 to-transparent border-info/30 hover:border-info text-info",
+              ];
+              const tint = tints[i % tints.length];
+              return (
+                <Link
+                  key={c.code}
+                  to="/find-my-courses"
+                  search={{ combination: c.code }}
+                  className={`group rounded-2xl border bg-gradient-to-br ${tint} bg-surface p-4 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-sm font-bold">{c.code}</span>
+                    <Sparkles className="h-3.5 w-3.5 opacity-40 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                  <div className="mt-2 text-sm text-foreground/80 line-clamp-2">
+                    {c[lang]}
+                  </div>
+                </Link>
+              );
+            })}
           </div>
+
         </div>
       </section>
 

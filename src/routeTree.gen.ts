@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SecurityRouteImport } from './routes/security'
 import { Route as ScholarshipsRouteImport } from './routes/scholarships'
+import { Route as SavedRouteImport } from './routes/saved'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as NotificationsRouteImport } from './routes/notifications'
@@ -43,6 +44,11 @@ const SecurityRoute = SecurityRouteImport.update({
 const ScholarshipsRoute = ScholarshipsRouteImport.update({
   id: '/scholarships',
   path: '/scholarships',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SavedRoute = SavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResourcesRoute = ResourcesRouteImport.update({
@@ -145,6 +151,7 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRoute
+  '/saved': typeof SavedRoute
   '/scholarships': typeof ScholarshipsRoute
   '/security': typeof SecurityRoute
   '/terms': typeof TermsRoute
@@ -167,6 +174,7 @@ export interface FileRoutesByTo {
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRoute
+  '/saved': typeof SavedRoute
   '/scholarships': typeof ScholarshipsRoute
   '/security': typeof SecurityRoute
   '/terms': typeof TermsRoute
@@ -190,6 +198,7 @@ export interface FileRoutesById {
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRoute
+  '/saved': typeof SavedRoute
   '/scholarships': typeof ScholarshipsRoute
   '/security': typeof SecurityRoute
   '/terms': typeof TermsRoute
@@ -214,6 +223,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/privacy'
     | '/resources'
+    | '/saved'
     | '/scholarships'
     | '/security'
     | '/terms'
@@ -236,6 +246,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/privacy'
     | '/resources'
+    | '/saved'
     | '/scholarships'
     | '/security'
     | '/terms'
@@ -258,6 +269,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/privacy'
     | '/resources'
+    | '/saved'
     | '/scholarships'
     | '/security'
     | '/terms'
@@ -281,6 +293,7 @@ export interface RootRouteChildren {
   NotificationsRoute: typeof NotificationsRoute
   PrivacyRoute: typeof PrivacyRoute
   ResourcesRoute: typeof ResourcesRoute
+  SavedRoute: typeof SavedRoute
   ScholarshipsRoute: typeof ScholarshipsRoute
   SecurityRoute: typeof SecurityRoute
   TermsRoute: typeof TermsRoute
@@ -311,6 +324,13 @@ declare module '@tanstack/react-router' {
       path: '/scholarships'
       fullPath: '/scholarships'
       preLoaderRoute: typeof ScholarshipsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/saved': {
+      id: '/saved'
+      path: '/saved'
+      fullPath: '/saved'
+      preLoaderRoute: typeof SavedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/resources': {
@@ -449,6 +469,7 @@ const rootRouteChildren: RootRouteChildren = {
   NotificationsRoute: NotificationsRoute,
   PrivacyRoute: PrivacyRoute,
   ResourcesRoute: ResourcesRoute,
+  SavedRoute: SavedRoute,
   ScholarshipsRoute: ScholarshipsRoute,
   SecurityRoute: SecurityRoute,
   TermsRoute: TermsRoute,

@@ -170,6 +170,18 @@ const dict: Dict = {
   "notif.signInTitle": { en: "Sign in to see notifications", sw: "Ingia kuona arifa" },
   "notif.signInSub": { en: "Deadline and application alerts are tied to your account.", sw: "Arifa za tarehe na maombi zimefungamana na akaunti yako." },
   "notif.emailFooter": { en: "Important deadlines are also emailed to you.", sw: "Tarehe muhimu pia hutumwa kwenye barua pepe." },
+
+  "saved.title": { en: "Saved programmes", sw: "Kozi zilizohifadhiwa" },
+  "saved.subtitle": { en: "Quickly review, remove or compare the programmes you bookmarked.", sw: "Angalia, ondoa au linganisha kozi ulizohifadhi kwa haraka." },
+  "saved.empty": { en: "No saved programmes yet", sw: "Bado hujahifadhi kozi" },
+  "saved.emptySub": { en: "Tap the bookmark icon on any programme to save it for later.", sw: "Bofya alama ya alamisho kwenye kozi yoyote ili kuihifadhi." },
+  "saved.browse": { en: "Browse programmes", sw: "Vinjari kozi" },
+  "saved.remove": { en: "Remove", sw: "Ondoa" },
+  "saved.addCompare": { en: "Add to compare", sw: "Ongeza kulinganisha" },
+  "saved.inCompare": { en: "In compare", sw: "Iko kwenye kulinganisha" },
+  "saved.compareAll": { en: "Compare selected", sw: "Linganisha zilizochaguliwa" },
+  "saved.count": { en: "saved", sw: "zimehifadhiwa" },
+  "saved.viewSaved": { en: "View saved programmes", sw: "Ona kozi zilizohifadhiwa" },
 };
 
 interface Ctx {

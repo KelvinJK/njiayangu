@@ -83,10 +83,11 @@ function AccountPage() {
         </div>
 
         <div className="mt-6 grid md:grid-cols-3 gap-4">
-          <StatCard label={t("account.saved")} value={saved.length.toString()} />
-          <StatCard label={t("account.heslbReady")} value={`${heslbReady}/${heslbTotal || 0}`} />
-          <StatCard label={t("account.combination")} value={profile.academics?.combinationCode ?? "—"} />
+          <StatCard label={t("account.saved")} value={saved.length.toString()} to="/saved" cta={t("saved.viewSaved")} />
+          <StatCard label={t("account.heslbReady")} value={`${heslbReady}/${heslbTotal || 0}`} to="/heslb" cta={t("nav.heslb")} />
+          <StatCard label={t("account.combination")} value={profile.academics?.combinationCode ?? "—"} to="/find-my-courses" cta={t("account.updateAcademics")} />
         </div>
+
 
         <section className="mt-8 rounded-2xl border bg-surface p-6">
           <h2 className="text-lg font-semibold">{t("account.profileSection")}</h2>
@@ -137,14 +138,24 @@ function AccountPage() {
   );
 }
 
-function StatCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-xl border bg-surface p-4">
+function StatCard({ label, value, to, cta }: { label: string; value: string; to?: string; cta?: string }) {
+  const body = (
+    <>
       <div className="text-xs uppercase tracking-wide text-muted-foreground">{label}</div>
       <div className="mt-1 text-2xl font-semibold">{value}</div>
-    </div>
+      {cta && <div className="mt-2 text-xs font-medium text-brand inline-flex items-center gap-1">{cta} →</div>}
+    </>
   );
+  if (to) {
+    return (
+      <Link to={to} className="rounded-xl border bg-gradient-to-br from-brand/5 to-surface p-4 hover:border-brand/60 hover:shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+        {body}
+      </Link>
+    );
+  }
+  return <div className="rounded-xl border bg-surface p-4">{body}</div>;
 }
+
 
 function SyncBadge({ status, online, lastSyncedAt, onSync, t }: { status: string; online: boolean; lastSyncedAt: number | null; onSync: () => Promise<void>; t: (k: string) => string }) {
   const [busy, setBusy] = useState(false);
