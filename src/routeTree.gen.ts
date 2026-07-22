@@ -9,8 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SecurityRouteImport } from './routes/security'
 import { Route as ScholarshipsRouteImport } from './routes/scholarships'
 import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as InstitutionsRouteImport } from './routes/institutions'
 import { Route as HeslbRouteImport } from './routes/heslb'
@@ -27,6 +30,16 @@ import { Route as CareersIndexRouteImport } from './routes/careers.index'
 import { Route as ProgrammesSlugRouteImport } from './routes/programmes.$slug'
 import { Route as CareersIdRouteImport } from './routes/careers.$id'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SecurityRoute = SecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ScholarshipsRoute = ScholarshipsRouteImport.update({
   id: '/scholarships',
   path: '/scholarships',
@@ -35,6 +48,11 @@ const ScholarshipsRoute = ScholarshipsRouteImport.update({
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NotificationsRoute = NotificationsRouteImport.update({
@@ -125,8 +143,11 @@ export interface FileRoutesByFullPath {
   '/heslb': typeof HeslbRoute
   '/institutions': typeof InstitutionsRoute
   '/notifications': typeof NotificationsRoute
+  '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRoute
   '/scholarships': typeof ScholarshipsRoute
+  '/security': typeof SecurityRoute
+  '/terms': typeof TermsRoute
   '/careers/$id': typeof CareersIdRoute
   '/programmes/$slug': typeof ProgrammesSlugRoute
   '/careers/': typeof CareersIndexRoute
@@ -144,8 +165,11 @@ export interface FileRoutesByTo {
   '/heslb': typeof HeslbRoute
   '/institutions': typeof InstitutionsRoute
   '/notifications': typeof NotificationsRoute
+  '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRoute
   '/scholarships': typeof ScholarshipsRoute
+  '/security': typeof SecurityRoute
+  '/terms': typeof TermsRoute
   '/careers/$id': typeof CareersIdRoute
   '/programmes/$slug': typeof ProgrammesSlugRoute
   '/careers': typeof CareersIndexRoute
@@ -164,8 +188,11 @@ export interface FileRoutesById {
   '/heslb': typeof HeslbRoute
   '/institutions': typeof InstitutionsRoute
   '/notifications': typeof NotificationsRoute
+  '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRoute
   '/scholarships': typeof ScholarshipsRoute
+  '/security': typeof SecurityRoute
+  '/terms': typeof TermsRoute
   '/careers/$id': typeof CareersIdRoute
   '/programmes/$slug': typeof ProgrammesSlugRoute
   '/careers/': typeof CareersIndexRoute
@@ -185,8 +212,11 @@ export interface FileRouteTypes {
     | '/heslb'
     | '/institutions'
     | '/notifications'
+    | '/privacy'
     | '/resources'
     | '/scholarships'
+    | '/security'
+    | '/terms'
     | '/careers/$id'
     | '/programmes/$slug'
     | '/careers/'
@@ -204,8 +234,11 @@ export interface FileRouteTypes {
     | '/heslb'
     | '/institutions'
     | '/notifications'
+    | '/privacy'
     | '/resources'
     | '/scholarships'
+    | '/security'
+    | '/terms'
     | '/careers/$id'
     | '/programmes/$slug'
     | '/careers'
@@ -223,8 +256,11 @@ export interface FileRouteTypes {
     | '/heslb'
     | '/institutions'
     | '/notifications'
+    | '/privacy'
     | '/resources'
     | '/scholarships'
+    | '/security'
+    | '/terms'
     | '/careers/$id'
     | '/programmes/$slug'
     | '/careers/'
@@ -243,8 +279,11 @@ export interface RootRouteChildren {
   HeslbRoute: typeof HeslbRoute
   InstitutionsRoute: typeof InstitutionsRoute
   NotificationsRoute: typeof NotificationsRoute
+  PrivacyRoute: typeof PrivacyRoute
   ResourcesRoute: typeof ResourcesRoute
   ScholarshipsRoute: typeof ScholarshipsRoute
+  SecurityRoute: typeof SecurityRoute
+  TermsRoute: typeof TermsRoute
   CareersIdRoute: typeof CareersIdRoute
   ProgrammesSlugRoute: typeof ProgrammesSlugRoute
   CareersIndexRoute: typeof CareersIndexRoute
@@ -253,6 +292,20 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/security': {
+      id: '/security'
+      path: '/security'
+      fullPath: '/security'
+      preLoaderRoute: typeof SecurityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/scholarships': {
       id: '/scholarships'
       path: '/scholarships'
@@ -265,6 +318,13 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/notifications': {
@@ -387,8 +447,11 @@ const rootRouteChildren: RootRouteChildren = {
   HeslbRoute: HeslbRoute,
   InstitutionsRoute: InstitutionsRoute,
   NotificationsRoute: NotificationsRoute,
+  PrivacyRoute: PrivacyRoute,
   ResourcesRoute: ResourcesRoute,
   ScholarshipsRoute: ScholarshipsRoute,
+  SecurityRoute: SecurityRoute,
+  TermsRoute: TermsRoute,
   CareersIdRoute: CareersIdRoute,
   ProgrammesSlugRoute: ProgrammesSlugRoute,
   CareersIndexRoute: CareersIndexRoute,
