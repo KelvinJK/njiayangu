@@ -1,0 +1,42 @@
+name: a11y-and-perf
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install Playwright Chromium
+        run: bunx playwright install --with-deps chromium
+
+      - name: Build app
+        run: bun run build
+
+      - name: Start preview server
+        run: |
+          bunx --bun serve -s dist -l 8080 &
+          for i in {1..30}; do
+            curl -sf http://localhost:8080/ >/dev/null && break
+            sleep 1
+          done
+
+      - name: axe-core accessibility audit
+        run: node scripts/a11y-audit.mjs / /programmes /heslb /auth /saved
+
+      - name: Lighthouse CI (perf + a11y)
+        run: bunx @lhci/cli@0.14.x autorun --config=./lighthouserc.json
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
