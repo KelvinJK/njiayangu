@@ -83,10 +83,11 @@ function AccountPage() {
         </div>
 
         <div className="mt-6 grid md:grid-cols-3 gap-4">
-          <StatCard label={t("account.saved")} value={saved.length.toString()} />
-          <StatCard label={t("account.heslbReady")} value={`${heslbReady}/${heslbTotal || 0}`} />
-          <StatCard label={t("account.combination")} value={profile.academics?.combinationCode ?? "—"} />
+          <StatCard label={t("account.saved")} value={saved.length.toString()} to="/saved" cta={t("saved.viewSaved")} />
+          <StatCard label={t("account.heslbReady")} value={`${heslbReady}/${heslbTotal || 0}`} to="/heslb" cta={t("nav.heslb")} />
+          <StatCard label={t("account.combination")} value={profile.academics?.combinationCode ?? "—"} to="/find-my-courses" cta={t("account.updateAcademics")} />
         </div>
+
 
         <section className="mt-8 rounded-2xl border bg-surface p-6">
           <h2 className="text-lg font-semibold">{t("account.profileSection")}</h2>
