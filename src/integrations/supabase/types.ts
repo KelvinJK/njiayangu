@@ -80,6 +80,39 @@ export type Database = {
         }
         Relationships: []
       }
+      mcp_tool_calls: {
+        Row: {
+          actor: string
+          actor_type: string
+          created_at: string
+          duration_ms: number | null
+          error_class: string | null
+          id: number
+          status: string
+          tool_name: string
+        }
+        Insert: {
+          actor: string
+          actor_type: string
+          created_at?: string
+          duration_ms?: number | null
+          error_class?: string | null
+          id?: number
+          status: string
+          tool_name: string
+        }
+        Update: {
+          actor?: string
+          actor_type?: string
+          created_at?: string
+          duration_ms?: number | null
+          error_class?: string | null
+          id?: number
+          status?: string
+          tool_name?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           body: string | null
@@ -220,6 +253,10 @@ export type Database = {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
+        Returns: boolean
+      }
+      mcp_check_rate_limit: {
+        Args: { _actor: string; _max_calls: number; _window_seconds: number }
         Returns: boolean
       }
     }
