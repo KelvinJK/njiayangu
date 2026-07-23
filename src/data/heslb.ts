@@ -27,7 +27,7 @@ export const HESLB_CHECKLIST: ChecklistItem[] = [
 export const HESLB_STEPS: { en: string; sw: string }[] = [
   { en: "Get admission to a HESLB-eligible institution.", sw: "Pata udahili katika chuo kinachostahili HESLB." },
   { en: "Prepare all required documents (checklist below).", sw: "Andaa nyaraka zote zinazohitajika (orodha hapa chini)." },
-  { en: "Create an OLAMS account on olams.heslb.go.tz.", sw: "Fungua akaunti ya OLAMS kwenye olams.heslb.go.tz." },
+  { en: "Create an account on the official HESLB portal at www.heslb.go.tz.", sw: "Fungua akaunti kwenye tovuti rasmi ya HESLB (www.heslb.go.tz)." },
   { en: "Fill in the means testing questionnaire truthfully.", sw: "Jaza fomu ya vigezo vya HESLB kwa ukweli." },
   { en: "Upload documents and submit before the deadline.", sw: "Pakia nyaraka na tuma kabla ya tarehe ya mwisho." },
   { en: "Track the status of your application on OLAMS.", sw: "Fuatilia hali ya maombi kupitia OLAMS." },

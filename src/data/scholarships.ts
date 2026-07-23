@@ -33,7 +33,7 @@ export const SCHOLARSHIPS: Scholarship[] = [
       { en: "Birth certificate", sw: "Cheti cha kuzaliwa" },
       { en: "Guardian/parents' documents", sw: "Nyaraka za mzazi/mlezi" },
     ],
-    applicationUrl: "https://olams.heslb.go.tz",
+    applicationUrl: "https://www.heslb.go.tz",
     status: "upcoming",
     source: { title: "HESLB (illustrative)", url: "https://www.heslb.go.tz" },
     lastVerified: "2026-06-15",

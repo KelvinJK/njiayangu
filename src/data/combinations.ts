@@ -30,17 +30,27 @@ export interface Combination {
 }
 
 export const COMBINATIONS: Combination[] = [
+  // Sciences & Mathematics
   { code: "PCM", en: "Physics, Chemistry, Mathematics", sw: "Fizikia, Kemia, Hisabati", subjects: ["PHY", "CHE", "MAT"], popular: true },
   { code: "PCB", en: "Physics, Chemistry, Biology", sw: "Fizikia, Kemia, Biolojia", subjects: ["PHY", "CHE", "BIO"], popular: true },
   { code: "CBG", en: "Chemistry, Biology, Geography", sw: "Kemia, Biolojia, Jiografia", subjects: ["CHE", "BIO", "GEO"], popular: true },
-  { code: "PGM", en: "Physics, Geography, Mathematics", sw: "Fizikia, Jiografia, Hisabati", subjects: ["PHY", "GEO", "MAT"] },
-  { code: "EGM", en: "Economics, Geography, Mathematics", sw: "Uchumi, Jiografia, Hisabati", subjects: ["ECO", "GEO", "MAT"], popular: true },
-  { code: "ECA", en: "Economics, Commerce, Accountancy", sw: "Uchumi, Biashara, Uhasibu", subjects: ["ECO", "COM", "ACC"], popular: true },
-  { code: "HGE", en: "History, Geography, Economics", sw: "Historia, Jiografia, Uchumi", subjects: ["HIS", "GEO", "ECO"], popular: true },
-  { code: "HGL", en: "History, Geography, English Literature", sw: "Historia, Jiografia, Fasihi", subjects: ["HIS", "GEO", "ENG"] },
-  { code: "HGK", en: "History, Geography, Kiswahili", sw: "Historia, Jiografia, Kiswahili", subjects: ["HIS", "GEO", "KIS"], popular: true },
-  { code: "HKL", en: "History, Kiswahili, English Literature", sw: "Historia, Kiswahili, Fasihi", subjects: ["HIS", "KIS", "ENG"] },
+  { code: "CBA", en: "Chemistry, Biology, Agriculture", sw: "Kemia, Biolojia, Kilimo", subjects: ["CHE", "BIO", "GEO"] }, // Assuming GEO placeholder for AGR
   { code: "CBN", en: "Chemistry, Biology, Nutrition", sw: "Kemia, Biolojia, Lishe", subjects: ["CHE", "BIO", "GEO"] },
+  { code: "PGM", en: "Physics, Geography, Mathematics", sw: "Fizikia, Jiografia, Hisabati", subjects: ["PHY", "GEO", "MAT"] },
+  { code: "PMC", en: "Physics, Mathematics, Computer Science", sw: "Fizikia, Hisabati, Sayansi ya Kompyuta", subjects: ["PHY", "MAT", "GEO"] }, // GEO placeholder
+  // Business
+  { code: "ECA", en: "Economics, Commerce, Accountancy", sw: "Uchumi, Biashara, Uhasibu", subjects: ["ECO", "COM", "ACC"], popular: true },
+  { code: "EGM", en: "Economics, Geography, Mathematics", sw: "Uchumi, Jiografia, Hisabati", subjects: ["ECO", "GEO", "MAT"], popular: true },
+  { code: "HGE", en: "History, Geography, Economics", sw: "Historia, Jiografia, Uchumi", subjects: ["HIS", "GEO", "ECO"], popular: true },
+  // Arts & Humanities
+  { code: "HGL", en: "History, Geography, English Literature", sw: "Historia, Jiografia, Fasihi", subjects: ["HIS", "GEO", "ENG"], popular: true },
+  { code: "HGK", en: "History, Geography, Kiswahili", sw: "Historia, Jiografia, Kiswahili", subjects: ["HIS", "GEO", "KIS"], popular: true },
+  { code: "HKL", en: "History, Kiswahili, English Literature", sw: "Historia, Kiswahili, Fasihi", subjects: ["HIS", "KIS", "ENG"], popular: true },
+  { code: "KLF", en: "Kiswahili, English Language, French", sw: "Kiswahili, Kiingereza, Kifaransa", subjects: ["KIS", "ENG", "FRE"] },
+  { code: "KLA", en: "Kiswahili, English Language, Arabic", sw: "Kiswahili, Kiingereza, Kiarabu", subjects: ["KIS", "ENG", "ARB"] },
+  { code: "HLF", en: "History, English Language, French", sw: "Historia, Kiingereza, Kifaransa", subjects: ["HIS", "ENG", "FRE"] },
+  { code: "EKA", en: "Economics, Kiswahili, Accountancy", sw: "Uchumi, Kiswahili, Uhasibu", subjects: ["ECO", "KIS", "ACC"] },
+  { code: "KEC", en: "Kiswahili, English Language, Chinese", sw: "Kiswahili, Kiingereza, Kichina", subjects: ["KIS", "ENG", "GEO"] }, // GEO placeholder
 ];
 
 export const GRADES = ["A", "B", "C", "D", "E", "F"] as const;

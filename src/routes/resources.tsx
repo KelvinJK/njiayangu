@@ -21,7 +21,7 @@ function Page() {
     {
       icon: ClipboardCheck,
       title: "HESLB — OLAMS loan application portal",
-      url: "https://olams.heslb.go.tz/",
+      url: "https://www.heslb.go.tz/",
       cta: { en: "Open OLAMS login", sw: "Fungua OLAMS" },
       note: { en: "Direct login and application page for HESLB student loans.", sw: "Ukurasa wa moja kwa moja wa kuingia na kuomba mkopo wa HESLB." },
     },

@@ -76,7 +76,7 @@ function HeslbPage() {
             <ol className="mt-3 space-y-2 text-sm text-muted-foreground list-decimal list-inside">
               {HESLB_STEPS.map((s, i) => <li key={i}>{s[lang]}</li>)}
             </ol>
-            <a href="https://olams.heslb.go.tz" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-1 h-11 px-4 rounded-md bg-brand text-brand-foreground text-sm font-medium">
+            <a href="https://www.heslb.go.tz" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-1 h-11 px-4 rounded-md bg-brand text-brand-foreground text-sm font-medium">
               Open OLAMS <ExternalLink className="h-4 w-4" />
             </a>
           </div>
