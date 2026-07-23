@@ -96,7 +96,7 @@ function ConsentPage() {
           <div className="mt-4">
             <p className="text-xs font-medium text-muted-foreground">Requested permissions</p>
             <ul className="mt-1 list-disc pl-5 text-sm">
-              {scopes.map((s) => (
+              {scopes.map((s: string) => (
                 <li key={s}>{s}</li>
               ))}
             </ul>
