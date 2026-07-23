@@ -22,8 +22,12 @@ export const Route = createFileRoute("/careers/$id")({
         { name: "description", content: career.description.en.slice(0, 160) },
         { property: "og:title", content: `${career.title.en} — NjiaYangu` },
         { property: "og:description", content: career.description.en.slice(0, 200) },
+        { property: "og:image", content: "https://njiayangu.lovable.app/favicon.svg" },
         { property: "og:type", content: "article" },
         { property: "og:url", content: url },
+        { name: "twitter:title", content: `${career.title.en} — NjiaYangu` },
+        { name: "twitter:description", content: career.description.en.slice(0, 200) },
+        { name: "twitter:image", content: "https://njiayangu.lovable.app/favicon.svg" },
       ],
       links: [{ rel: "canonical", href: url }],
       scripts: [

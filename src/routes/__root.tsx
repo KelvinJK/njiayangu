@@ -78,7 +78,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
+  head: ({ location }) => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
@@ -91,9 +91,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#1e3a8a" },
       { property: "og:site_name", content: "NjiaYangu" },
       { property: "og:type", content: "website" },
+      { property: "og:title", content: "NjiaYangu — Study paths for Form Six leavers in Tanzania" },
+      { property: "og:description", content: "Match your Form Six combination and grades to eligible Tanzanian university programmes, institutions, HESLB guidance and careers." },
+      { property: "og:image", content: "https://njiayangu.lovable.app/favicon.svg" },
+      { property: "og:url", content: `https://njiayangu.lovable.app${location.pathname}` },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "NjiaYangu" },
+      { name: "twitter:description", content: "Match your Form Six combination and grades to eligible Tanzanian university programmes, institutions, HESLB guidance and careers." },
+      { name: "twitter:image", content: "https://njiayangu.lovable.app/favicon.svg" },
     ],
     links: [
+      { rel: "canonical", href: `https://njiayangu.lovable.app${location.pathname}` },
       { rel: "stylesheet", href: appCss },
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },

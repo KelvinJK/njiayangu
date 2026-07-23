@@ -28,8 +28,12 @@ export const Route = createFileRoute("/programmes/$slug")({
         { name: "description", content: `${programme.name.en} at ${inst?.name}. ${programme.overview.en.slice(0, 140)}` },
         { property: "og:title", content: `${programme.name.en} — ${inst?.name}` },
         { property: "og:description", content: programme.overview.en.slice(0, 200) },
+        { property: "og:image", content: "https://njiayangu.lovable.app/favicon.svg" },
         { property: "og:type", content: "article" },
         { property: "og:url", content: url },
+        { name: "twitter:title", content: `${programme.name.en} — ${inst?.name}` },
+        { name: "twitter:description", content: programme.overview.en.slice(0, 200) },
+        { name: "twitter:image", content: "https://njiayangu.lovable.app/favicon.svg" },
       ],
       links: [{ rel: "canonical", href: url }],
       scripts: [
