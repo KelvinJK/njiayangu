@@ -9,6 +9,7 @@ import { PROGRAMMES, PROGRAMME_CATEGORIES } from "@/data/programmes";
 import { INSTITUTIONS, REGIONS } from "@/data/institutions";
 import { applyPreferences, evaluate, type StudentAcademics, type StudentPreferences } from "@/lib/eligibility";
 import { ProgrammeCard } from "@/components/site/ProgrammeCard";
+import { NectaResultFetcher } from "@/components/NectaResultFetcher";
 import { ChevronRight, ChevronLeft, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -199,6 +200,82 @@ function FindPage() {
 
           {step === 2 && (
             <div className="grid gap-6">
+              <NectaResultFetcher
+                onResultsFetched={(res) => {
+                  // Attempt to parse combination from subjects
+                  const subjectStr = res.subjects.toUpperCase();
+                  
+                  // Helper to map NECTA names to our SubjectCodes
+                  const mapSubject = (nectaName: string): SubjectCode | null => {
+                    if (nectaName.includes("PHY")) return "PHY";
+                    if (nectaName.includes("CHEM")) return "CHE";
+                    if (nectaName.includes("ADV/MATH") || nectaName.includes("B/MATH")) return "MAT";
+                    if (nectaName.includes("BIO")) return "BIO";
+                    if (nectaName.includes("GEO")) return "GEO";
+                    if (nectaName.includes("HIST")) return "HIS";
+                    if (nectaName.includes("ECON")) return "ECO";
+                    if (nectaName.includes("COMM")) return "COM";
+                    if (nectaName.includes("ACCT") || nectaName.includes("ACC")) return "ACC";
+                    if (nectaName.includes("KISW")) return "KIS";
+                    if (nectaName.includes("ENGL")) return "ENG";
+                    if (nectaName.includes("FRE")) return "FRE";
+                    if (nectaName.includes("ARB")) return "ARB";
+                    return null;
+                  };
+
+                  const extractedGrades: Partial<Record<SubjectCode, Grade>> = {};
+                  let gsG: Grade | undefined;
+                  let bamG: Grade | undefined;
+
+                  const subjectMatches = [...subjectStr.matchAll(/([A-Z/]+)\s*-\s*'([A-F0-9S])'/g)];
+                  
+                  // For Form 6, we try to detect combination based on the 3 principal subjects
+                  const principals: SubjectCode[] = [];
+
+                  for (const match of subjectMatches) {
+                    const subj = match[1];
+                    let grade = match[2] as Grade;
+                    if (grade as string === 'S') grade = 'E'; // Map S to E for points sake, or leave it. NECTA S means pass.
+                    
+                    if (subj === "GS") {
+                      gsG = grade;
+                    } else if (subj === "BAM") {
+                      bamG = grade;
+                    } else {
+                      const mapped = mapSubject(subj);
+                      if (mapped) {
+                        principals.push(mapped);
+                        extractedGrades[mapped] = grade;
+                      }
+                    }
+                  }
+
+                  // Find combination
+                  if (principals.length >= 3) {
+                    const combo = COMBINATIONS.find(c => 
+                      c.subjects.every(s => principals.includes(s))
+                    );
+                    if (combo) {
+                      setCombination(combo.code);
+                    }
+                  }
+                  
+                  setGrades(extractedGrades);
+                  if (gsG) setGsGrade(gsG);
+                }}
+              />
+
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">
+                    {lang === "en" ? "Or enter manually" : "Au ingiza kwa mikono"}
+                  </span>
+                </div>
+              </div>
+
               <div>
                 <div className="text-sm font-medium mb-2">{lang === "en" ? "Form Six combination" : "Mchepuo wa Kidato cha Sita"}</div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
