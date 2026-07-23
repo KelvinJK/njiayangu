@@ -69,7 +69,7 @@ async function withinRateLimit(actor: string): Promise<boolean> {
  * Wrap a tool handler with structured logging + per-actor rate limiting.
  * Use inside `defineTool({ ..., handler: instrument("tool_name", async (input, ctx) => {...}) })`.
  */
-export function instrument<Args, R extends { isError?: boolean }>(
+export function instrument<Args, R>(
   toolName: string,
   fn: (input: Args, ctx: ToolContext) => Promise<R> | R,
 ): (input: Args, ctx: ToolContext) => Promise<R> {
