@@ -17,6 +17,7 @@ import { Route as SavedRouteImport } from './routes/saved'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as InstitutionsRouteImport } from './routes/institutions'
 import { Route as HeslbRouteImport } from './routes/heslb'
 import { Route as FindMyCoursesRouteImport } from './routes/find-my-courses'
@@ -33,6 +34,9 @@ import { Route as ResourcesHeslbPortalGuideRouteImport } from './routes/resource
 import { Route as ProgrammesSlugRouteImport } from './routes/programmes.$slug'
 import { Route as CareersIdRouteImport } from './routes/careers.$id'
 import { Route as AdminFeedbackRouteImport } from './routes/admin.feedback'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
+import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -72,6 +76,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const NotificationsRoute = NotificationsRouteImport.update({
   id: '/notifications',
   path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InstitutionsRoute = InstitutionsRouteImport.update({
@@ -155,6 +164,24 @@ const AdminFeedbackRoute = AdminFeedbackRouteImport.update({
   path: '/admin/feedback',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char91DotmcpChar93ListToolsRoute =
+  Char91DotmcpChar93ListToolsRouteImport.update({
+    id: '/.mcp/list-tools',
+    path: '/.mcp/list-tools',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char91DotmcpChar93InvokeToolToolRoute =
+  Char91DotmcpChar93InvokeToolToolRouteImport.update({
+    id: '/.mcp/invoke-tool/$tool',
+    path: '/.mcp/invoke-tool/$tool',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -167,6 +194,7 @@ export interface FileRoutesByFullPath {
   '/find-my-courses': typeof FindMyCoursesRoute
   '/heslb': typeof HeslbRoute
   '/institutions': typeof InstitutionsRoute
+  '/mcp': typeof McpRoute
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRouteWithChildren
@@ -175,12 +203,15 @@ export interface FileRoutesByFullPath {
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/feedback': typeof AdminFeedbackRoute
   '/careers/$id': typeof CareersIdRoute
   '/programmes/$slug': typeof ProgrammesSlugRoute
   '/resources/heslb-portal-guide': typeof ResourcesHeslbPortalGuideRoute
   '/careers/': typeof CareersIndexRoute
   '/programmes/': typeof ProgrammesIndexRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -193,6 +224,7 @@ export interface FileRoutesByTo {
   '/find-my-courses': typeof FindMyCoursesRoute
   '/heslb': typeof HeslbRoute
   '/institutions': typeof InstitutionsRoute
+  '/mcp': typeof McpRoute
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRouteWithChildren
@@ -201,12 +233,15 @@ export interface FileRoutesByTo {
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/feedback': typeof AdminFeedbackRoute
   '/careers/$id': typeof CareersIdRoute
   '/programmes/$slug': typeof ProgrammesSlugRoute
   '/resources/heslb-portal-guide': typeof ResourcesHeslbPortalGuideRoute
   '/careers': typeof CareersIndexRoute
   '/programmes': typeof ProgrammesIndexRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -220,6 +255,7 @@ export interface FileRoutesById {
   '/find-my-courses': typeof FindMyCoursesRoute
   '/heslb': typeof HeslbRoute
   '/institutions': typeof InstitutionsRoute
+  '/mcp': typeof McpRoute
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRouteWithChildren
@@ -228,12 +264,15 @@ export interface FileRoutesById {
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/feedback': typeof AdminFeedbackRoute
   '/careers/$id': typeof CareersIdRoute
   '/programmes/$slug': typeof ProgrammesSlugRoute
   '/resources/heslb-portal-guide': typeof ResourcesHeslbPortalGuideRoute
   '/careers/': typeof CareersIndexRoute
   '/programmes/': typeof ProgrammesIndexRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -248,6 +287,7 @@ export interface FileRouteTypes {
     | '/find-my-courses'
     | '/heslb'
     | '/institutions'
+    | '/mcp'
     | '/notifications'
     | '/privacy'
     | '/resources'
@@ -256,12 +296,15 @@ export interface FileRouteTypes {
     | '/security'
     | '/sitemap.xml'
     | '/terms'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/admin/feedback'
     | '/careers/$id'
     | '/programmes/$slug'
     | '/resources/heslb-portal-guide'
     | '/careers/'
     | '/programmes/'
+    | '/.mcp/invoke-tool/$tool'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -274,6 +317,7 @@ export interface FileRouteTypes {
     | '/find-my-courses'
     | '/heslb'
     | '/institutions'
+    | '/mcp'
     | '/notifications'
     | '/privacy'
     | '/resources'
@@ -282,12 +326,15 @@ export interface FileRouteTypes {
     | '/security'
     | '/sitemap.xml'
     | '/terms'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/admin/feedback'
     | '/careers/$id'
     | '/programmes/$slug'
     | '/resources/heslb-portal-guide'
     | '/careers'
     | '/programmes'
+    | '/.mcp/invoke-tool/$tool'
   id:
     | '__root__'
     | '/'
@@ -300,6 +347,7 @@ export interface FileRouteTypes {
     | '/find-my-courses'
     | '/heslb'
     | '/institutions'
+    | '/mcp'
     | '/notifications'
     | '/privacy'
     | '/resources'
@@ -308,12 +356,15 @@ export interface FileRouteTypes {
     | '/security'
     | '/sitemap.xml'
     | '/terms'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/admin/feedback'
     | '/careers/$id'
     | '/programmes/$slug'
     | '/resources/heslb-portal-guide'
     | '/careers/'
     | '/programmes/'
+    | '/.mcp/invoke-tool/$tool'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -327,6 +378,7 @@ export interface RootRouteChildren {
   FindMyCoursesRoute: typeof FindMyCoursesRoute
   HeslbRoute: typeof HeslbRoute
   InstitutionsRoute: typeof InstitutionsRoute
+  McpRoute: typeof McpRoute
   NotificationsRoute: typeof NotificationsRoute
   PrivacyRoute: typeof PrivacyRoute
   ResourcesRoute: typeof ResourcesRouteWithChildren
@@ -335,11 +387,14 @@ export interface RootRouteChildren {
   SecurityRoute: typeof SecurityRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   AdminFeedbackRoute: typeof AdminFeedbackRoute
   CareersIdRoute: typeof CareersIdRoute
   ProgrammesSlugRoute: typeof ProgrammesSlugRoute
   CareersIndexRoute: typeof CareersIndexRoute
   ProgrammesIndexRoute: typeof ProgrammesIndexRoute
+  Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -398,6 +453,13 @@ declare module '@tanstack/react-router' {
       path: '/notifications'
       fullPath: '/notifications'
       preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/institutions': {
@@ -512,6 +574,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminFeedbackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.mcp/list-tools': {
+      id: '/.mcp/list-tools'
+      path: '/.mcp/list-tools'
+      fullPath: '/.mcp/list-tools'
+      preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.mcp/invoke-tool/$tool': {
+      id: '/.mcp/invoke-tool/$tool'
+      path: '/.mcp/invoke-tool/$tool'
+      fullPath: '/.mcp/invoke-tool/$tool'
+      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -538,6 +621,7 @@ const rootRouteChildren: RootRouteChildren = {
   FindMyCoursesRoute: FindMyCoursesRoute,
   HeslbRoute: HeslbRoute,
   InstitutionsRoute: InstitutionsRoute,
+  McpRoute: McpRoute,
   NotificationsRoute: NotificationsRoute,
   PrivacyRoute: PrivacyRoute,
   ResourcesRoute: ResourcesRouteWithChildren,
@@ -546,11 +630,15 @@ const rootRouteChildren: RootRouteChildren = {
   SecurityRoute: SecurityRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
   AdminFeedbackRoute: AdminFeedbackRoute,
   CareersIdRoute: CareersIdRoute,
   ProgrammesSlugRoute: ProgrammesSlugRoute,
   CareersIndexRoute: CareersIndexRoute,
   ProgrammesIndexRoute: ProgrammesIndexRoute,
+  Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
