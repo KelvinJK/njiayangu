@@ -2,8 +2,8 @@ import posthog from 'posthog-js'
 import { PostHogProvider as PHProvider } from 'posthog-js/react'
 
 if (typeof window !== 'undefined') {
-  const posthogKey = import.meta.env.VITE_POSTHOG_KEY;
-  const posthogHost = import.meta.env.VITE_POSTHOG_HOST;
+  const posthogKey = import.meta.env.VITE_POSTHOG_KEY || 'phc_oRwfTSQhKdg7NC0OcBK9sGKuRRZEzWfdS892rZ6GF62';
+  const posthogHost = import.meta.env.VITE_POSTHOG_HOST || 'https://us.i.posthog.com';
 
   if (posthogKey && posthogHost) {
     posthog.init(posthogKey, {
