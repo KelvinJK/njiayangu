@@ -1,3 +1,4 @@
+import { instrument } from "../instrument";
 import { createClient } from "@supabase/supabase-js";
 import { defineTool, type ToolContext } from "@lovable.dev/mcp-js";
 import { HESLB_CHECKLIST, HESLB_ACADEMIC_YEAR, HESLB_STEPS, HESLB_MISTAKES } from "@/data/heslb";
@@ -16,7 +17,7 @@ export default defineTool({
     "Return the HESLB loan-application checklist with per-item status for the signed-in NjiaYangu user (done / not done), plus the current academic year, key steps, and common mistakes.",
   inputSchema: {},
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
-  handler: async (_input, ctx) => {
+  handler: instrument("get_heslb_checklist", async (_input, ctx) => {
     if (!ctx.isAuthenticated()) {
       return { content: [{ type: "text", text: "Not authenticated" }], isError: true };
     }
@@ -48,4 +49,4 @@ export default defineTool({
       structuredContent: summary,
     };
   },
-});
+}));

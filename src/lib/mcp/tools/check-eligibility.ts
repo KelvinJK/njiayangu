@@ -1,3 +1,4 @@
+import { instrument } from "../instrument";
 import { defineTool } from "@lovable.dev/mcp-js";
 import { z } from "zod";
 import { PROGRAMMES } from "@/data/programmes";
@@ -29,7 +30,7 @@ export default defineTool({
       .describe("Map of O-level subject name -> grade (e.g. Mathematics: 'C', English: 'D')."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
-  handler: ({ programmeSlug, combinationCode, grades, gsGrade, oLevel }) => {
+  handler: instrument("check_eligibility", ({ programmeSlug, combinationCode, grades, gsGrade, oLevel }) => {
     const p = PROGRAMMES.find((x) => x.slug === programmeSlug);
     if (!p) {
       return { content: [{ type: "text", text: `No programme with slug '${programmeSlug}'` }], isError: true };
@@ -60,5 +61,5 @@ export default defineTool({
       structuredContent: summary,
     };
   },
-});
+}));
 

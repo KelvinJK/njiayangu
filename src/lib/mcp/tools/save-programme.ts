@@ -1,3 +1,4 @@
+import { instrument } from "../instrument";
 import { createClient } from "@supabase/supabase-js";
 import { defineTool, type ToolContext } from "@lovable.dev/mcp-js";
 import { z } from "zod";
@@ -19,7 +20,7 @@ export default defineTool({
     slug: z.string().describe("Programme slug to save."),
   },
   annotations: { readOnlyHint: false, idempotentHint: true, destructiveHint: false, openWorldHint: false },
-  handler: async ({ slug }, ctx) => {
+  handler: instrument("save_programme", async ({ slug }, ctx) => {
     if (!ctx.isAuthenticated()) {
       return { content: [{ type: "text", text: "Not authenticated" }], isError: true };
     }
@@ -41,4 +42,4 @@ export default defineTool({
       structuredContent: { saved: true, slug },
     };
   },
-});
+}));

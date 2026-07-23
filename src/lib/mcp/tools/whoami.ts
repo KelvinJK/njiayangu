@@ -1,3 +1,4 @@
+import { instrument } from "../instrument";
 import { defineTool } from "@lovable.dev/mcp-js";
 
 export default defineTool({
@@ -6,7 +7,7 @@ export default defineTool({
   description: "Return the signed-in NjiaYangu user id and email associated with this MCP session.",
   inputSchema: {},
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
-  handler: (_input, ctx) => {
+  handler: instrument("whoami", (_input, ctx) => {
     if (!ctx.isAuthenticated()) {
       return { content: [{ type: "text", text: "Not authenticated" }], isError: true };
     }
@@ -16,4 +17,4 @@ export default defineTool({
       structuredContent: info,
     };
   },
-});
+}));

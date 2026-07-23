@@ -1,3 +1,4 @@
+import { instrument } from "../instrument";
 import { defineTool } from "@lovable.dev/mcp-js";
 import { z } from "zod";
 import { CAREERS } from "@/data/careers";
@@ -13,7 +14,7 @@ export default defineTool({
     limit: z.number().int().min(1).max(50).optional().describe("Max results. Default 20."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
-  handler: ({ category, query, limit }) => {
+  handler: instrument("list_careers", ({ category, query, limit }) => {
     const q = query?.trim().toLowerCase();
     const rows = CAREERS.filter((c) => (category ? c.category.toLowerCase() === category.toLowerCase() : true))
       .filter((c) => {
@@ -39,4 +40,4 @@ export default defineTool({
       structuredContent: { count: rows.length, careers: rows },
     };
   },
-});
+}));

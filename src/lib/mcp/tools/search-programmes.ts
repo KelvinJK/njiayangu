@@ -1,3 +1,4 @@
+import { instrument } from "../instrument";
 import { defineTool } from "@lovable.dev/mcp-js";
 import { z } from "zod";
 import { PROGRAMMES } from "@/data/programmes";
@@ -24,7 +25,7 @@ export default defineTool({
     limit: z.number().int().min(1).max(50).optional().describe("Maximum results to return. Default 15."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
-  handler: ({ query, category, institutionId, limit }) => {
+  handler: instrument("search_programmes", ({ query, category, institutionId, limit }) => {
     const q = query?.trim().toLowerCase();
     const results = PROGRAMMES.filter((p) => p.status === "active")
       .filter((p) => (category ? p.category.toLowerCase() === category.toLowerCase() : true))
@@ -64,4 +65,4 @@ export default defineTool({
       structuredContent: { count: results.length, results },
     };
   },
-});
+}));

@@ -1,3 +1,4 @@
+import { instrument } from "../instrument";
 import { createClient } from "@supabase/supabase-js";
 import { defineTool, type ToolContext } from "@lovable.dev/mcp-js";
 import { PROGRAMMES } from "@/data/programmes";
@@ -17,7 +18,7 @@ export default defineTool({
     "List the programmes the signed-in NjiaYangu user has bookmarked. Enriches each row with programme name, institution, location, deadline, and official source URL.",
   inputSchema: {},
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
-  handler: async (_input, ctx) => {
+  handler: instrument("list_saved_programmes", async (_input, ctx) => {
     if (!ctx.isAuthenticated()) {
       return { content: [{ type: "text", text: "Not authenticated" }], isError: true };
     }
@@ -52,4 +53,4 @@ export default defineTool({
       structuredContent: { count: rows.length, saved: rows },
     };
   },
-});
+}));

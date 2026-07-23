@@ -1,3 +1,4 @@
+import { instrument } from "../instrument";
 import { defineTool } from "@lovable.dev/mcp-js";
 import { z } from "zod";
 import { PROGRAMMES } from "@/data/programmes";
@@ -12,7 +13,7 @@ export default defineTool({
     slug: z.string().describe("Programme slug, e.g. 'muhas-doctor-of-medicine'."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
-  handler: ({ slug }) => {
+  handler: instrument("get_programme", ({ slug }) => {
     const p = PROGRAMMES.find((x) => x.slug === slug);
     if (!p) {
       return { content: [{ type: "text", text: `No programme with slug '${slug}'` }], isError: true };
@@ -45,4 +46,4 @@ export default defineTool({
       structuredContent: out,
     };
   },
-});
+}));
