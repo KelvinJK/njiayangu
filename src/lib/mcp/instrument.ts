@@ -98,12 +98,13 @@ export function instrument<Args, R>(
     }
     try {
       const result = (await fn(input, ctx)) as R;
+      const isError = Boolean((result as { isError?: boolean } | null)?.isError);
       void logCall({
         actor,
         actor_type,
         tool_name: toolName,
-        status: result?.isError ? "error" : "ok",
-        error_class: result?.isError ? "HandlerReturnedError" : null,
+        status: isError ? "error" : "ok",
+        error_class: isError ? "HandlerReturnedError" : null,
         duration_ms: Date.now() - started,
       });
       return result;
