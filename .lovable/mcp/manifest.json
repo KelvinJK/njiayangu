@@ -96,7 +96,7 @@
               "type": "string",
               "description": "Form Six combination code, e.g. PCM, PCB, HGE, EGM, CBG, HKL."
             },
-            "subjects": {
+            "grades": {
               "type": "object",
               "propertyNames": {
                 "type": "string"
@@ -112,25 +112,43 @@
                   "F"
                 ]
               },
-              "description": "Map of subject code -> Form Six grade (A-F). Include at least the three principal subjects of the combination."
+              "description": "Map of subject code -> Form Six grade (A-F). Include the principal subjects of the combination."
             },
-            "olevelDivision": {
-              "description": "O-level division (1-4).",
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 4
+            "gsGrade": {
+              "description": "General Studies grade (A-F), if known.",
+              "type": "string",
+              "enum": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F"
+              ]
             },
-            "olevelPasses": {
-              "description": "Number of O-level passes (grade D or better).",
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 12
+            "oLevel": {
+              "description": "Map of O-level subject name -> grade (e.g. Mathematics: 'C', English: 'D').",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "string",
+                "enum": [
+                  "A",
+                  "B",
+                  "C",
+                  "D",
+                  "E",
+                  "F"
+                ]
+              }
             }
           },
           "required": [
             "programmeSlug",
             "combinationCode",
-            "subjects"
+            "grades"
           ]
         },
         "outputSchema": null
