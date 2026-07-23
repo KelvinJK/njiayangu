@@ -8,7 +8,7 @@ interface AuthCtx {
   session: Session | null;
   loading: boolean;
   signInEmail: (email: string, password: string) => Promise<{ error?: string }>;
-  signUpEmail: (email: string, password: string, fullName?: string) => Promise<{ error?: string; needsVerification?: boolean }>;
+  signUpEmail: (email: string, password: string, fullName?: string, next?: string) => Promise<{ error?: string; needsVerification?: boolean }>;
   signInGoogle: () => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<{ error?: string }>;
