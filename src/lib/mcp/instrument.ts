@@ -94,7 +94,7 @@ export function instrument<Args, R>(
           },
         ],
         isError: true,
-      };
+      } as unknown as R;
     }
     try {
       const result = (await fn(input, ctx)) as R;
