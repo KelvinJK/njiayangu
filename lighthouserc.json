@@ -6,7 +6,7 @@
         "http://localhost:8080/programmes",
         "http://localhost:8080/heslb"
       ],
-      "startServerCommand": "bun run preview --port 8080",
+      "startServerCommand": "bun run dev --port 8080",
       "startServerReadyPattern": "Local:",
       "numberOfRuns": 1,
       "settings": {
