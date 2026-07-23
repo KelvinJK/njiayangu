@@ -31,13 +31,27 @@ function AuthPage() {
   const { signInEmail, signUpEmail, signInGoogle, resetPassword, user } = useAuth();
   const navigate = useNavigate();
   const router = useRouter();
+  const { next } = Route.useSearch();
   const [mode, setMode] = useState<"signin" | "signup" | "forgot">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const goAfterAuth = () => {
+    if (next) {
+      window.location.assign(next);
+    } else {
+      navigate({ to: "/account" });
+    }
+  };
+
   if (user) {
+    // If a `next` target is set (e.g. OAuth consent), send them there instead of the account page.
+    if (typeof window !== "undefined" && next) {
+      window.location.replace(next);
+      return null;
+    }
     return (
       <AppShell>
         <div className="container-page py-16 text-center">
@@ -60,9 +74,9 @@ function AuthPage() {
         if (error) { toast.error(error); return; }
         toast.success(t("auth.welcome"));
         router.invalidate();
-        navigate({ to: "/account" });
+        goAfterAuth();
       } else if (mode === "signup") {
-        const { error, needsVerification } = await signUpEmail(email, password, fullName || undefined);
+        const { error, needsVerification } = await signUpEmail(email, password, fullName || undefined, next);
         if (error) { toast.error(error); return; }
         if (needsVerification) {
           toast.success(t("auth.checkEmail"));
@@ -70,7 +84,7 @@ function AuthPage() {
         } else {
           toast.success(t("auth.welcome"));
           router.invalidate();
-          navigate({ to: "/account" });
+          goAfterAuth();
         }
       } else {
         const { error } = await resetPassword(email);
@@ -85,9 +99,15 @@ function AuthPage() {
 
   async function handleGoogle() {
     setLoading(true);
+    // Persist next across the OAuth popup round-trip; the auth provider will
+    // read it after the session hydrates and route the user back.
+    if (next && typeof window !== "undefined") {
+      try { sessionStorage.setItem("njiayangu.auth.next", next); } catch { /* ignore */ }
+    }
     const { error } = await signInGoogle();
     if (error) { toast.error(error); setLoading(false); }
     // On success browser redirects (or popup closes then session hydrates).
+
   }
 
   return (
