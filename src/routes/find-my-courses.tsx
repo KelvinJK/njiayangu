@@ -176,15 +176,15 @@ function FindPage() {
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="text-sm">
                 <span className="block mb-1 font-medium">{lang === "en" ? "Preferred name" : "Jina la kupendelea"}</span>
-                <input value={preferredName} onChange={(e) => setPreferredName(e.target.value)} className="w-full h-11 px-3 rounded-md border bg-surface" />
+                <input value={preferredName} onChange={(e) => setPreferredName(e.target.value)} className="w-full h-11 px-3 rounded-md border bg-surface text-base sm:text-sm" />
               </label>
               <label className="text-sm">
                 <span className="block mb-1 font-medium">{lang === "en" ? "Examination year" : "Mwaka wa mtihani"}</span>
-                <input type="number" value={examYear} onChange={(e) => setExamYear(Number(e.target.value))} className="w-full h-11 px-3 rounded-md border bg-surface" />
+                <input type="number" value={examYear} onChange={(e) => setExamYear(Number(e.target.value))} className="w-full h-11 px-3 rounded-md border bg-surface text-base sm:text-sm" />
               </label>
               <label className="text-sm">
                 <span className="block mb-1 font-medium">{lang === "en" ? "Region" : "Mkoa"}</span>
-                <select value={region} onChange={(e) => setRegion(e.target.value)} className="w-full h-11 px-3 rounded-md border bg-surface">
+                <select value={region} onChange={(e) => setRegion(e.target.value)} className="w-full h-11 px-3 rounded-md border bg-surface text-base sm:text-sm">
                   <option value="">—</option>
                   {REGIONS.map((r) => <option key={r} value={r}>{r}</option>)}
                 </select>
@@ -302,7 +302,7 @@ function FindPage() {
                       return (
                         <label key={code} className="text-sm">
                           <span className="block mb-1">{sub[lang]}</span>
-                          <select value={grades[code] ?? ""} onChange={(e) => setGrades((g) => ({ ...g, [code]: (e.target.value || undefined) as Grade | undefined }))} className="w-full h-11 px-3 rounded-md border bg-surface">
+                          <select value={grades[code] ?? ""} onChange={(e) => setGrades((g) => ({ ...g, [code]: (e.target.value || undefined) as Grade | undefined }))} className="w-full h-11 px-3 rounded-md border bg-surface text-base sm:text-sm">
                             <option value="">—</option>
                             {GRADES.map((g) => <option key={g} value={g}>{g}</option>)}
                           </select>
@@ -311,7 +311,7 @@ function FindPage() {
                     })}
                     <label className="text-sm">
                       <span className="block mb-1">General Studies</span>
-                      <select value={gsGrade ?? ""} onChange={(e) => setGsGrade((e.target.value || undefined) as Grade | undefined)} className="w-full h-11 px-3 rounded-md border bg-surface">
+                      <select value={gsGrade ?? ""} onChange={(e) => setGsGrade((e.target.value || undefined) as Grade | undefined)} className="w-full h-11 px-3 rounded-md border bg-surface text-base sm:text-sm">
                         <option value="">—</option>
                         {GRADES.map((g) => <option key={g} value={g}>{g}</option>)}
                       </select>
@@ -329,7 +329,7 @@ function FindPage() {
                   {O_LEVEL_SUBJECTS.map((s) => (
                     <label key={s} className="text-sm">
                       <span className="block mb-1">{s}</span>
-                      <select value={oLevel[s] ?? ""} onChange={(e) => setOLevel((o) => ({ ...o, [s]: (e.target.value || undefined) as Grade | undefined }))} className="w-full h-11 px-3 rounded-md border bg-surface">
+                      <select value={oLevel[s] ?? ""} onChange={(e) => setOLevel((o) => ({ ...o, [s]: (e.target.value || undefined) as Grade | undefined }))} className="w-full h-11 px-3 rounded-md border bg-surface text-base sm:text-sm">
                         <option value="">—</option>
                         {GRADES.map((g) => <option key={g} value={g}>{g}</option>)}
                       </select>
@@ -377,7 +377,7 @@ function FindPage() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <label className="text-sm">
                   <span className="block mb-1 font-medium">{lang === "en" ? "Institution type" : "Aina ya chuo"}</span>
-                  <select value={institutionType} onChange={(e) => setInstitutionType(e.target.value as any)} className="w-full h-11 px-3 rounded-md border bg-surface">
+                  <select value={institutionType} onChange={(e) => setInstitutionType(e.target.value as any)} className="w-full h-11 px-3 rounded-md border bg-surface text-base sm:text-sm">
                     <option value="any">{lang === "en" ? "Any" : "Yoyote"}</option>
                     <option value="public">{lang === "en" ? "Public" : "Umma"}</option>
                     <option value="private">{lang === "en" ? "Private" : "Binafsi"}</option>
@@ -385,11 +385,11 @@ function FindPage() {
                 </label>
                 <label className="text-sm">
                   <span className="block mb-1 font-medium">{lang === "en" ? "Max tuition per year (TZS)" : "Ada ya juu kwa mwaka (TZS)"}</span>
-                  <input type="number" value={budgetMax ?? ""} onChange={(e) => setBudgetMax(e.target.value ? Number(e.target.value) : undefined)} placeholder="1,500,000" className="w-full h-11 px-3 rounded-md border bg-surface" />
+                  <input type="number" value={budgetMax ?? ""} onChange={(e) => setBudgetMax(e.target.value ? Number(e.target.value) : undefined)} placeholder="1,500,000" className="w-full h-11 px-3 rounded-md border bg-surface text-base sm:text-sm" />
                 </label>
                 <label className="text-sm">
                   <span className="block mb-1 font-medium">{lang === "en" ? "Preferred duration" : "Muda unaopendelea"}</span>
-                  <select value={preferredDuration} onChange={(e) => setPreferredDuration(e.target.value as any)} className="w-full h-11 px-3 rounded-md border bg-surface">
+                  <select value={preferredDuration} onChange={(e) => setPreferredDuration(e.target.value as any)} className="w-full h-11 px-3 rounded-md border bg-surface text-base sm:text-sm">
                     <option value="any">{lang === "en" ? "Any" : "Muda wowote"}</option>
                     <option value="short">&lt; 3 years</option>
                     <option value="medium">3–4 years</option>
