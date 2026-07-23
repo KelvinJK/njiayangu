@@ -29,9 +29,10 @@ export default defineTool({
         id: c.id,
         title: c.title.en,
         category: c.category,
-        regulator: c.regulator,
         description: c.description.en,
-        programmes: c.programmeIds,
+        registration: c.registration?.en,
+        relatedCareers: c.relatedCareers,
+        source: c.source,
       }));
     return {
       content: [{ type: "text", text: JSON.stringify(rows, null, 2) }],
