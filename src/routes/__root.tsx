@@ -16,6 +16,8 @@ import { AppStoreProvider } from "../lib/store";
 import { AuthProvider } from "../lib/auth";
 import { Toaster } from "../components/ui/sonner";
 import { registerServiceWorker } from "../lib/register-sw";
+import { PostHogProvider } from "../lib/posthog";
+import posthog from "posthog-js";
 
 function NotFoundComponent() {
   return (
@@ -165,18 +167,27 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+
   useEffect(() => { registerServiceWorker(); }, []);
 
+  // Track pageviews in PostHog
+  useEffect(() => {
+    posthog.capture('$pageview');
+  }, [router.state.location.pathname]);
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <I18nProvider>
-        <AuthProvider>
-          <AppStoreProvider>
-            <Outlet />
-            <Toaster />
-          </AppStoreProvider>
-        </AuthProvider>
-      </I18nProvider>
-    </QueryClientProvider>
+    <PostHogProvider>
+      <QueryClientProvider client={queryClient}>
+        <I18nProvider>
+          <AuthProvider>
+            <AppStoreProvider>
+              <Outlet />
+              <Toaster />
+            </AppStoreProvider>
+          </AuthProvider>
+        </I18nProvider>
+      </QueryClientProvider>
+    </PostHogProvider>
   );
 }
