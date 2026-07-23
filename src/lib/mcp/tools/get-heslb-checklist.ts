@@ -32,7 +32,7 @@ export default defineTool({
     const items = HESLB_CHECKLIST.map((c) => ({
       id: c.id,
       label: c.label.en,
-      required: c.required,
+      category: c.category,
       done: done.has(c.id),
     }));
     const summary = {
