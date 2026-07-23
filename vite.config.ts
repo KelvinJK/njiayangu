@@ -1,6 +1,7 @@
 // @lovable.dev/vite-tanstack-config already includes tanstack devtools, tanstackStart,
 // viteReact, tailwindcss, tsConfigPaths, nitro, VITE_* env injection, and error-logger plugins.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/tanstack/vite";
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
@@ -9,6 +10,7 @@ export default defineConfig({
   },
   vite: {
     plugins: [
+      mcpPlugin(),
       VitePWA({
         registerType: "autoUpdate",
         injectRegister: null,

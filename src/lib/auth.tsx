@@ -8,7 +8,7 @@ interface AuthCtx {
   session: Session | null;
   loading: boolean;
   signInEmail: (email: string, password: string) => Promise<{ error?: string }>;
-  signUpEmail: (email: string, password: string, fullName?: string) => Promise<{ error?: string; needsVerification?: boolean }>;
+  signUpEmail: (email: string, password: string, fullName?: string, next?: string) => Promise<{ error?: string; needsVerification?: boolean }>;
   signInGoogle: () => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<{ error?: string }>;
@@ -21,10 +21,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Bootstrap + subscribe. Register listener BEFORE getSession to avoid race.
     const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
       setSession(s);
       setLoading(false);
+      if (s && typeof window !== "undefined") {
+        try {
+          const next = sessionStorage.getItem("njiayangu.auth.next");
+          if (next && next.startsWith("/") && !next.startsWith("//")) {
+            sessionStorage.removeItem("njiayangu.auth.next");
+            window.location.replace(next);
+          }
+        } catch { /* ignore */ }
+      }
     });
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
@@ -41,12 +49,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       return { error: error?.message };
     },
-    async signUpEmail(email, password, fullName) {
+    async signUpEmail(email, password, fullName, next) {
+      const origin = typeof window !== "undefined" ? window.location.origin : undefined;
+      const redirect = origin
+        ? next && next.startsWith("/") && !next.startsWith("//")
+          ? `${origin}/auth?next=${encodeURIComponent(next)}`
+          : origin
+        : undefined;
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: typeof window !== "undefined" ? window.location.origin : undefined,
+          emailRedirectTo: redirect,
           data: fullName ? { full_name: fullName } : undefined,
         },
       });

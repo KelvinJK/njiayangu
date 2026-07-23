@@ -1,0 +1,317 @@
+{
+  "version": 1,
+  "sdk_version": "0.24.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://esrzmolazqukniukfmhg.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "njiayangu",
+      "version": "0.1.0",
+      "title": "NjiaYangu"
+    },
+    "tools": [
+      {
+        "name": "search_programmes",
+        "title": "Search programmes",
+        "description": "Search NjiaYangu's catalogue of Tanzanian undergraduate programmes by keyword, category, or institution. Returns programme name, institution, location, duration, category, HESLB eligibility, application deadline, and the official source URL.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "Free-text keyword matched against programme name, overview, category, and institution name.",
+              "type": "string"
+            },
+            "category": {
+              "description": "Category to filter by, e.g. Health, Engineering, Business, Education, Law, ICT.",
+              "type": "string"
+            },
+            "institutionId": {
+              "description": "Institution id (e.g. muhas, udsm, sua, mzumbe) to restrict results to one institution.",
+              "type": "string"
+            },
+            "limit": {
+              "description": "Maximum results to return. Default 15.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_programme",
+        "title": "Get programme details",
+        "description": "Return full details for one programme by slug: overview, admission rule (min points, required subjects, O-level requirements), duration, tuition, modules, documents, application URL, and the official source URL with the last-verified date.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "description": "Programme slug, e.g. 'muhas-doctor-of-medicine'."
+            }
+          },
+          "required": [
+            "slug"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "check_eligibility",
+        "title": "Check eligibility",
+        "description": "Run NjiaYangu's deterministic admission engine against a programme for a given Form Six combination and subject grades. Returns eligibility status (eligible / borderline / not_eligible), computed points, and which admission rules matched or failed.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "programmeSlug": {
+              "type": "string",
+              "description": "Programme slug to evaluate."
+            },
+            "combinationCode": {
+              "type": "string",
+              "description": "Form Six combination code, e.g. PCM, PCB, HGE, EGM, CBG, HKL."
+            },
+            "grades": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "string",
+                "enum": [
+                  "A",
+                  "B",
+                  "C",
+                  "D",
+                  "E",
+                  "F"
+                ]
+              },
+              "description": "Map of subject code -> Form Six grade (A-F). Include the principal subjects of the combination."
+            },
+            "gsGrade": {
+              "description": "General Studies grade (A-F), if known.",
+              "type": "string",
+              "enum": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F"
+              ]
+            },
+            "oLevel": {
+              "description": "Map of O-level subject name -> grade (e.g. Mathematics: 'C', English: 'D').",
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "string",
+                "enum": [
+                  "A",
+                  "B",
+                  "C",
+                  "D",
+                  "E",
+                  "F"
+                ]
+              }
+            }
+          },
+          "required": [
+            "programmeSlug",
+            "combinationCode",
+            "grades"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_careers",
+        "title": "List career pathways",
+        "description": "List Tanzanian career pathways in NjiaYangu's career explorer, with regulator, related programmes, and public data.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "category": {
+              "description": "Optional career category filter.",
+              "type": "string"
+            },
+            "query": {
+              "description": "Optional keyword filter on career title or description.",
+              "type": "string"
+            },
+            "limit": {
+              "description": "Max results. Default 20.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "whoami",
+        "title": "Who am I",
+        "description": "Return the signed-in NjiaYangu user id and email associated with this MCP session.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_saved_programmes",
+        "title": "List my saved programmes",
+        "description": "List the programmes the signed-in NjiaYangu user has bookmarked. Enriches each row with programme name, institution, location, deadline, and official source URL.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "save_programme",
+        "title": "Bookmark a programme",
+        "description": "Bookmark a programme to the signed-in NjiaYangu user's saved list so it appears in their in-app Saved area.",
+        "annotations": {
+          "readOnlyHint": false,
+          "idempotentHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "description": "Programme slug to save."
+            }
+          },
+          "required": [
+            "slug"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "remove_saved_programme",
+        "title": "Remove a saved programme",
+        "description": "Remove a programme from the signed-in NjiaYangu user's saved list.",
+        "annotations": {
+          "readOnlyHint": false,
+          "idempotentHint": true,
+          "destructiveHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "description": "Programme slug to unsave."
+            }
+          },
+          "required": [
+            "slug"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_heslb_checklist",
+        "title": "Get HESLB checklist",
+        "description": "Return the HESLB loan-application checklist with per-item status for the signed-in NjiaYangu user (done / not done), plus the current academic year, key steps, and common mistakes.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "update_heslb_item",
+        "title": "Update a HESLB checklist item",
+        "description": "Mark a HESLB checklist item as done or not-done for the signed-in NjiaYangu user.",
+        "annotations": {
+          "readOnlyHint": false,
+          "idempotentHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "itemId": {
+              "type": "string",
+              "description": "Checklist item id."
+            },
+            "done": {
+              "type": "boolean",
+              "description": "New done state."
+            }
+          },
+          "required": [
+            "itemId",
+            "done"
+          ]
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
