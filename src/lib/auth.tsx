@@ -21,10 +21,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Bootstrap + subscribe. Register listener BEFORE getSession to avoid race.
     const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
       setSession(s);
       setLoading(false);
+      if (s && typeof window !== "undefined") {
+        try {
+          const next = sessionStorage.getItem("njiayangu.auth.next");
+          if (next && next.startsWith("/") && !next.startsWith("//")) {
+            sessionStorage.removeItem("njiayangu.auth.next");
+            window.location.replace(next);
+          }
+        } catch { /* ignore */ }
+      }
     });
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
