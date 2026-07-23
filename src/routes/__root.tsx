@@ -96,7 +96,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "manifest", href: "/manifest.webmanifest" },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -127,7 +127,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@type": "Organization",
           name: "NjiaYangu",
           url: "https://njiayangu.lovable.app",
-          logo: "https://njiayangu.lovable.app/favicon.ico",
+          logo: "https://njiayangu.lovable.app/favicon.svg",
           description:
             "Independent guidance platform helping Tanzanian Form Six leavers find eligible university programmes, HESLB support and careers.",
           areaServed: "TZ",
