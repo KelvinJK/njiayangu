@@ -27,7 +27,7 @@ jobs:
 
       - name: Start preview server
         run: |
-          bunx --bun serve -s dist -l 8080 &
+          bun run preview --port 8080 &
           for i in {1..30}; do
             curl -sf http://localhost:8080/ >/dev/null && break
             sleep 1
