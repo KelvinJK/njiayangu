@@ -5,7 +5,7 @@ const RATE_WINDOW_SECONDS = 60;
 const RATE_MAX_CALLS = 60; // 60 calls / minute / actor
 
 type ToolResult = {
-  content: Array<{ type: "text"; text: string } | Record<string, unknown>>;
+  content: unknown;
   structuredContent?: unknown;
   isError?: boolean;
 };
