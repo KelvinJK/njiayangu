@@ -39,5 +39,5 @@ export default defineTool({
       content: [{ type: "text", text: JSON.stringify(rows, null, 2) }],
       structuredContent: { count: rows.length, careers: rows },
     };
-  },
-}));
+  }),
+});

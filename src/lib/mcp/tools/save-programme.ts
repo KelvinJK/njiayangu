@@ -41,5 +41,5 @@ export default defineTool({
       content: [{ type: "text", text: `Saved '${slug}'.` }],
       structuredContent: { saved: true, slug },
     };
-  },
-}));
+  }),
+});

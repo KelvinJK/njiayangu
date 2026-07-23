@@ -35,5 +35,5 @@ export default defineTool({
       content: [{ type: "text", text: `Removed '${slug}'.` }],
       structuredContent: { removed: true, slug },
     };
-  },
-}));
+  }),
+});

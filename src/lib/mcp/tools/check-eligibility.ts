@@ -60,6 +60,5 @@ export default defineTool({
       content: [{ type: "text", text: JSON.stringify(summary, null, 2) }],
       structuredContent: summary,
     };
-  },
-}));
-
+  }),
+});

@@ -41,5 +41,5 @@ export default defineTool({
       content: [{ type: "text", text: `Set ${itemId} = ${done}.` }],
       structuredContent: { itemId, done },
     };
-  },
-}));
+  }),
+});
