@@ -309,6 +309,14 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const markPaid = useCallback(() => {
+    setProfileState((prev) => {
+      const next = { ...prev, hasPaid: true };
+      writeJSON(KEY_PROFILE, next);
+      return next;
+    });
+  }, []);
+
   const sync = useCallback(async () => {
     if (!user || !online) return;
     await pushToServer();
