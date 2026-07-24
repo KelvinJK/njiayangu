@@ -38,6 +38,7 @@ interface StoreCtx {
   sync: () => Promise<void>;
   incrementAttempts: () => void;
   resetAttempts: () => void;
+  markPaid: () => void;
 }
 
 const Ctx = createContext<StoreCtx | null>(null);
