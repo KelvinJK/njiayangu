@@ -37,7 +37,7 @@ function FindPage() {
   const search = Route.useSearch();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { profile, setProfile, incrementAttempts, resetAttempts } = useStore();
+  const { profile, setProfile, incrementAttempts, resetAttempts, markPaid } = useStore();
   const [step, setStep] = useState(1);
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
   const processedReturn = useRef(false);
