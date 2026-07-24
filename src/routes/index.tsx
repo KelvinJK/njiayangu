@@ -2,18 +2,13 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/site/AppShell";
 import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
-import { COMBINATIONS } from "@/data/combinations";
-import { PROGRAMMES } from "@/data/programmes";
-import { INSTITUTIONS } from "@/data/institutions";
-import { HESLB_ACADEMIC_YEAR } from "@/data/heslb";
 import {
   ArrowRight,
   Bookmark,
   Bell,
   ClipboardCheck,
-  Search,
+  LogIn,
   ShieldCheck,
-  Sparkles,
 } from "lucide-react";
 import heroStudent from "@/assets/hero-student.png";
 
@@ -30,20 +25,20 @@ export const Route = createFileRoute("/")({
 function HomePage() {
   const { t, lang } = useI18n();
   const { user } = useAuth();
-  const popular = COMBINATIONS.filter((c) => c.popular).slice(0, 8);
-  const heslbYear = HESLB_ACADEMIC_YEAR.split("/")[0];
+  const primaryCta = user ? "/find-my-courses" : "/auth";
+  const primaryLabel = user
+    ? t("home.cta.find")
+    : t("auth.createAccount");
 
   return (
     <AppShell>
       {/* ───────── Hero ───────── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-brand/10 via-background to-gold/10">
-        {/* Ambient background — brand-tinted, more colorful */}
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute -top-32 -right-24 h-96 w-96 rounded-full bg-brand/25 blur-3xl" />
           <div className="absolute top-40 -left-24 h-80 w-80 rounded-full bg-gold/25 blur-3xl" />
           <div className="absolute bottom-0 left-1/3 h-64 w-64 rounded-full bg-success/15 blur-3xl" />
         </div>
-
 
         <div className="container-page pt-10 pb-14 md:pt-16 md:pb-24">
           <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-center">
@@ -64,34 +59,28 @@ function HomePage() {
 
               <p className="mt-5 text-base md:text-lg text-muted-foreground leading-relaxed max-w-lg">
                 {lang === "en"
-                  ? "Enter your combination and grades. We match you to eligible programmes, institutions, HESLB guidance and career pathways — verified against TCU and NACTE."
-                  : "Ingiza mchepuo na alama zako. Tunakulinganisha na kozi, vyuo, mwongozo wa HESLB na njia za kazi — zilizohakikiwa dhidi ya TCU na NACTE."}
+                  ? "Create a free account to match your combination and grades to eligible programmes, institutions, HESLB guidance and careers — verified against TCU and NACTE."
+                  : "Fungua akaunti bure ili kulinganisha mchepuo na alama zako na kozi, vyuo, mwongozo wa HESLB na kazi — zilizohakikiwa dhidi ya TCU na NACTE."}
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
-                  to="/find-my-courses"
+                  to={primaryCta}
                   preload="viewport"
                   className="inline-flex items-center gap-2 h-12 px-5 rounded-full bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  <Search className="h-4 w-4" aria-hidden /> {t("home.cta.find")}
+                  {user ? null : <LogIn className="h-4 w-4" aria-hidden />}
+                  {primaryLabel}
                   <ArrowRight className="h-4 w-4" aria-hidden />
                 </Link>
-                <Link
-                  to="/heslb"
-                  preload="viewport"
-                  className="inline-flex items-center gap-2 h-12 px-5 rounded-full border border-border/70 text-sm font-medium hover:border-foreground/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  <ClipboardCheck className="h-4 w-4" aria-hidden /> {t("home.cta.heslb")}
-                </Link>
-
-              </div>
-
-              {/* Trust markers */}
-              <div className="mt-8 grid grid-cols-3 gap-6 max-w-md">
-                <Stat value={`${PROGRAMMES.length}+`} label={lang === "en" ? "Programmes" : "Kozi"} />
-                <Stat value={`${INSTITUTIONS.length}`} label={lang === "en" ? "Institutions" : "Vyuo"} />
-                <Stat value="TCU · NACTE" label={lang === "en" ? "Verified" : "Zimehakikiwa"} />
+                {!user && (
+                  <Link
+                    to="/auth"
+                    className="inline-flex items-center gap-2 h-12 px-5 rounded-full border border-border/70 text-sm font-medium hover:border-foreground/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    {t("auth.signIn")}
+                  </Link>
+                )}
               </div>
             </div>
 
@@ -111,107 +100,9 @@ function HomePage() {
                   fetchPriority="high"
                   className="relative z-10 h-full w-full object-contain drop-shadow-[0_20px_40px_rgba(15,23,42,0.15)]"
                 />
-
-                {/* Floating card — HESLB */}
-                <div className="absolute bottom-2 left-0 md:-left-6 z-20 hidden sm:block">
-                  <div className="rounded-2xl border border-border/70 bg-surface/95 px-4 py-3 shadow-[0_10px_30px_-10px_rgba(15,23,42,0.25)] backdrop-blur">
-                    <div className="flex items-center gap-2 text-[10px] uppercase tracking-wide text-muted-foreground">
-                      <span className="h-1.5 w-1.5 rounded-full bg-gold" />
-                      {t("home.heslb.deadline")}
-                    </div>
-                    <div className="mt-1 text-lg font-semibold">30 Sep {heslbYear}</div>
-                  </div>
-                </div>
-                {/* Floating card — Eligible */}
-                <div className="absolute top-4 right-0 md:-right-4 z-20 hidden sm:block">
-                  <div className="rounded-2xl border border-border/70 bg-surface/95 px-4 py-3 shadow-[0_10px_30px_-10px_rgba(15,23,42,0.25)] backdrop-blur">
-                    <div className="flex items-center gap-2 text-[10px] uppercase tracking-wide text-muted-foreground">
-                      <span className="h-1.5 w-1.5 rounded-full bg-success" />
-                      {lang === "en" ? "Match found" : "Ulinganifu"}
-                    </div>
-                    <div className="mt-1 text-lg font-semibold">PCM · UDSM</div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ───────── How it works — 4 quiet steps ───────── */}
-      <section className="container-page py-16 md:py-24">
-        <div className="max-w-2xl">
-          <div className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-            {lang === "en" ? "How it works" : "Jinsi inavyofanya kazi"}
-          </div>
-          <h2 className="mt-2 text-2xl md:text-3xl font-semibold tracking-tight">
-            {lang === "en" ? "From your results to a plan you can act on." : "Kutoka matokeo yako hadi mpango unaoweza kutumika."}
-          </h2>
-        </div>
-
-        <ol className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            { n: "01", title: t("home.how.1"), body: t("home.how.1d"), tint: "from-brand/12 to-brand/0 text-brand ring-brand/25" },
-            { n: "02", title: t("home.how.2"), body: t("home.how.2d"), tint: "from-success/15 to-success/0 text-success ring-success/25" },
-            { n: "03", title: t("home.how.3"), body: t("home.how.3d"), tint: "from-info/15 to-info/0 text-info ring-info/25" },
-            { n: "04", title: t("home.how.4"), body: t("home.how.4d"), tint: "from-gold/20 to-gold/0 text-gold-foreground ring-gold/30" },
-          ].map((s) => (
-            <li key={s.n} className={`relative rounded-2xl border bg-gradient-to-br ${s.tint} bg-surface p-5 ring-1`}>
-              <div className={`inline-flex h-9 w-9 items-center justify-center rounded-xl bg-surface border font-mono text-sm font-semibold`}>{s.n}</div>
-              <div className="mt-3 text-base font-semibold text-foreground">{s.title}</div>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.body}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-
-      {/* ───────── Popular combinations ───────── */}
-      <section className="border-t border-border/60 bg-gradient-to-b from-brand/8 via-muted/30 to-background">
-
-        <div className="container-page py-16 md:py-24">
-          <div className="flex items-end justify-between gap-4 flex-wrap">
-            <div>
-              <div className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-                {lang === "en" ? "Start here" : "Anza hapa"}
-              </div>
-              <h2 className="mt-2 text-2xl md:text-3xl font-semibold tracking-tight">
-                {t("home.popular")}
-              </h2>
-            </div>
-            <Link to="/find-my-courses" className="text-sm font-medium text-brand inline-flex items-center gap-1">
-              {lang === "en" ? "See all combinations" : "Ona michepuo yote"} <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
-
-          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
-            {popular.map((c, i) => {
-              const tints = [
-                "from-brand/10 to-transparent border-brand/30 hover:border-brand text-brand",
-                "from-success/12 to-transparent border-success/30 hover:border-success text-success",
-                "from-gold/15 to-transparent border-gold/40 hover:border-gold text-gold-foreground",
-                "from-info/12 to-transparent border-info/30 hover:border-info text-info",
-              ];
-              const tint = tints[i % tints.length];
-              return (
-                <Link
-                  key={c.code}
-                  to="/find-my-courses"
-                  search={{ combination: c.code }}
-                  className={`group rounded-2xl border bg-gradient-to-br ${tint} bg-surface p-4 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-sm font-bold">{c.code}</span>
-                    <Sparkles className="h-3.5 w-3.5 opacity-40 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                  <div className="mt-2 text-sm text-foreground/80 line-clamp-2">
-                    {c[lang]}
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-
         </div>
       </section>
 
@@ -226,13 +117,13 @@ function HomePage() {
                 </div>
                 <h2 className="mt-2 text-2xl md:text-3xl font-semibold tracking-tight">
                   {lang === "en"
-                    ? "Save your progress. Never miss a deadline."
-                    : "Hifadhi maendeleo yako. Usikose tarehe muhimu."}
+                    ? "Sign in to unlock every feature."
+                    : "Ingia ili kufungua vipengele vyote."}
                 </h2>
                 <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-md">
                   {lang === "en"
-                    ? "Create a free account to sync your saved programmes and HESLB checklist across devices, and get reminders before deadlines."
-                    : "Fungua akaunti bure kusawazisha kozi ulizohifadhi na orodha ya HESLB kwenye vifaa, na upate vikumbusho kabla ya tarehe za mwisho."}
+                    ? "Programme matching, HESLB checklist, career explorer, saved comparisons and deadline reminders are available once you create your free NjiaYangu account."
+                    : "Ulinganifu wa kozi, orodha ya HESLB, kivinjari cha kazi, mlinganisho uliohifadhiwa na vikumbusho vya tarehe hupatikana ukishafungua akaunti yako bure ya NjiaYangu."}
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Link
@@ -270,15 +161,6 @@ function HomePage() {
         </div>
       </section>
     </AppShell>
-  );
-}
-
-function Stat({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="min-w-0">
-      <div className="text-lg md:text-xl font-semibold tracking-tight truncate">{value}</div>
-      <div className="mt-0.5 text-[11px] uppercase tracking-wide text-muted-foreground truncate">{label}</div>
-    </div>
   );
 }
 
