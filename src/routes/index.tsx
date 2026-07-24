@@ -59,8 +59,8 @@ function HomePage() {
 
               <p className="mt-5 text-base md:text-lg text-muted-foreground leading-relaxed max-w-lg">
                 {lang === "en"
-                  ? "Create a free account to match your combination and grades to eligible programmes, institutions, HESLB guidance and careers — verified against TCU and NACTE."
-                  : "Fungua akaunti bure ili kulinganisha mchepuo na alama zako na kozi, vyuo, mwongozo wa HESLB na kazi — zilizohakikiwa dhidi ya TCU na NACTE."}
+                  ? "Create an account, then unlock 5 personalized programme-match generations for a one-time 1,000 TZS payment — matched to your combination and grades and verified against TCU and NACTE."
+                  : "Fungua akaunti, kisha lipa TZS 1,000 mara moja kupata migao 5 ya kozi zinazokufaa — kwa mujibu wa mchepuo na alama zako, zilizohakikiwa dhidi ya TCU na NACTE."}
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -114,17 +114,17 @@ function HomePage() {
             <div className="grid gap-8 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] md:items-center">
               <div>
                 <div className="text-[11px] uppercase tracking-[0.2em] text-brand">
-                  {lang === "en" ? "Free account" : "Akaunti bure"}
+                  {lang === "en" ? "1,000 TZS · 5 generations" : "TZS 1,000 · Migao 5"}
                 </div>
                 <h2 className="mt-2 text-2xl md:text-3xl font-semibold tracking-tight">
                   {lang === "en"
-                    ? "Sign in to unlock every feature."
-                    : "Ingia ili kufungua vipengele vyote."}
+                    ? "Sign in, pay once, unlock every feature."
+                    : "Ingia, lipa mara moja, fungua vipengele vyote."}
                 </h2>
                 <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-md">
                   {lang === "en"
-                    ? "Programme matching, HESLB checklist, career explorer, saved comparisons and deadline reminders are available once you create your free NjiaYangu account."
-                    : "Ulinganifu wa kozi, orodha ya HESLB, kivinjari cha kazi, mlinganisho uliohifadhiwa na vikumbusho vya tarehe hupatikana ukishafungua akaunti yako bure ya NjiaYangu."}
+                    ? "Create your NjiaYangu account, then pay a one-time 1,000 TZS via Snippe to unlock 5 programme-match generations plus the HESLB checklist, career explorer, saved comparisons and deadline reminders. Top up any time to get 5 more."
+                    : "Fungua akaunti ya NjiaYangu, kisha lipa TZS 1,000 mara moja kupitia Snippe kupata migao 5 ya kozi pamoja na orodha ya HESLB, kivinjari cha kazi, mlinganisho uliohifadhiwa na vikumbusho vya tarehe. Ongeza malipo wakati wowote kupata migao 5 zaidi."}
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Link
