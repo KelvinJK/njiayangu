@@ -54,7 +54,7 @@ function FindPage() {
   const [careerInterests, setCareerInterests] = useState<string[]>([]);
   const [preferredRegions, setPreferredRegions] = useState<string[]>([]);
   const [institutionType, setInstitutionType] = useState<"any" | "public" | "private">("any");
-  const [budgetMax, setBudgetMax] = useState<number | undefined>();
+  
   const [willingToRelocate, setWillingToRelocate] = useState(true);
   const [preferredDuration, setPreferredDuration] = useState<"any" | "short" | "medium" | "long">("any");
   const [needsFinancing, setNeedsFinancing] = useState(true);
@@ -76,7 +76,7 @@ function FindPage() {
       setCareerInterests(p.careerInterests);
       setPreferredRegions(p.preferredRegions);
       setInstitutionType(p.institutionType);
-      setBudgetMax(p.budgetMax);
+      
       setWillingToRelocate(p.willingToRelocate);
       setPreferredDuration(p.preferredDuration ?? "any");
       setNeedsFinancing(p.needsFinancing);
@@ -113,7 +113,6 @@ function FindPage() {
     careerInterests,
     preferredRegions,
     institutionType,
-    budgetMax,
     willingToRelocate,
     preferredDuration,
     needsFinancing,
@@ -139,7 +138,7 @@ function FindPage() {
       return b.preferenceMatch - a.preferenceMatch;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [combination, grades, gsGrade, oLevel, careerInterests, preferredRegions, institutionType, budgetMax, willingToRelocate, preferredDuration, needsFinancing]);
+  }, [combination, grades, gsGrade, oLevel, careerInterests, preferredRegions, institutionType, willingToRelocate, preferredDuration, needsFinancing]);
 
   const goNext = () => {
     if (step === 3) {
@@ -174,7 +173,7 @@ function FindPage() {
     setCareerInterests([]);
     setPreferredRegions([]);
     setInstitutionType("any");
-    setBudgetMax(undefined);
+    
     setWillingToRelocate(true);
     setPreferredDuration("any");
     setNeedsFinancing(true);
@@ -419,10 +418,6 @@ function FindPage() {
                     <option value="public">{lang === "en" ? "Public" : "Umma"}</option>
                     <option value="private">{lang === "en" ? "Private" : "Binafsi"}</option>
                   </select>
-                </label>
-                <label className="text-sm">
-                  <span className="block mb-1 font-medium">{lang === "en" ? "Max tuition per year (TZS)" : "Ada ya juu kwa mwaka (TZS)"}</span>
-                  <input type="number" value={budgetMax ?? ""} onChange={(e) => setBudgetMax(e.target.value ? Number(e.target.value) : undefined)} placeholder="1,500,000" className="w-full h-11 px-3 rounded-md border bg-surface text-base sm:text-sm" />
                 </label>
                 <label className="text-sm">
                   <span className="block mb-1 font-medium">{lang === "en" ? "Preferred duration" : "Muda unaopendelea"}</span>
