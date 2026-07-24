@@ -186,6 +186,44 @@ function FindPage() {
     NOT_ELIGIBLE: results.filter((r) => r.eligibility.status === "NOT_ELIGIBLE"),
   };
 
+  // Filter & sort state for Step 4 results
+  type StatusFilter = "ALL" | "ELIGIBLE" | "POTENTIALLY_ELIGIBLE" | "INCOMPLETE_INFORMATION" | "NOT_ELIGIBLE";
+  type SortKey = "relevance" | "match" | "deadline" | "points" | "duration";
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
+  const [sortKey, setSortKey] = useState<SortKey>("relevance");
+  const [heslbOnly, setHeslbOnly] = useState(false);
+  const [instTypeFilter, setInstTypeFilter] = useState<"any" | "public" | "private">("any");
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
+  const filteredResults = useMemo(() => {
+    let out = [...results];
+    if (statusFilter !== "ALL") out = out.filter((r) => r.eligibility.status === statusFilter);
+    if (heslbOnly) out = out.filter((r) => r.programme.heslbEligible);
+    if (instTypeFilter !== "any") out = out.filter((r) => r.institutionType === instTypeFilter);
+    const order = { ELIGIBLE: 0, POTENTIALLY_ELIGIBLE: 1, INCOMPLETE_INFORMATION: 2, NOT_ELIGIBLE: 3 } as const;
+    out.sort((a, b) => {
+      switch (sortKey) {
+        case "match":
+          return b.preferenceMatch - a.preferenceMatch;
+        case "deadline":
+          return new Date(a.programme.applicationDeadline).getTime() - new Date(b.programme.applicationDeadline).getTime();
+        case "points":
+          return a.programme.rule.minPoints - b.programme.rule.minPoints;
+        case "duration":
+          return a.programme.durationYears - b.programme.durationYears;
+        case "relevance":
+        default: {
+          const diff = order[a.eligibility.status] - order[b.eligibility.status];
+          return diff !== 0 ? diff : b.preferenceMatch - a.preferenceMatch;
+        }
+      }
+    });
+    return out;
+  }, [results, statusFilter, heslbOnly, instTypeFilter, sortKey]);
+
+  const activeFilterCount = (statusFilter !== "ALL" ? 1 : 0) + (heslbOnly ? 1 : 0) + (instTypeFilter !== "any" ? 1 : 0);
+  const resetFilters = () => { setStatusFilter("ALL"); setHeslbOnly(false); setInstTypeFilter("any"); setSortKey("relevance"); };
+
   return (
     <AppShell>
       <section className="container-page py-6 sm:py-10">
