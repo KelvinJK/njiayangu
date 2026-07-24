@@ -82,15 +82,9 @@ function FindPage() {
     
     if (search.returnFromAuth && user && !processedReturn.current) {
       processedReturn.current = true;
-      const attempts = profile.searchAttempts ?? 0;
-      if (attempts >= 5) {
-        setIsPaywallOpen(true);
-        setStep(3);
-      } else {
-        incrementAttempts();
-        setStep(4);
-      }
-      navigate({ search: { combination: search.combination }, replace: true });
+      setStep(4);
+      if (!profile.hasPaid) setIsPaywallOpen(true);
+      navigate({ search: { combination: search.combination } as any, replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, search.returnFromAuth]);
