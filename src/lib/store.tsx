@@ -333,11 +333,67 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
 
   const markPaid = useCallback(() => {
     setProfileState((prev) => {
-      const next = { ...prev, hasPaid: true };
+      const next = {
+        ...prev,
+        hasPaid: true,
+        generationsRemaining: (prev.generationsRemaining ?? 0) + GENERATIONS_PER_PAYMENT,
+      };
       writeJSON(KEY_PROFILE, next);
       return next;
     });
-  }, []);
+    scheduleSync();
+  }, [scheduleSync]);
+
+  const redeemPayment = useCallback(
+    (rawRef: string): { ok: true } | { ok: false; reason: string } => {
+      const reference = rawRef.trim();
+      if (reference.length < 4) {
+        return { ok: false, reason: "Enter a valid Snippe payment reference (min 4 characters)." };
+      }
+      const history = stateRef.current.profile.paymentHistory ?? [];
+      if (history.some((r) => r.reference.toLowerCase() === reference.toLowerCase())) {
+        return { ok: false, reason: "This reference has already been used." };
+      }
+      setProfileState((prev) => {
+        const nextHistory: PaymentRecord[] = [
+          ...(prev.paymentHistory ?? []),
+          {
+            reference,
+            at: new Date().toISOString(),
+            amount: PAYMENT_AMOUNT_TZS,
+            generationsGranted: GENERATIONS_PER_PAYMENT,
+          },
+        ];
+        const next: StudentProfile = {
+          ...prev,
+          hasPaid: true,
+          generationsRemaining: (prev.generationsRemaining ?? 0) + GENERATIONS_PER_PAYMENT,
+          paymentHistory: nextHistory,
+        };
+        writeJSON(KEY_PROFILE, next);
+        return next;
+      });
+      scheduleSync();
+      return { ok: true };
+    },
+    [scheduleSync],
+  );
+
+  const consumeGeneration = useCallback((): boolean => {
+    const remaining = stateRef.current.profile.generationsRemaining ?? 0;
+    if (remaining <= 0) return false;
+    setProfileState((prev) => {
+      const next: StudentProfile = {
+        ...prev,
+        generationsRemaining: Math.max(0, (prev.generationsRemaining ?? 0) - 1),
+        generationsUsed: (prev.generationsUsed ?? 0) + 1,
+      };
+      writeJSON(KEY_PROFILE, next);
+      return next;
+    });
+    scheduleSync();
+    return true;
+  }, [scheduleSync]);
 
   const sync = useCallback(async () => {
     if (!user || !online) return;
@@ -353,6 +409,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
         heslb, setHeslb,
         syncStatus, online, lastSyncedAt, sync,
         incrementAttempts, resetAttempts, markPaid,
+        redeemPayment, consumeGeneration,
       }}
     >
       {children}
