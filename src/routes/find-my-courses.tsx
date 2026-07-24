@@ -140,13 +140,11 @@ function FindPage() {
         navigate({ to: "/auth", search: { next: "/find-my-courses?returnFromAuth=true" } as any });
         return;
       }
-      
-      const attempts = profile.searchAttempts ?? 0;
-      if (attempts >= 5) {
-        setIsPaywallOpen(true);
-        return;
-      }
       incrementAttempts();
+      setStep(4);
+      if (!profile.hasPaid) setIsPaywallOpen(true);
+      if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
     }
     setStep((s) => Math.min(4, s + 1));
     if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
