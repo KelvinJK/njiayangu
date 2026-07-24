@@ -153,7 +153,7 @@ function HomePage() {
       )}
 
       {/* ───────── Verification note ───────── */}
-      <section className="container-page pb-16 md:pb-24">
+      <section className="container-page pb-8 md:pb-12">
         <div className="mx-auto max-w-3xl text-center">
           <ShieldCheck className="h-5 w-5 text-brand mx-auto" />
           <p className="mt-3 text-xs md:text-sm text-muted-foreground leading-relaxed">
@@ -161,6 +161,26 @@ function HomePage() {
           </p>
         </div>
       </section>
+
+      {/* ───────── Legal & Compliance Footer ───────── */}
+      <footer className="border-t border-border/60 bg-surface/50">
+        <div className="container-page py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="text-xs text-muted-foreground">
+            &copy; {new Date().getFullYear()} NjiaYangu. {lang === "en" ? "All rights reserved." : "Haki zote zimehifadhiwa."}
+          </div>
+          <div className="flex gap-4 text-xs font-medium text-muted-foreground">
+            <Link to="/security" className="hover:text-foreground transition-colors">
+              {lang === "en" ? "Security & Compliance" : "Usalama na Makubaliano"}
+            </Link>
+            <Link to="/privacy" className="hover:text-foreground transition-colors">
+              {lang === "en" ? "Privacy Policy" : "Sera ya Faragha"}
+            </Link>
+            <Link to="/terms" className="hover:text-foreground transition-colors">
+              {lang === "en" ? "Terms of Service" : "Vigezo na Masharti"}
+            </Link>
+          </div>
+        </div>
+      </footer>
     </AppShell>
   );
 }
