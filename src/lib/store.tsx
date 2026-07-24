@@ -16,6 +16,7 @@ export interface StudentProfile {
   phone?: string;
   region?: string;
   searchAttempts?: number;
+  hasPaid?: boolean;
 }
 
 export type HeslbStatus = "ready" | "missing" | "verify" | "na";
