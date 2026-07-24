@@ -514,7 +514,7 @@ function FindPage() {
                 {step === 3 ? t("find.results") : t("find.next")} <ChevronRight className="h-4 w-4" />
               </button>
             )}
-            {step === 4 && profile.hasPaid && (
+            {step === 4 && (
               <Link to="/compare" className="inline-flex items-center gap-1 h-11 px-4 rounded-md bg-brand text-brand-foreground text-sm font-medium">
                 {t("nav.compare")} <ChevronRight className="h-4 w-4" />
               </Link>
@@ -524,10 +524,11 @@ function FindPage() {
       </section>
       <PaywallModal
         isOpen={isPaywallOpen}
+        outOfCredits={paywallReason === "outOfCredits"}
         onClose={() => setIsPaywallOpen(false)}
-        onVerify={() => {
-          markPaid();
-          resetAttempts();
+        onVerified={() => {
+          // Grant already applied by redeemPayment. Consume one for this run.
+          consumeGeneration();
           setIsPaywallOpen(false);
           setStep(4);
           if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
