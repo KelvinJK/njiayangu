@@ -16,7 +16,7 @@ export interface StudentPreferences {
   careerInterests: string[]; // programme categories
   preferredRegions: string[];
   institutionType: "any" | "public" | "private";
-  budgetMax?: number;
+  
   willingToRelocate: boolean;
   preferredDuration?: "any" | "short" | "medium" | "long"; // <3, 3-4, >=5
   needsFinancing: boolean;
