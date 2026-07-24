@@ -1,8 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState, useEffect } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useMemo, useState, useEffect, useRef } from "react";
 import { z } from "zod";
 import { AppShell } from "@/components/site/AppShell";
 import { useI18n } from "@/lib/i18n";
+import { useAuth } from "@/lib/auth";
 import { useStore } from "@/lib/store";
 import { COMBINATIONS, GRADES, SUBJECTS, type Grade, type SubjectCode } from "@/data/combinations";
 import { PROGRAMMES, PROGRAMME_CATEGORIES } from "@/data/programmes";
@@ -14,7 +15,7 @@ import { ChevronRight, ChevronLeft, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PaywallModal } from "@/components/PaywallModal";
 
-const searchSchema = z.object({ combination: z.string().optional() });
+const searchSchema = z.object({ combination: z.string().optional(), returnFromAuth: z.boolean().optional() });
 
 export const Route = createFileRoute("/find-my-courses")({
   validateSearch: (s) => searchSchema.parse(s),
@@ -34,9 +35,12 @@ const O_LEVEL_SUBJECTS = ["Mathematics", "English", "Physics", "Chemistry", "Bio
 function FindPage() {
   const { t, lang } = useI18n();
   const search = Route.useSearch();
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const { profile, setProfile, incrementAttempts, resetAttempts } = useStore();
   const [step, setStep] = useState(1);
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
+  const processedReturn = useRef(false);
 
   const [preferredName, setPreferredName] = useState("");
   const [examYear, setExamYear] = useState(2026);
@@ -75,8 +79,21 @@ function FindPage() {
       setPreferredDuration(p.preferredDuration ?? "any");
       setNeedsFinancing(p.needsFinancing);
     }
+    
+    if (search.returnFromAuth && user && !processedReturn.current) {
+      processedReturn.current = true;
+      const attempts = profile.searchAttempts ?? 0;
+      if (attempts >= 5) {
+        setIsPaywallOpen(true);
+        setStep(3);
+      } else {
+        incrementAttempts();
+        setStep(4);
+      }
+      navigate({ search: { combination: search.combination }, replace: true });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user, search.returnFromAuth]);
 
   const selectedCombo = COMBINATIONS.find((c) => c.code === combination);
 
@@ -125,6 +142,11 @@ function FindPage() {
   const goNext = () => {
     if (step === 3) {
       setProfile({ academics, preferences });
+      if (!user) {
+        navigate({ to: "/auth", search: { next: "/find-my-courses?returnFromAuth=true" } as any });
+        return;
+      }
+      
       const attempts = profile.searchAttempts ?? 0;
       if (attempts >= 5) {
         setIsPaywallOpen(true);

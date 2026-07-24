@@ -64,27 +64,29 @@ export function Header() {
         </Link>
 
         {/* Center: primary nav (desktop only) */}
-        <nav
-          aria-label={lang === "en" ? "Primary" : "Kuu"}
-          className="hidden md:flex items-center justify-center gap-1 text-sm min-w-0"
-        >
-          {primary.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              className={cn(
-                "px-3 py-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors",
-                focusRing,
-              )}
-              activeProps={{
-                className: "text-brand bg-brand/10 font-medium",
-                "aria-current": "page",
-              }}
-            >
-              {t(l.key)}
-            </Link>
-          ))}
-        </nav>
+        {user && (
+          <nav
+            aria-label={lang === "en" ? "Primary" : "Kuu"}
+            className="hidden md:flex items-center justify-center gap-1 text-sm min-w-0"
+          >
+            {primary.map((l) => (
+              <Link
+                key={l.to}
+                to={l.to}
+                className={cn(
+                  "px-3 py-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors",
+                  focusRing,
+                )}
+                activeProps={{
+                  className: "text-brand bg-brand/10 font-medium",
+                  "aria-current": "page",
+                }}
+              >
+                {t(l.key)}
+              </Link>
+            ))}
+          </nav>
+        )}
 
         {/* Right: language + auth + menu */}
         <div className="flex items-center gap-1.5 justify-end">
@@ -189,34 +191,36 @@ export function Header() {
             className="container-page py-4 space-y-5"
           >
             {/* On mobile show primary too; on md+ the sheet acts as "More" */}
-            <div className="md:hidden">
-              <div className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground mb-2 px-1">
-                {lang === "en" ? "Explore" : "Chunguza"}
+            {user && (
+              <div className="md:hidden">
+                <div className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground mb-2 px-1">
+                  {lang === "en" ? "Explore" : "Chunguza"}
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {primary.map((l) => (
+                    <Link
+                      key={l.to}
+                      to={l.to}
+                      onClick={() => setOpen(false)}
+                      className={cn("min-h-11 px-3 py-2.5 rounded-lg text-sm text-foreground hover:bg-muted transition-colors flex items-center", focusRing)}
+                      activeProps={{
+                        className: "bg-brand/10 text-brand font-medium",
+                        "aria-current": "page",
+                      }}
+                    >
+                      {t(l.key)}
+                    </Link>
+                  ))}
+                </div>
               </div>
-              <div className="grid grid-cols-2 gap-2">
-                {primary.map((l) => (
-                  <Link
-                    key={l.to}
-                    to={l.to}
-                    onClick={() => setOpen(false)}
-                    className={cn("min-h-11 px-3 py-2.5 rounded-lg text-sm text-foreground hover:bg-muted transition-colors flex items-center", focusRing)}
-                    activeProps={{
-                      className: "bg-brand/10 text-brand font-medium",
-                      "aria-current": "page",
-                    }}
-                  >
-                    {t(l.key)}
-                  </Link>
-                ))}
-              </div>
-            </div>
+            )}
 
             <div>
               <div className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground mb-2 px-1">
                 {lang === "en" ? "More" : "Zaidi"}
               </div>
               <div className="grid grid-cols-2 gap-2">
-                {secondary.map((l) => (
+                {secondary.filter((l) => user || ["/about", "/contact"].includes(l.to)).map((l) => (
                   <Link
                     key={l.to}
                     to={l.to}

@@ -106,6 +106,7 @@ function HomePage() {
         </div>
       </section>
 
+
       {/* ───────── Sign-in benefits (only when signed-out) ───────── */}
       {!user && (
         <section className="container-page py-16 md:py-24">
