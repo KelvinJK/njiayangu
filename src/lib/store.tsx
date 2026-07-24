@@ -330,7 +330,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
         compare, toggleCompare, clearCompare,
         heslb, setHeslb,
         syncStatus, online, lastSyncedAt, sync,
-        incrementAttempts, resetAttempts,
+        incrementAttempts, resetAttempts, markPaid,
       }}
     >
       {children}
