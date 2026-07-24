@@ -22,6 +22,7 @@ const dict: Dict = {
   "nav.about": { en: "About", sw: "Kuhusu" },
   "nav.contact": { en: "Contact", sw: "Wasiliana" },
   "nav.compare": { en: "Compare", sw: "Linganisha" },
+  "nav.saved": { en: "Saved", sw: "Zimehifadhiwa" },
 
   "home.hero.title": {
     en: "Discover What You Can Study After Form Six",
