@@ -11,9 +11,9 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { I18nProvider } from "../lib/i18n";
-import { AppStoreProvider } from "../lib/store";
-import { AuthProvider } from "../lib/auth";
+import { I18nProvider } from "@/lib/i18n";
+import { AppStoreProvider } from "@/lib/store";
+import { AuthProvider } from "@/lib/auth";
 import { Toaster } from "../components/ui/sonner";
 import { registerServiceWorker } from "../lib/register-sw";
 import { PostHogProvider } from "../lib/posthog";
