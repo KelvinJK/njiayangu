@@ -9,6 +9,13 @@ const KEY_COMPARE = "nj.compare";
 const KEY_HESLB = "nj.heslb";
 const KEY_DIRTY = "nj.dirty";
 
+export interface PaymentRecord {
+  reference: string;
+  at: string;
+  amount: number;
+  generationsGranted: number;
+}
+
 export interface StudentProfile {
   academics?: StudentAcademics;
   preferences?: StudentPreferences;
@@ -16,8 +23,18 @@ export interface StudentProfile {
   phone?: string;
   region?: string;
   searchAttempts?: number;
+  /** Legacy flag kept for backwards compat; no longer read by the UI. */
   hasPaid?: boolean;
+  /** Number of remaining programme-match generations the user has paid for. */
+  generationsRemaining?: number;
+  /** Total number of generations ever run by this user. */
+  generationsUsed?: number;
+  /** Log of Snippe payment references submitted by the user. */
+  paymentHistory?: PaymentRecord[];
 }
+
+export const PAYMENT_AMOUNT_TZS = 1000;
+export const GENERATIONS_PER_PAYMENT = 5;
 
 export type HeslbStatus = "ready" | "missing" | "verify" | "na";
 export type SyncStatus = "offline" | "idle" | "syncing" | "synced" | "error" | "signed-out";
