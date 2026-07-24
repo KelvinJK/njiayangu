@@ -12,6 +12,7 @@ import { ProgrammeCard } from "@/components/site/ProgrammeCard";
 import { NectaResultFetcher } from "@/components/NectaResultFetcher";
 import { ChevronRight, ChevronLeft, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { PaywallModal } from "@/components/PaywallModal";
 
 const searchSchema = z.object({ combination: z.string().optional() });
 
@@ -33,8 +34,9 @@ const O_LEVEL_SUBJECTS = ["Mathematics", "English", "Physics", "Chemistry", "Bio
 function FindPage() {
   const { t, lang } = useI18n();
   const search = Route.useSearch();
-  const { profile, setProfile } = useStore();
+  const { profile, setProfile, incrementAttempts, resetAttempts } = useStore();
   const [step, setStep] = useState(1);
+  const [isPaywallOpen, setIsPaywallOpen] = useState(false);
 
   const [preferredName, setPreferredName] = useState("");
   const [examYear, setExamYear] = useState(2026);
@@ -123,6 +125,12 @@ function FindPage() {
   const goNext = () => {
     if (step === 3) {
       setProfile({ academics, preferences });
+      const attempts = profile.searchAttempts ?? 0;
+      if (attempts >= 5) {
+        setIsPaywallOpen(true);
+        return;
+      }
+      incrementAttempts();
     }
     setStep((s) => Math.min(4, s + 1));
     if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
@@ -462,6 +470,16 @@ function FindPage() {
           </div>
         </div>
       </section>
+      <PaywallModal
+        isOpen={isPaywallOpen}
+        onClose={() => setIsPaywallOpen(false)}
+        onVerify={() => {
+          resetAttempts();
+          setIsPaywallOpen(false);
+          setStep(4);
+          if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      />
     </AppShell>
   );
 }
