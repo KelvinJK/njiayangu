@@ -37,10 +37,10 @@ export function ProgrammeCard({ programme, eligibility, preferenceMatch }: Props
   const Icon = eligibility ? statusIcon[eligibility.status] : null;
 
   return (
-    <article className="rounded-xl border bg-card p-4 sm:p-5 shadow-sm flex flex-col gap-3">
+    <article className="rounded-xl border bg-card p-4 sm:p-5 shadow-sm flex flex-col gap-3 min-w-0 overflow-hidden">
       <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <h3 className="font-semibold text-base leading-snug text-foreground">
+        <div className="min-w-0 flex-1">
+          <h3 className="font-semibold text-base leading-snug text-foreground break-words">
             {programme.name[lang]}
           </h3>
           <div className="mt-0.5 text-sm text-muted-foreground truncate">
