@@ -59,8 +59,8 @@ function HomePage() {
 
               <p className="mt-5 text-base md:text-lg text-muted-foreground leading-relaxed max-w-lg">
                 {lang === "en"
-                  ? "Create a free account to match your combination and grades to eligible programmes, institutions, HESLB guidance and careers — verified against TCU and NACTE."
-                  : "Fungua akaunti bure ili kulinganisha mchepuo na alama zako na kozi, vyuo, mwongozo wa HESLB na kazi — zilizohakikiwa dhidi ya TCU na NACTE."}
+                  ? "Create an account, then unlock 5 personalized programme-match generations for a one-time 1,000 TZS payment — matched to your combination and grades and verified against TCU and NACTE."
+                  : "Fungua akaunti, kisha lipa TZS 1,000 mara moja kupata migao 5 ya kozi zinazokufaa — kwa mujibu wa mchepuo na alama zako, zilizohakikiwa dhidi ya TCU na NACTE."}
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
