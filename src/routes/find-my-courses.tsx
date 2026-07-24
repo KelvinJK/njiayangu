@@ -430,7 +430,70 @@ function FindPage() {
             </div>
           )}
 
-          {step === 4 && (
+          {step === 4 && !profile.hasPaid && (
+            <div className="relative overflow-hidden rounded-xl border-2 border-brand/40 bg-gradient-to-br from-brand/5 via-background to-accent/40 p-6 sm:p-10">
+              <div className="absolute -top-16 -right-16 h-48 w-48 rounded-full bg-brand/20 blur-3xl" aria-hidden />
+              <div className="absolute -bottom-20 -left-16 h-56 w-56 rounded-full bg-accent/60 blur-3xl" aria-hidden />
+              <div className="relative flex flex-col items-center text-center gap-5 max-w-2xl mx-auto">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand text-brand-foreground shadow-lg">
+                  <Lock className="h-7 w-7" />
+                </div>
+                <div>
+                  <div className="inline-flex items-center gap-1.5 rounded-full bg-brand/10 text-brand px-3 py-1 text-xs font-medium mb-3">
+                    <Sparkles className="h-3.5 w-3.5" />
+                    {lang === "en" ? "Your results are ready" : "Matokeo yako yako tayari"}
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                    {lang === "en"
+                      ? "Unlock your personalized programme matches"
+                      : "Fungua kozi zinazokufaa binafsi"}
+                  </h2>
+                  <p className="mt-3 text-sm sm:text-base text-muted-foreground">
+                    {lang === "en"
+                      ? "We matched your combination and grades against every verified programme. Pay a one-time fee of 500 TZS via Snippe to reveal all eligible programmes, institutions, and career paths tailored to you."
+                      : "Tumelinganisha mchepuo na alama zako na kila kozi iliyothibitishwa. Lipa TZS 500 mara moja kupitia Snippe kufungua kozi zote unazostahili, vyuo na njia za kazi zinazokufaa."}
+                  </p>
+                </div>
+
+                <div className="w-full grid sm:grid-cols-3 gap-3 text-left">
+                  {[
+                    { en: `${grouped.ELIGIBLE.length} eligible programmes`, sw: `Kozi ${grouped.ELIGIBLE.length} unazostahili` },
+                    { en: `${grouped.POTENTIALLY_ELIGIBLE.length} potential matches`, sw: `Fursa ${grouped.POTENTIALLY_ELIGIBLE.length} zinazowezekana` },
+                    { en: "Career & HESLB guidance", sw: "Mwongozo wa kazi na HESLB" },
+                  ].map((item, i) => (
+                    <div key={i} className="rounded-lg border bg-card/80 backdrop-blur px-3 py-2 text-sm">
+                      <div className="font-medium">{item[lang]}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="w-full flex flex-col sm:flex-row gap-2 pt-2">
+                  <a
+                    href="https://snippe.me/pay/njia-yangu"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex flex-1 h-12 items-center justify-center gap-2 rounded-md bg-brand text-brand-foreground font-semibold shadow-md hover:opacity-90 transition-opacity"
+                  >
+                    <CreditCard className="h-4 w-4" />
+                    {lang === "en" ? "Pay 500 TZS via Snippe" : "Lipa TZS 500 kupitia Snippe"}
+                  </a>
+                  <button
+                    onClick={() => setIsPaywallOpen(true)}
+                    className="inline-flex flex-1 h-12 items-center justify-center rounded-md border-2 border-brand/40 bg-background font-medium text-sm hover:bg-accent transition-colors"
+                  >
+                    {lang === "en" ? "I've paid — Verify" : "Nimelipa — Thibitisha"}
+                  </button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {lang === "en"
+                    ? "Secure payment via Snippe. One-time fee. No subscriptions."
+                    : "Malipo salama kupitia Snippe. Malipo ya mara moja. Hakuna usajili."}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {step === 4 && profile.hasPaid && (
             <div className="space-y-8">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {(["ELIGIBLE", "POTENTIALLY_ELIGIBLE", "INCOMPLETE_INFORMATION", "NOT_ELIGIBLE"] as const).map((k) => (
