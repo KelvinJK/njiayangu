@@ -199,6 +199,11 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
           fullName: p.full_name ?? undefined,
           phone: p.phone ?? undefined,
           region: p.region ?? undefined,
+          generationsRemaining: (p as { generations_remaining?: number }).generations_remaining ?? 0,
+          generationsUsed: (p as { generations_used?: number }).generations_used ?? 0,
+          hasPaid: ((p as { generations_used?: number }).generations_used ?? 0) > 0
+            || ((p as { generations_remaining?: number }).generations_remaining ?? 0) > 0,
+          paymentHistory: stateRef.current.profile.paymentHistory,
           academics: p.combination_code
             ? {
                 combinationCode: p.combination_code as string,
@@ -217,6 +222,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
         setProfileState(serverProfile);
         writeJSON(KEY_PROFILE, serverProfile);
       }
+
 
       // Union saved
       const serverSaved = (s ?? []).map((r: { programme_slug: string }) => r.programme_slug);
