@@ -27,10 +27,10 @@ export function PaywallModal({ isOpen, onVerified, onClose, outOfCredits }: Payw
 
   const priceLabel = `${PAYMENT_AMOUNT_TZS.toLocaleString()} TZS`;
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     setError(null);
     setBusy(true);
-    const result = redeemPayment(reference);
+    const result = await redeemPayment(reference);
     setBusy(false);
     if (!result.ok) {
       setError(
@@ -38,7 +38,9 @@ export function PaywallModal({ isOpen, onVerified, onClose, outOfCredits }: Payw
           ? result.reason
           : result.reason === "This reference has already been used."
             ? "Rejea hii tayari imetumika."
-            : "Weka rejea sahihi ya malipo (angalau herufi 4).",
+            : result.reason.startsWith("Please sign in")
+              ? "Tafadhali ingia kabla ya kutuma rejea ya malipo."
+              : "Weka rejea sahihi ya malipo (herufi 4-64, namba, . _ -).",
       );
       return;
     }

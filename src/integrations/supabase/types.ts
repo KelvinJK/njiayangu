@@ -146,12 +146,56 @@ export type Database = {
         }
         Relationships: []
       }
+      payments: {
+        Row: {
+          amount_tzs: number
+          created_at: string
+          generations_granted: number
+          id: string
+          provider: string
+          reference: string
+          reference_normalized: string
+          status: string
+          updated_at: string
+          user_id: string
+          verified_at: string | null
+        }
+        Insert: {
+          amount_tzs?: number
+          created_at?: string
+          generations_granted?: number
+          id?: string
+          provider?: string
+          reference: string
+          reference_normalized: string
+          status?: string
+          updated_at?: string
+          user_id: string
+          verified_at?: string | null
+        }
+        Update: {
+          amount_tzs?: number
+          created_at?: string
+          generations_granted?: number
+          id?: string
+          provider?: string
+          reference?: string
+          reference_normalized?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+          verified_at?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           combination_code: string | null
           created_at: string
           email_notifications: boolean
           full_name: string | null
+          generations_remaining: number
+          generations_used: number
           id: string
           language: string
           last_synced_at: string | null
@@ -168,6 +212,8 @@ export type Database = {
           created_at?: string
           email_notifications?: boolean
           full_name?: string | null
+          generations_remaining?: number
+          generations_used?: number
           id: string
           language?: string
           last_synced_at?: string | null
@@ -184,6 +230,8 @@ export type Database = {
           created_at?: string
           email_notifications?: boolean
           full_name?: string | null
+          generations_remaining?: number
+          generations_used?: number
           id?: string
           language?: string
           last_synced_at?: string | null
@@ -248,6 +296,13 @@ export type Database = {
     }
     Functions: {
       claim_first_admin: { Args: never; Returns: boolean }
+      consume_generation: {
+        Args: never
+        Returns: {
+          generations_remaining: number
+          ok: boolean
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -258,6 +313,15 @@ export type Database = {
       mcp_check_rate_limit: {
         Args: { _actor: string; _max_calls: number; _window_seconds: number }
         Returns: boolean
+      }
+      verify_snippe_payment: {
+        Args: { _reference: string }
+        Returns: {
+          generations_granted: number
+          generations_remaining: number
+          ok: boolean
+          reason: string
+        }[]
       }
     }
     Enums: {
