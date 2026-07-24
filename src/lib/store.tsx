@@ -55,7 +55,12 @@ interface StoreCtx {
   sync: () => Promise<void>;
   incrementAttempts: () => void;
   resetAttempts: () => void;
+  /** @deprecated use redeemPayment(reference) */
   markPaid: () => void;
+  /** Redeem a Snippe payment reference. Grants GENERATIONS_PER_PAYMENT more runs. */
+  redeemPayment: (reference: string) => { ok: true } | { ok: false; reason: string };
+  /** Consume one generation. Returns true if allowed, false if the user is out. */
+  consumeGeneration: () => boolean;
 }
 
 const Ctx = createContext<StoreCtx | null>(null);
