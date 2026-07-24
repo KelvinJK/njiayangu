@@ -11,7 +11,7 @@ import { INSTITUTIONS, REGIONS } from "@/data/institutions";
 import { applyPreferences, evaluate, type StudentAcademics, type StudentPreferences } from "@/lib/eligibility";
 import { ProgrammeCard } from "@/components/site/ProgrammeCard";
 import { NectaResultFetcher } from "@/components/NectaResultFetcher";
-import { ChevronRight, ChevronLeft, RotateCcw, Lock, CreditCard, Sparkles } from "lucide-react";
+import { ChevronRight, ChevronLeft, RotateCcw, Lock, CreditCard, Sparkles, SlidersHorizontal, ArrowUpDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PaywallModal } from "@/components/PaywallModal";
 
@@ -185,6 +185,44 @@ function FindPage() {
     INCOMPLETE_INFORMATION: results.filter((r) => r.eligibility.status === "INCOMPLETE_INFORMATION"),
     NOT_ELIGIBLE: results.filter((r) => r.eligibility.status === "NOT_ELIGIBLE"),
   };
+
+  // Filter & sort state for Step 4 results
+  type StatusFilter = "ALL" | "ELIGIBLE" | "POTENTIALLY_ELIGIBLE" | "INCOMPLETE_INFORMATION" | "NOT_ELIGIBLE";
+  type SortKey = "relevance" | "match" | "deadline" | "points" | "duration";
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
+  const [sortKey, setSortKey] = useState<SortKey>("relevance");
+  const [heslbOnly, setHeslbOnly] = useState(false);
+  const [instTypeFilter, setInstTypeFilter] = useState<"any" | "public" | "private">("any");
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
+  const filteredResults = useMemo(() => {
+    let out = [...results];
+    if (statusFilter !== "ALL") out = out.filter((r) => r.eligibility.status === statusFilter);
+    if (heslbOnly) out = out.filter((r) => r.programme.heslbEligible);
+    if (instTypeFilter !== "any") out = out.filter((r) => r.institutionType === instTypeFilter);
+    const order = { ELIGIBLE: 0, POTENTIALLY_ELIGIBLE: 1, INCOMPLETE_INFORMATION: 2, NOT_ELIGIBLE: 3 } as const;
+    out.sort((a, b) => {
+      switch (sortKey) {
+        case "match":
+          return b.preferenceMatch - a.preferenceMatch;
+        case "deadline":
+          return new Date(a.programme.applicationDeadline).getTime() - new Date(b.programme.applicationDeadline).getTime();
+        case "points":
+          return a.programme.rule.minPoints - b.programme.rule.minPoints;
+        case "duration":
+          return a.programme.durationYears - b.programme.durationYears;
+        case "relevance":
+        default: {
+          const diff = order[a.eligibility.status] - order[b.eligibility.status];
+          return diff !== 0 ? diff : b.preferenceMatch - a.preferenceMatch;
+        }
+      }
+    });
+    return out;
+  }, [results, statusFilter, heslbOnly, instTypeFilter, sortKey]);
+
+  const activeFilterCount = (statusFilter !== "ALL" ? 1 : 0) + (heslbOnly ? 1 : 0) + (instTypeFilter !== "any" ? 1 : 0);
+  const resetFilters = () => { setStatusFilter("ALL"); setHeslbOnly(false); setInstTypeFilter("any"); setSortKey("relevance"); };
 
   return (
     <AppShell>
@@ -466,26 +504,186 @@ function FindPage() {
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {(["ELIGIBLE", "POTENTIALLY_ELIGIBLE", "INCOMPLETE_INFORMATION", "NOT_ELIGIBLE"] as const).map((k) => (
-                  <div key={k} className="rounded-lg border bg-surface p-3">
-                    <div className="text-2xl font-semibold">{grouped[k].length}</div>
-                    <div className="text-xs text-muted-foreground">{t(`eligibility.${k}`)}</div>
-                  </div>
-                ))}
+                {(["ELIGIBLE", "POTENTIALLY_ELIGIBLE", "INCOMPLETE_INFORMATION", "NOT_ELIGIBLE"] as const).map((k) => {
+                  const active = statusFilter === k;
+                  return (
+                    <button
+                      key={k}
+                      type="button"
+                      onClick={() => setStatusFilter(active ? "ALL" : k)}
+                      className={cn(
+                        "rounded-lg border bg-surface p-3 text-left transition-colors",
+                        active ? "border-brand bg-accent ring-1 ring-brand/40" : "hover:border-brand/50",
+                      )}
+                      aria-pressed={active}
+                    >
+                      <div className="text-2xl font-semibold">{grouped[k].length}</div>
+                      <div className="text-xs text-muted-foreground truncate">{t(`eligibility.${k}`)}</div>
+                    </button>
+                  );
+                })}
               </div>
 
-              {(["ELIGIBLE", "POTENTIALLY_ELIGIBLE", "INCOMPLETE_INFORMATION", "NOT_ELIGIBLE"] as const).map((k) =>
-                grouped[k].length > 0 ? (
-                  <div key={k}>
-                    <h2 className="text-lg font-semibold mb-3">{t(`eligibility.${k}`)} — {grouped[k].length}</h2>
-                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                      {grouped[k].slice(0, 12).map((r) => (
-                        <ProgrammeCard key={r.programme.id} programme={r.programme} eligibility={r.eligibility} preferenceMatch={r.preferenceMatch} />
-                      ))}
+              {/* Sticky filter/sort toolbar */}
+              <div className="sticky top-0 z-20 -mx-4 sm:-mx-6 px-4 sm:px-6 py-2 bg-card/95 backdrop-blur border-y">
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setFiltersOpen(true)}
+                    className="inline-flex items-center gap-1.5 h-10 px-3 rounded-md border text-sm font-medium min-w-0 shrink-0"
+                    aria-label={lang === "en" ? "Open filters" : "Fungua vichujio"}
+                  >
+                    <SlidersHorizontal className="h-4 w-4" />
+                    <span>{lang === "en" ? "Filters" : "Vichujio"}</span>
+                    {activeFilterCount > 0 && (
+                      <span className="ml-1 inline-flex items-center justify-center h-5 min-w-5 px-1 rounded-full bg-brand text-brand-foreground text-[10px] font-semibold">
+                        {activeFilterCount}
+                      </span>
+                    )}
+                  </button>
+                  <div className="relative flex-1 min-w-0">
+                    <ArrowUpDown className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <select
+                      value={sortKey}
+                      onChange={(e) => setSortKey(e.target.value as SortKey)}
+                      className="w-full h-10 pl-8 pr-3 rounded-md border bg-surface text-sm truncate"
+                      aria-label={lang === "en" ? "Sort results" : "Panga matokeo"}
+                    >
+                      <option value="relevance">{lang === "en" ? "Sort: Relevance" : "Panga: Muhimu"}</option>
+                      <option value="match">{lang === "en" ? "Sort: Best match %" : "Panga: Ulinganifu %"}</option>
+                      <option value="deadline">{lang === "en" ? "Sort: Deadline soonest" : "Panga: Tarehe ya karibu"}</option>
+                      <option value="points">{lang === "en" ? "Sort: Points (low → high)" : "Panga: Alama (chini → juu)"}</option>
+                      <option value="duration">{lang === "en" ? "Sort: Duration (short → long)" : "Panga: Muda (mfupi → mrefu)"}</option>
+                    </select>
+                  </div>
+                </div>
+                {activeFilterCount > 0 && (
+                  <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                    {statusFilter !== "ALL" && (
+                      <button onClick={() => setStatusFilter("ALL")} className="inline-flex items-center gap-1 h-7 px-2 rounded-full border text-xs bg-background">
+                        {t(`eligibility.${statusFilter}`)} <X className="h-3 w-3" />
+                      </button>
+                    )}
+                    {heslbOnly && (
+                      <button onClick={() => setHeslbOnly(false)} className="inline-flex items-center gap-1 h-7 px-2 rounded-full border text-xs bg-background">
+                        HESLB <X className="h-3 w-3" />
+                      </button>
+                    )}
+                    {instTypeFilter !== "any" && (
+                      <button onClick={() => setInstTypeFilter("any")} className="inline-flex items-center gap-1 h-7 px-2 rounded-full border text-xs bg-background">
+                        {instTypeFilter === "public" ? (lang === "en" ? "Public" : "Umma") : (lang === "en" ? "Private" : "Binafsi")} <X className="h-3 w-3" />
+                      </button>
+                    )}
+                    <button onClick={resetFilters} className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 ml-1">
+                      {lang === "en" ? "Clear all" : "Futa yote"}
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <div className="mb-3 text-sm text-muted-foreground" aria-live="polite">
+                  {lang === "en"
+                    ? `Showing ${filteredResults.length} of ${results.length} programmes`
+                    : `Zinaonyeshwa ${filteredResults.length} kati ya ${results.length}`}
+                </div>
+                {filteredResults.length === 0 ? (
+                  <div className="rounded-xl border bg-muted p-8 text-center text-sm text-muted-foreground">
+                    {lang === "en" ? "No programmes match your filters." : "Hakuna kozi zinazokidhi vichujio."}
+                    <div className="mt-3">
+                      <button onClick={resetFilters} className="text-brand text-sm font-medium hover:underline">
+                        {lang === "en" ? "Reset filters" : "Rudisha vichujio"}
+                      </button>
                     </div>
                   </div>
-                ) : null,
+                ) : (
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {filteredResults.slice(0, 30).map((r) => (
+                      <ProgrammeCard key={r.programme.id} programme={r.programme} eligibility={r.eligibility} preferenceMatch={r.preferenceMatch} />
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile filter sheet */}
+              {filtersOpen && (
+                <div className="fixed inset-0 z-50 flex items-end sm:items-center sm:justify-center" role="dialog" aria-modal="true">
+                  <div className="absolute inset-0 bg-black/50" onClick={() => setFiltersOpen(false)} />
+                  <div className="relative w-full sm:max-w-md bg-card border-t sm:border sm:rounded-xl rounded-t-2xl shadow-xl max-h-[85vh] overflow-y-auto">
+                    <div className="sticky top-0 flex items-center justify-between px-4 py-3 border-b bg-card">
+                      <h3 className="font-semibold">{lang === "en" ? "Filter results" : "Chuja matokeo"}</h3>
+                      <button onClick={() => setFiltersOpen(false)} aria-label="Close" className="h-9 w-9 inline-flex items-center justify-center rounded-md hover:bg-muted">
+                        <X className="h-5 w-5" />
+                      </button>
+                    </div>
+                    <div className="p-4 space-y-5">
+                      <div>
+                        <div className="text-sm font-medium mb-2">{lang === "en" ? "Eligibility status" : "Hali ya kufaa"}</div>
+                        <div className="flex flex-wrap gap-2">
+                          {(["ALL", "ELIGIBLE", "POTENTIALLY_ELIGIBLE", "INCOMPLETE_INFORMATION", "NOT_ELIGIBLE"] as const).map((k) => (
+                            <button
+                              key={k}
+                              type="button"
+                              onClick={() => setStatusFilter(k)}
+                              className={cn(
+                                "px-3 h-9 rounded-full border text-sm",
+                                statusFilter === k ? "border-brand bg-brand text-brand-foreground" : "hover:border-brand",
+                              )}
+                            >
+                              {k === "ALL" ? (lang === "en" ? "All" : "Zote") : t(`eligibility.${k}`)}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-sm font-medium mb-2">{lang === "en" ? "Institution type" : "Aina ya chuo"}</div>
+                        <div className="flex flex-wrap gap-2">
+                          {(["any", "public", "private"] as const).map((k) => (
+                            <button
+                              key={k}
+                              type="button"
+                              onClick={() => setInstTypeFilter(k)}
+                              className={cn(
+                                "px-3 h-9 rounded-full border text-sm",
+                                instTypeFilter === k ? "border-brand bg-brand text-brand-foreground" : "hover:border-brand",
+                              )}
+                            >
+                              {k === "any" ? (lang === "en" ? "Any" : "Yoyote") : k === "public" ? (lang === "en" ? "Public" : "Umma") : (lang === "en" ? "Private" : "Binafsi")}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <label className="flex items-center gap-2 text-sm">
+                        <input type="checkbox" checked={heslbOnly} onChange={(e) => setHeslbOnly(e.target.checked)} className="h-4 w-4" />
+                        <span>{lang === "en" ? "HESLB-eligible only" : "HESLB pekee"}</span>
+                      </label>
+                      <div>
+                        <div className="text-sm font-medium mb-2">{lang === "en" ? "Sort by" : "Panga kwa"}</div>
+                        <select
+                          value={sortKey}
+                          onChange={(e) => setSortKey(e.target.value as SortKey)}
+                          className="w-full h-11 px-3 rounded-md border bg-surface text-sm"
+                        >
+                          <option value="relevance">{lang === "en" ? "Relevance" : "Muhimu"}</option>
+                          <option value="match">{lang === "en" ? "Best match %" : "Ulinganifu %"}</option>
+                          <option value="deadline">{lang === "en" ? "Deadline soonest" : "Tarehe ya karibu"}</option>
+                          <option value="points">{lang === "en" ? "Points (low → high)" : "Alama (chini → juu)"}</option>
+                          <option value="duration">{lang === "en" ? "Duration (short → long)" : "Muda (mfupi → mrefu)"}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="sticky bottom-0 flex gap-2 p-3 border-t bg-card">
+                      <button onClick={resetFilters} className="flex-1 h-11 rounded-md border text-sm font-medium">
+                        {lang === "en" ? "Reset" : "Rudisha"}
+                      </button>
+                      <button onClick={() => setFiltersOpen(false)} className="flex-1 h-11 rounded-md bg-brand text-brand-foreground text-sm font-medium">
+                        {lang === "en" ? `Show ${filteredResults.length} results` : `Onyesha ${filteredResults.length}`}
+                      </button>
+                    </div>
+                  </div>
+                </div>
               )}
+
 
               <div className="rounded-xl border bg-accent p-4 text-sm text-muted-foreground">
                 {t("disclaimer.short")}
