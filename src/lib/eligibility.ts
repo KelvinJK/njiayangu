@@ -155,8 +155,8 @@ export function preferenceMatch(programme: Programme, p: StudentPreferences): nu
   if (p.institutionType === "any") score += 20;
   else score += 0; // caller supplies institution to check type-match externally
 
-  max += 20;
-  if (!p.budgetMax || programme.tuition.amount <= p.budgetMax) score += 20;
+  // Tuition budget preference removed — score is normalized against remaining criteria.
+
 
   max += 15;
   if (p.preferredDuration === "any" || !p.preferredDuration) score += 15;
