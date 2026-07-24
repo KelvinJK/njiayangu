@@ -16,6 +16,7 @@ export interface StudentProfile {
   phone?: string;
   region?: string;
   searchAttempts?: number;
+  hasPaid?: boolean;
 }
 
 export type HeslbStatus = "ready" | "missing" | "verify" | "na";
@@ -37,6 +38,7 @@ interface StoreCtx {
   sync: () => Promise<void>;
   incrementAttempts: () => void;
   resetAttempts: () => void;
+  markPaid: () => void;
 }
 
 const Ctx = createContext<StoreCtx | null>(null);
@@ -307,6 +309,14 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const markPaid = useCallback(() => {
+    setProfileState((prev) => {
+      const next = { ...prev, hasPaid: true };
+      writeJSON(KEY_PROFILE, next);
+      return next;
+    });
+  }, []);
+
   const sync = useCallback(async () => {
     if (!user || !online) return;
     await pushToServer();
@@ -320,7 +330,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
         compare, toggleCompare, clearCompare,
         heslb, setHeslb,
         syncStatus, online, lastSyncedAt, sync,
-        incrementAttempts, resetAttempts,
+        incrementAttempts, resetAttempts, markPaid,
       }}
     >
       {children}
