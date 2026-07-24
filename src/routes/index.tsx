@@ -85,8 +85,8 @@ function HomePage() {
             </div>
 
             {/* Hero illustration */}
-            <div className="relative order-first md:order-last">
-              <div className="relative mx-auto aspect-square w-full max-w-md md:max-w-lg">
+            <div className="relative md:order-last">
+              <div className="relative mx-auto aspect-square w-full max-w-[16rem] sm:max-w-sm md:max-w-lg">
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-brand/10 via-transparent to-gold/10" />
                 <img
                   src={heroStudent}
