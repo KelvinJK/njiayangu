@@ -8,7 +8,7 @@ import { useStore } from "@/lib/store";
 import { useI18n } from "@/lib/i18n";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Bell, Cloud, CloudOff, Loader2, LogOut, RefreshCw, Save, ShieldCheck } from "lucide-react";
+import { Bell, Cloud, CloudOff, Loader2, LogOut, RefreshCw, Save, ShieldCheck, BookOpen, Building2, Briefcase, Calculator, Calendar, GraduationCap, FileText } from "lucide-react";
 import { REGIONS } from "@/data/institutions";
 import { useIsAdmin } from "@/lib/useIsAdmin";
 
@@ -41,7 +41,7 @@ export const Route = createFileRoute("/account")({
 });
 
 function AccountPage() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const { user, loading, signOut } = useAuth();
   const { profile, setProfile, syncStatus, online, lastSyncedAt, sync, saved, heslb } = useStore();
   const navigate = useNavigate();
@@ -104,6 +104,28 @@ function AccountPage() {
           <StatCard label={t("account.combination")} value={profile.academics?.combinationCode ?? "—"} to="/find-my-courses" cta={t("account.updateAcademics")} />
         </div>
 
+        {/* ───────── Explore Features ───────── */}
+        <section className="mt-8">
+          <h2 className="text-lg font-semibold">{lang === "en" ? "Explore NjiaYangu" : "Chunguza NjiaYangu"}</h2>
+          <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-3">
+            {[
+              { to: "/programmes", icon: BookOpen, label: t("nav.programmes") },
+              { to: "/institutions", icon: Building2, label: t("nav.institutions") },
+              { to: "/careers", icon: Briefcase, label: t("nav.careers") },
+              { to: "/heslb", icon: Calculator, label: t("nav.heslb") },
+              { to: "/scholarships", icon: GraduationCap, label: t("nav.scholarships") },
+              { to: "/calendar", icon: Calendar, label: t("nav.calendar") },
+              { to: "/resources", icon: FileText, label: t("nav.resources") },
+            ].map((f) => (
+              <Link key={f.to} to={f.to} className="flex items-center gap-3 p-4 rounded-xl border bg-surface hover:border-brand/40 hover:shadow-sm transition-all group">
+                <div className="h-10 w-10 shrink-0 rounded-full bg-brand/10 text-brand grid place-items-center group-hover:scale-110 transition-transform">
+                  <f.icon className="h-5 w-5" />
+                </div>
+                <div className="font-medium text-sm">{f.label}</div>
+              </Link>
+            ))}
+          </div>
+        </section>
 
         <section className="mt-8 rounded-2xl border bg-surface p-6">
           <h2 className="text-lg font-semibold">{t("account.profileSection")}</h2>

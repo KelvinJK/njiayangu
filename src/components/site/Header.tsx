@@ -6,22 +6,8 @@ import { useAuth } from "@/lib/auth";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
-// Primary nav: only 4 items. Everything else lives in the "More" sheet.
-const primary = [
-  { to: "/programmes", key: "nav.programmes" },
-  { to: "/careers", key: "nav.careers" },
-  { to: "/institutions", key: "nav.institutions" },
-  { to: "/heslb", key: "nav.heslb" },
-] as const;
-
-const secondary = [
-  { to: "/find-my-courses", key: "nav.find" },
-  { to: "/scholarships", key: "nav.scholarships" },
-  { to: "/calendar", key: "nav.calendar" },
-  { to: "/resources", key: "nav.resources" },
-  { to: "/about", key: "nav.about" },
-  { to: "/contact", key: "nav.contact" },
-] as const;
+// The global header is now ultra-clean. 
+// Navigation to specific features (Programmes, Careers, etc.) is handled via the /account dashboard.
 
 const focusRing =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-surface";
@@ -63,30 +49,8 @@ export function Header() {
           <span className="text-[15px] tracking-tight">{t("app.name")}</span>
         </Link>
 
-        {/* Center: primary nav (desktop only) */}
-        {user && (
-          <nav
-            aria-label={lang === "en" ? "Primary" : "Kuu"}
-            className="hidden md:flex items-center justify-center gap-1 text-sm min-w-0"
-          >
-            {primary.map((l) => (
-              <Link
-                key={l.to}
-                to={l.to}
-                className={cn(
-                  "px-3 py-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors",
-                  focusRing,
-                )}
-                activeProps={{
-                  className: "text-brand bg-brand/10 font-medium",
-                  "aria-current": "page",
-                }}
-              >
-                {t(l.key)}
-              </Link>
-            ))}
-          </nav>
-        )}
+        {/* Center: removed primary nav to keep header clean */}
+        <div className="hidden md:block flex-1" />
 
         {/* Right: language + auth + menu */}
         <div className="flex items-center gap-1.5 justify-end">
@@ -190,37 +154,16 @@ export function Header() {
             aria-label={lang === "en" ? "Site sections" : "Sehemu za tovuti"}
             className="container-page py-4 space-y-5"
           >
-            {/* On mobile show primary too; on md+ the sheet acts as "More" */}
-            {user && (
-              <div className="md:hidden">
-                <div className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground mb-2 px-1">
-                  {lang === "en" ? "Explore" : "Chunguza"}
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  {primary.map((l) => (
-                    <Link
-                      key={l.to}
-                      to={l.to}
-                      onClick={() => setOpen(false)}
-                      className={cn("min-h-11 px-3 py-2.5 rounded-lg text-sm text-foreground hover:bg-muted transition-colors flex items-center", focusRing)}
-                      activeProps={{
-                        className: "bg-brand/10 text-brand font-medium",
-                        "aria-current": "page",
-                      }}
-                    >
-                      {t(l.key)}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
-
+            {/* We still keep the 'More' links for About and Contact since they are public/informational */}
             <div>
               <div className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground mb-2 px-1">
                 {lang === "en" ? "More" : "Zaidi"}
               </div>
               <div className="grid grid-cols-2 gap-2">
-                {secondary.filter((l) => user || ["/about", "/contact"].includes(l.to)).map((l) => (
+                {[
+                  { to: "/about", key: "nav.about" },
+                  { to: "/contact", key: "nav.contact" },
+                ].map((l) => (
                   <Link
                     key={l.to}
                     to={l.to}
