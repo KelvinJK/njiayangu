@@ -9,6 +9,13 @@ const KEY_COMPARE = "nj.compare";
 const KEY_HESLB = "nj.heslb";
 const KEY_DIRTY = "nj.dirty";
 
+export interface PaymentRecord {
+  reference: string;
+  at: string;
+  amount: number;
+  generationsGranted: number;
+}
+
 export interface StudentProfile {
   academics?: StudentAcademics;
   preferences?: StudentPreferences;
@@ -16,8 +23,18 @@ export interface StudentProfile {
   phone?: string;
   region?: string;
   searchAttempts?: number;
+  /** Legacy flag kept for backwards compat; no longer read by the UI. */
   hasPaid?: boolean;
+  /** Number of remaining programme-match generations the user has paid for. */
+  generationsRemaining?: number;
+  /** Total number of generations ever run by this user. */
+  generationsUsed?: number;
+  /** Log of Snippe payment references submitted by the user. */
+  paymentHistory?: PaymentRecord[];
 }
+
+export const PAYMENT_AMOUNT_TZS = 1000;
+export const GENERATIONS_PER_PAYMENT = 5;
 
 export type HeslbStatus = "ready" | "missing" | "verify" | "na";
 export type SyncStatus = "offline" | "idle" | "syncing" | "synced" | "error" | "signed-out";
@@ -38,7 +55,12 @@ interface StoreCtx {
   sync: () => Promise<void>;
   incrementAttempts: () => void;
   resetAttempts: () => void;
+  /** @deprecated use redeemPayment(reference) */
   markPaid: () => void;
+  /** Redeem a Snippe payment reference. Grants GENERATIONS_PER_PAYMENT more runs. */
+  redeemPayment: (reference: string) => { ok: true } | { ok: false; reason: string };
+  /** Consume one generation. Returns true if allowed, false if the user is out. */
+  consumeGeneration: () => boolean;
 }
 
 const Ctx = createContext<StoreCtx | null>(null);
@@ -311,11 +333,67 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
 
   const markPaid = useCallback(() => {
     setProfileState((prev) => {
-      const next = { ...prev, hasPaid: true };
+      const next = {
+        ...prev,
+        hasPaid: true,
+        generationsRemaining: (prev.generationsRemaining ?? 0) + GENERATIONS_PER_PAYMENT,
+      };
       writeJSON(KEY_PROFILE, next);
       return next;
     });
-  }, []);
+    scheduleSync();
+  }, [scheduleSync]);
+
+  const redeemPayment = useCallback(
+    (rawRef: string): { ok: true } | { ok: false; reason: string } => {
+      const reference = rawRef.trim();
+      if (reference.length < 4) {
+        return { ok: false, reason: "Enter a valid Snippe payment reference (min 4 characters)." };
+      }
+      const history = stateRef.current.profile.paymentHistory ?? [];
+      if (history.some((r) => r.reference.toLowerCase() === reference.toLowerCase())) {
+        return { ok: false, reason: "This reference has already been used." };
+      }
+      setProfileState((prev) => {
+        const nextHistory: PaymentRecord[] = [
+          ...(prev.paymentHistory ?? []),
+          {
+            reference,
+            at: new Date().toISOString(),
+            amount: PAYMENT_AMOUNT_TZS,
+            generationsGranted: GENERATIONS_PER_PAYMENT,
+          },
+        ];
+        const next: StudentProfile = {
+          ...prev,
+          hasPaid: true,
+          generationsRemaining: (prev.generationsRemaining ?? 0) + GENERATIONS_PER_PAYMENT,
+          paymentHistory: nextHistory,
+        };
+        writeJSON(KEY_PROFILE, next);
+        return next;
+      });
+      scheduleSync();
+      return { ok: true };
+    },
+    [scheduleSync],
+  );
+
+  const consumeGeneration = useCallback((): boolean => {
+    const remaining = stateRef.current.profile.generationsRemaining ?? 0;
+    if (remaining <= 0) return false;
+    setProfileState((prev) => {
+      const next: StudentProfile = {
+        ...prev,
+        generationsRemaining: Math.max(0, (prev.generationsRemaining ?? 0) - 1),
+        generationsUsed: (prev.generationsUsed ?? 0) + 1,
+      };
+      writeJSON(KEY_PROFILE, next);
+      return next;
+    });
+    scheduleSync();
+    return true;
+  }, [scheduleSync]);
 
   const sync = useCallback(async () => {
     if (!user || !online) return;
@@ -331,6 +409,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
         heslb, setHeslb,
         syncStatus, online, lastSyncedAt, sync,
         incrementAttempts, resetAttempts, markPaid,
+        redeemPayment, consumeGeneration,
       }}
     >
       {children}
