@@ -345,15 +345,31 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   }, [scheduleSync]);
 
   const redeemPayment = useCallback(
-    (rawRef: string): { ok: true } | { ok: false; reason: string } => {
+    async (
+      rawRef: string,
+    ): Promise<{ ok: true; generationsRemaining: number } | { ok: false; reason: string }> => {
       const reference = rawRef.trim();
       if (reference.length < 4) {
         return { ok: false, reason: "Enter a valid Snippe payment reference (min 4 characters)." };
       }
-      const history = stateRef.current.profile.paymentHistory ?? [];
-      if (history.some((r) => r.reference.toLowerCase() === reference.toLowerCase())) {
-        return { ok: false, reason: "This reference has already been used." };
+      if (!user) {
+        return { ok: false, reason: "Please sign in before submitting your payment reference." };
       }
+      const { data, error } = await supabase.rpc("verify_snippe_payment", { _reference: reference });
+      if (error) {
+        return { ok: false, reason: "We couldn't verify the payment. Please check your connection and try again." };
+      }
+      const row = Array.isArray(data) ? data[0] : data;
+      if (!row?.ok) {
+        const reasonMap: Record<string, string> = {
+          not_signed_in: "Please sign in before submitting your payment reference.",
+          invalid_reference: "Enter a valid Snippe payment reference (4-64 letters, numbers, . _ -).",
+          already_used: "This reference has already been used.",
+        };
+        return { ok: false, reason: reasonMap[row?.reason as string] ?? "This reference could not be verified." };
+      }
+      const remaining = Number(row.generations_remaining ?? 0);
+      const granted = Number(row.generations_granted ?? GENERATIONS_PER_PAYMENT);
       setProfileState((prev) => {
         const nextHistory: PaymentRecord[] = [
           ...(prev.paymentHistory ?? []),
@@ -361,39 +377,50 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
             reference,
             at: new Date().toISOString(),
             amount: PAYMENT_AMOUNT_TZS,
-            generationsGranted: GENERATIONS_PER_PAYMENT,
+            generationsGranted: granted,
           },
         ];
         const next: StudentProfile = {
           ...prev,
           hasPaid: true,
-          generationsRemaining: (prev.generationsRemaining ?? 0) + GENERATIONS_PER_PAYMENT,
+          generationsRemaining: remaining,
           paymentHistory: nextHistory,
         };
         writeJSON(KEY_PROFILE, next);
         return next;
       });
-      scheduleSync();
-      return { ok: true };
+      return { ok: true, generationsRemaining: remaining };
     },
-    [scheduleSync],
+    [user],
   );
 
-  const consumeGeneration = useCallback((): boolean => {
-    const remaining = stateRef.current.profile.generationsRemaining ?? 0;
-    if (remaining <= 0) return false;
+  const consumeGeneration = useCallback(async (): Promise<boolean> => {
+    if (!user) return false;
+    const { data, error } = await supabase.rpc("consume_generation");
+    if (error) return false;
+    const row = Array.isArray(data) ? data[0] : data;
+    if (!row?.ok) {
+      const remaining = Number(row?.generations_remaining ?? 0);
+      setProfileState((prev) => {
+        const next = { ...prev, generationsRemaining: remaining };
+        writeJSON(KEY_PROFILE, next);
+        return next;
+      });
+      return false;
+    }
+    const remaining = Number(row.generations_remaining ?? 0);
     setProfileState((prev) => {
       const next: StudentProfile = {
         ...prev,
-        generationsRemaining: Math.max(0, (prev.generationsRemaining ?? 0) - 1),
+        generationsRemaining: remaining,
         generationsUsed: (prev.generationsUsed ?? 0) + 1,
       };
       writeJSON(KEY_PROFILE, next);
       return next;
     });
-    scheduleSync();
     return true;
-  }, [scheduleSync]);
+  }, [user]);
+
 
   const sync = useCallback(async () => {
     if (!user || !online) return;
