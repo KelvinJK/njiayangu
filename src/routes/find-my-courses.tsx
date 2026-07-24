@@ -11,7 +11,7 @@ import { INSTITUTIONS, REGIONS } from "@/data/institutions";
 import { applyPreferences, evaluate, type StudentAcademics, type StudentPreferences } from "@/lib/eligibility";
 import { ProgrammeCard } from "@/components/site/ProgrammeCard";
 import { NectaResultFetcher } from "@/components/NectaResultFetcher";
-import { ChevronRight, ChevronLeft, RotateCcw } from "lucide-react";
+import { ChevronRight, ChevronLeft, RotateCcw, Lock, CreditCard, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PaywallModal } from "@/components/PaywallModal";
 
