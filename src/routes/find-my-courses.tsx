@@ -149,8 +149,15 @@ function FindPage() {
         return;
       }
       incrementAttempts();
-      setStep(4);
-      if (!profile.hasPaid) setIsPaywallOpen(true);
+      const remaining = profile.generationsRemaining ?? 0;
+      const totalUsed = profile.generationsUsed ?? 0;
+      if (remaining > 0) {
+        consumeGeneration();
+        setStep(4);
+      } else {
+        setPaywallReason(totalUsed > 0 ? "outOfCredits" : "initial");
+        setIsPaywallOpen(true);
+      }
       if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
