@@ -539,7 +539,7 @@ function FindPage() {
                 {step === 3 ? t("find.results") : t("find.next")} <ChevronRight className="h-4 w-4" />
               </button>
             )}
-            {step === 4 && (
+            {step === 4 && profile.hasPaid && (
               <Link to="/compare" className="inline-flex items-center gap-1 h-11 px-4 rounded-md bg-brand text-brand-foreground text-sm font-medium">
                 {t("nav.compare")} <ChevronRight className="h-4 w-4" />
               </Link>
@@ -551,6 +551,7 @@ function FindPage() {
         isOpen={isPaywallOpen}
         onClose={() => setIsPaywallOpen(false)}
         onVerify={() => {
+          markPaid();
           resetAttempts();
           setIsPaywallOpen(false);
           setStep(4);
