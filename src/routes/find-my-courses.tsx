@@ -84,8 +84,14 @@ function FindPage() {
     
     if (search.returnFromAuth && user && !processedReturn.current) {
       processedReturn.current = true;
-      setStep(4);
-      if (!profile.hasPaid) setIsPaywallOpen(true);
+      const remaining = profile.generationsRemaining ?? 0;
+      if (remaining > 0) {
+        consumeGeneration();
+        setStep(4);
+      } else {
+        setPaywallReason("initial");
+        setIsPaywallOpen(true);
+      }
       navigate({ search: { combination: search.combination } as any, replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
